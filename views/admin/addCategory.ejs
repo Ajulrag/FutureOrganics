@@ -1,0 +1,24 @@
+<%- include('../admin/layouts/adminHeader') %>
+<div class="col-lg" style="align-items: center">
+  <div class="card">
+    <div class="card-body">
+      <form action="/category" method="post">
+        <div class="form-group">
+          <label>Category Name</label>
+          <input type="text" class="form-control" name="category" required />
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" class="form-control" name="description" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+   
+            
+                <p style="color: rgb(255, 17, 17);"><%= message %></p>
+                
+       
+    </div>
+  </div>
+</div>

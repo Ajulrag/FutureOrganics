@@ -1,0 +1,44 @@
+<%- include('../admin/layouts/adminHeader') %>
+<div class="col-lg" style="padding: 30px;">
+  <div class="card"  style="height: 100vh;">
+    <div class="card-body" >
+      <form action="/admin/editproduct/<%=product._id%>" method="post" enctype="multipart/form-data">
+        
+        <div class="form-group">
+          <label>Product Name</label>
+          <input type="text" value="<%=product.product%>" class="form-control" name="product" required />
+        </div>
+
+        <div class="form-group">
+          <label>Category Name</label>
+          <input type="text" value="<%=product.category%>" class="form-control"  name="category" required />
+        </div>
+        
+        <div class="form-group" style="padding-top: 15px;">
+          <label>Description</label>
+          <input type="text" value="<%=product.description%>" class="form-control" name="description" required />
+        </div>
+        
+        <div class="form-group" style="padding-top: 15px;">
+            <label>Image</label>
+            <input type="file" value="<%=product.image%>" class="form-control" name="image" required />
+          </div>
+          <div class="form-group" style="padding-top: 15px;">
+            <label>Stock</label>
+            <input type="number" value="<%=product.stock%>" class="form-control" name="stock" required />
+          </div>
+        <div style="padding-top: 15px;">
+        <select name="status" >
+            <option value="list">List</option>
+            <option value="unlist">Unlist</option>
+          </select>
+        </div>
+        <div style="padding-top: 60px;">
+        <button type="submit" class="btn btn-primary" >Update</button>
+    </div>     
+      </form>
+
+    
+    </div>
+  </div>
+</div>

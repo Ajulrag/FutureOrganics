@@ -1,0 +1,49 @@
+<%- include('../admin/layouts/adminHeader') %>
+
+<div class="col-lg">
+  <div class="card">
+    <div class="card-body">
+      <div style="display: flex; justify-content: space-between">
+        <h5 class="card-title"></h5>
+        <div>
+          <form action="/addproduct" method="get">
+            <button class="btn btn-success me-md-2" type="submit">
+              Add Product
+            </button>
+          </form>
+        </div>
+      </div>
+      <br />
+
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead style="text-align: center">
+            <tr>
+              <th scope="col">Product</th>
+              <th scope="col">Category</th>
+              <th scope="col">Description</th>
+              <th scope="col">Image</th>
+              <th scope="col">Stock</th>
+              <th scope="col">Status</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody style="text-align: center">
+            <% productlist.forEach(product => {%>
+            <tr>
+              <td><%=product.product%></td>
+              <td><%=product.category%></td>
+              <td><%=product.description%></td>
+              <td><img src="/uploads/<%=product.image%>" alt="" style="height: 50px; width: 60px"/></td>
+              <td><%=product.stock%></td>
+              <td><%=product.status%></td>
+              
+              <td><a class="btn btn-warning me-md-2" href="/admin/editproduct/<%= product._id %>">Edit</a></td>
+              <%}) %>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

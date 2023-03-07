@@ -1,0 +1,30 @@
+<%- include("../admin/layouts/adminHeader")%>
+<div class="col-lg" style="align-items: center">
+    <form action="/addproduct" method="post" enctype="multipart/form-data"> 
+        <div class="form-group">
+          <label>Product name</label>
+          <input type="text" class="form-control" name="product">
+        </div>
+        <div class="form-group">
+          <label >Category</label>
+          <input type="text" class="form-control" name="category">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" class="form-control" name="description">
+        </div>
+        <div class="form-group">
+          <label>Image</label>
+          <input type="file" accept="image/*" class="form-control" name="image">
+        </div>
+        <div class="form-group">
+          <label>Stock</label>
+          <input type="number" class="form-control" name="stock">
+        </div>
+        <div class="form-group">
+         
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+</div>
+

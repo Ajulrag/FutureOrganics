@@ -1,0 +1,38 @@
+<%- include('../users/layouts/head') %>
+
+<div class="loginwrap">
+  
+  <div class="containere">
+    
+  <form action="/login" method="post">
+       <img src="/img/FUTURELOGO1.png" id="img" alt="">
+    <div class="mb-3">
+     
+      
+      <label for="exampleInputEmail1" class="form-label  text-light">Email address</label>
+      <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+      
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label  text-light">Password</label>
+      <input type="password" name="password" class="form-control" id="exampleInputPassword1" required>
+    </div>
+  
+    
+    <div style="padding-top: 10px;"><button  type="submit" class="btn btn-danger mt-5 " >Log In</button></div>
+    <div style="padding-top: 10px;" ><a id="user-signup" href="/registration">Dont have account? Signup</a></div>
+  </form>
+  <%
+  if(typeof message !== 'undefined') {
+      %>
+      <p style="color: rgb(255, 0, 0);padding-top: 50px;"><%= message %></p>
+      <%
+  }
+  %>
+
+ 
+  </div>
+ 
+
+  </div>
+  
