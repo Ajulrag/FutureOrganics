@@ -85,6 +85,70 @@
 *::after {
   box-sizing: border-box;
 }
+.loginwrap{
+  
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("https://pngimg.com/uploads/green_leaves/green_leaves_PNG3654.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+ 
+}
+.registerwrap{
+  
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(rgb(127 167 75 / 5%), rgb(193 208 156)) ;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+ 
+}
+.containere{
+  
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+
+  width: 450px ;
+  height: 500px;
+  
+  /* background: linear-gradient(rgb(226 230 115),rgb(169 184 65));
+  border:   rgba(92, 21, 21, 0);
+  border-radius: 10px;
+  box-shadow: 10px rgba(21, 221, 41, 0.637); */
+} 
+#img{
+  padding-top: 0px;
+  height: 150px;
+  width: 150px;
+  padding-bottom: 20PX;
+}
+#login-div{
+  border: 1px solid rgba(32, 98, 14, 0.537);
+ 
+  border-radius: 10px;
+  box-shadow: 100px rgba(221, 54, 21, 0.637); 
+  padding: 40px;
+  min-width: 200px;
+  max-width: 400px;
+  align-items: center; 
+}
+#btn{
+  height: 50px;
+  width: 80px;
+  font-size: 20px;
+  font-weight:600;
+  border: solid 2px rgb(238, 8, 8);
+  border-radius: 50px;
+}
 body {
   margin: 0;
   font-family: var(--cz-body-font-family);
@@ -96,6 +160,15 @@ body {
   background-color: var(--cz-body-bg);
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+#banner{
+  background: #e1a2ab;
+}
+#banner1{
+  background: #ffe576;
+}
+#banner3{
+  background: #bcc5fe;
 }
 hr {
   margin: 0 0;

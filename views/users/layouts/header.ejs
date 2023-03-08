@@ -1,121 +1,219 @@
-<header id="header">
-    <div class="container">
-        <div class="header-top" style="height: 75px;">
-            <div class="row align-items-center" style="height:80px;">
-                <!-- Header Left -->
-                <div class="col-lg-5 col-md-5 col-sm-12">
-                    <!-- Main Menu -->
-                    <div id="main-menu">
-                        <ul class="menu">
-                            <li class="dropdown">
-                                <a href="/" title="Homepage">Home</a>
-                            </li>
-                            
-                            <li class="dropdown">
-                                <a href="#" title="Product">Categories</a>
-                            </li>
-                        
-                            <li>
-                                <a href="#">About Us</a>
-                            </li>
-                            
-                            <li>
-                                <a href="#">Contact</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Header Center -->
-                <div class="col-lg-2 block-cart col-md-2 col-sm-12 header-center justify-content-center ">
-                    <!-- Logo -->
-                    <div class="logo">
-                        <a href="/">
-                            <img class="img-responsive" src="img/FUTURELOGO1.png" alt="Logo" style="height: 80px;padding-left: 14px;">
-                        </a>
-                    </div>
-                    
-                    <span id="toggle-mobile-menu"><i class="zmdi zmdi-menu"></i></span>
-                </div>
-                
-                
-                <!-- Header Right -->
-                <div class="col-lg-5 col-md-5 col-sm-12 header-right d-flex justify-content-end align-items-center">
-                  
-                    <!-- Search -->							
-                    <div class="form-search">
-                        <form action="#" method="get">
-                            <input type="text" class="form-input" placeholder="Search">
-                            <button type="submit" class="fa fa-search"></button>
-                        </form>
-                    </div>
-                    <% if(usersession) { %> 
-                    <div class="block-cart">
-                        <div class="cart-title">
-                            <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-                            <span class="cart-count"></span>
-                        </div>
-                    </div>
-                    <% } %>
-                    
-                    <!-- Cart -->
-                    <% if(usersession) { %> 
-                    <div class=" dropdown">
-                      
-                        <% } %>
 
-                        <div class="my-account dropdown toggle-icon">
-                        <% if(usersession) { %> 
-                        
-                        <div class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="zmdi zmdi-menu"></i>
-                            <% }else{ %>
-                                <a href="/login"> <button class="btn btn-primary" type="submit" >LOGIN</button></a>
-                            
-                            <% } %>
-                        </div>
-                        <div class="dropdown-menu">	
-                            <% if(usersession) { %>  			
-                            <div class="item">
-                                <a href="#" title="Log in to your customer account"><i class="fa fa-cog"></i>My Account</a>
-                            </div>
-                            <% } %>	
-                         
-                            <!-- <% if(usersession) { %>  <% }else{ %>  <% } %> -->
-                            <div class="item">
-                                <% if(usersession) { %>
-                                <a href="/logout" title="My Wishlists"><i class="fa fa-sign-out"></i>Logout</a>
-                                <% }else{ %>
-                                <a href="/login" title="Log in to your customer account"><i class="fa fa-sign-in"></i>Login</a>
-                               <% } %>
-                                
-                            
-                            </div>
-                            
-                            <!-- <div class="item">
-                                <a href="/registration" title="Register Account"><i class="fa fa-user"></i>Register</a>
-                            </div> -->
-                            <% if(usersession) { %>
-                            <div class="item">
-                                <a href="#" title="My Wishlists"><i class="fa fa-heart"></i>My Wishlists</a>
-                            </div>
-                            <% } %>	
-                            
-                           
-                        </div>
-                    </div>
-                        
-                    </div>
-                    
-                    
-                    <!-- My Account -->
-
-
-                    
-                </div>
-            </div>
+  <!-- Google Tag Manager (noscript)-->
+  <noscript>
+    <iframe src="http://www.googletagmanager.com/ns.html?id=GTM-WKV3GT5" height="0" width="0" style="display: none; visibility: hidden;"></iframe>
+  </noscript>
+  <!-- Sign in / sign up modal-->
+  <div class="modal fade" id="signin-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-secondary">
+          <ul class="nav nav-tabs card-header-tabs" role="tablist">
+            <li class="nav-item"><a class="nav-link fw-medium active" href="#signin-tab" data-bs-toggle="tab" role="tab" aria-selected="true"><i class="ci-unlocked me-2 mt-n1"></i>Sign in</a></li>
+            <li class="nav-item"><a class="nav-link fw-medium" href="#signup-tab" data-bs-toggle="tab" role="tab" aria-selected="false"><i class="ci-user me-2 mt-n1"></i>Sign up</a></li>
+          </ul>
+          <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-    </div>	
-</header>
+        <div class="modal-body tab-content py-4">
+          <form class="needs-validation tab-pane fade show active" autocomplete="off" novalidate id="signin-tab">
+            <div class="mb-3">
+              <label class="form-label" for="si-email">Email address</label>
+              <input class="form-control" type="email" id="si-email" placeholder="johndoe@example.com" required>
+              <div class="invalid-feedback">Please provide a valid email address.</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="si-password">Password</label>
+              <div class="password-toggle">
+                <input class="form-control" type="password" id="si-password" required>
+                <label class="password-toggle-btn" aria-label="Show/hide password">
+                  <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                </label>
+              </div>
+            </div>
+            <div class="mb-3 d-flex flex-wrap justify-content-between">
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="si-remember">
+                <label class="form-check-label" for="si-remember">Remember me</label>
+              </div><a class="fs-sm" href="#">Forgot password?</a>
+            </div>
+            <button class="btn btn-primary btn-shadow d-block w-100" type="submit">Sign in</button>
+          </form>
+          <form class="needs-validation tab-pane fade" autocomplete="off" action="/login" method="post" novalidate id="signup-tab">
+            <div class="mb-3">
+              <label class="form-label" for="su-name">Full name</label>
+              <input class="form-control" type="text" id="su-name" placeholder="John Doe" required>
+              <div class="invalid-feedback">Please fill in your name.</div>
+            </div>
+            <div class="mb-3">
+              <label for="su-email">Email address</label>
+              <input class="form-control" type="email" id="su-email" placeholder="johndoe@example.com" required>
+              <div class="invalid-feedback">Please provide a valid email address.</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="su-password">Password</label>
+              <div class="password-toggle">
+                <input class="form-control" type="password" id="su-password" required>
+                <label class="password-toggle-btn" aria-label="Show/hide password">
+                  <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                </label>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="su-password-confirm">Confirm password</label>
+              <div class="password-toggle">
+                <input class="form-control" type="password" id="su-password-confirm" required>
+                <label class="password-toggle-btn" aria-label="Show/hide password">
+                  <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                </label>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-shadow d-block w-100" type="submit">Sign up</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
+
+
+
+  <main class="page-wrapper">
+
+    <!-- Navbar Electronics Store-->
+    <header class="shadow-sm">
+      <!-- Topbar-->
+      <div class="topbar topbar-dark " style="background: aquamarine;">
+        <div class="container">
+          
+          <div class="topbar-text dropdown d-md-none ms-auto"><a class="topbar-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Wishlist / Compare / Track</a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="account-wishlist.html"><i class="ci-heart text-muted me-2"></i>Wishlist (3)</a></li>
+              <li><a class="dropdown-item" href="comparison.html"><i class="ci-compare text-muted me-2"></i>Compare (3)</a></li>
+              <li><a class="dropdown-item" href="order-tracking.html"><i class="ci-location text-muted me-2"></i>Order tracking</a></li>
+            </ul>
+          </div>
+          <!-- <div class="d-none d-md-block ms-3 text-nowrap"><a class="topbar-link d-none d-md-inline-block" href="account-wishlist.html"><i class="ci-heart mt-n1"></i>Wishlist (3)</a><a class="topbar-link ms-3 ps-3 border-start border-light d-none d-md-inline-block" href="comparison.html"><i class="ci-compare mt-n1"></i>Compare (3)</a><a class="topbar-link ms-3 border-start border-light ps-3 d-none d-md-inline-block" href="order-tracking.html"><i class="ci-location mt-n1"></i>Order tracking</a></div> -->
+        </div>
+      </div>
+      <!-- Remove "navbar-sticky" class to make navigation bar scrollable with the page.-->
+      <div class="navbar-sticky bg-light">
+        <div class="navbar navbar-expand-lg navbar-light">
+          <div class="container"><a class="navbar-brand d-none d-sm-block me-3 flex-shrink-0" href="/"><img src="img/FutureOrganics_logo.png" width="142" alt="Future Organics"></a><a class="navbar-brand d-sm-none me-2" href="home.ejs"><img src="img/FutureOrganics_logo.png" width="74" alt="Futureorganics"></a>
+            <!-- Search-->
+            <div class="input-group d-none d-lg-flex flex-nowrap mx-4"><i class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+              <input class="form-control rounded-start w-100" type="text" placeholder="Search for products">
+
+
+
+              <select class="form-select flex-shrink-0" style="width: 10.5rem;">
+                <option>All categories</option>
+                <option>Vegitables</option>
+                <option>Fruits</option>
+                <option>Honey</option>
+                <option>Tea</option>
+                <option>Bread</option>
+              </select>
+            </div>
+            <!-- Toolbar-->
+            <div class="navbar-toolbar d-flex flex-shrink-0 align-items-center">
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button><a class="navbar-tool navbar-stuck-toggler" href="#"><span class="navbar-tool-tooltip">Toggle menu</span>
+                <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-menu"></i></div></a><a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2" href="#signin-modal" data-bs-toggle="modal">
+                <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-user"></i></div>
+                <div class="navbar-tool-text ms-n3"><small>Hello, Sign in</small>My Account</div></a>
+              <div class="navbar-tool dropdown ms-3"><a class="navbar-tool-icon-box bg-secondary dropdown-toggle" href="shop-cart.html"><span class="navbar-tool-label">4</span><i class="navbar-tool-icon ci-cart"></i></a><a class="navbar-tool-text" href="shop-cart.html"><small>My Cart</small>$1,247.00</a>
+                <!-- Cart dropdown-->
+                <!-- <div class="dropdown-menu dropdown-menu-end">
+                  <div class="widget widget-cart px-3 pt-2 pb-3" style="width: 20rem;">
+                    <div style="height: 15rem;" data-simplebar data-simplebar-auto-hide="false">
+                      <div class="widget-cart-item pb-2 border-bottom">
+                        <button class="btn-close text-danger" type="button" aria-label="Remove"><span aria-hidden="true">&times;</span></button>
+                        <div class="d-flex align-items-center"><a class="d-block flex-shrink-0" href="shop-single-v2.html"><img src="img/shop/cart/widget/05.jpg" width="64" alt="Product"></a>
+                          <div class="ps-2">
+                            <h6 class="widget-product-title"><a href="shop-single-v2.html">Bluetooth Headphones</a></h6>
+                            <div class="widget-product-meta"><span class="text-accent me-2">$259.<small>00</small></span><span class="text-muted">x 1</span></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="widget-cart-item py-2 border-bottom">
+                        <button class="btn-close text-danger" type="button" aria-label="Remove"><span aria-hidden="true">&times;</span></button>
+                        <div class="d-flex align-items-center"><a class="d-block flex-shrink-0" href="shop-single-v2.html"><img src="img/shop/cart/widget/06.jpg" width="64" alt="Product"></a>
+                          <div class="ps-2">
+                            <h6 class="widget-product-title"><a href="shop-single-v2.html">Cloud Security Camera</a></h6>
+                            <div class="widget-product-meta"><span class="text-accent me-2">$122.<small>00</small></span><span class="text-muted">x 1</span></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="widget-cart-item py-2 border-bottom">
+                        <button class="btn-close text-danger" type="button" aria-label="Remove"><span aria-hidden="true">&times;</span></button>
+                        <div class="d-flex align-items-center"><a class="d-block flex-shrink-0" href="shop-single-v2.html"><img src="img/shop/cart/widget/07.jpg" width="64" alt="Product"></a>
+                          <div class="ps-2">
+                            <h6 class="widget-product-title"><a href="shop-single-v2.html">Android Smartphone S10</a></h6>
+                            <div class="widget-product-meta"><span class="text-accent me-2">$799.<small>00</small></span><span class="text-muted">x 1</span></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="widget-cart-item py-2 border-bottom">
+                        <button class="btn-close text-danger" type="button" aria-label="Remove"><span aria-hidden="true">&times;</span></button>
+                        <div class="d-flex align-items-center"><a class="d-block flex-shrink-0" href="shop-single-v2.html"><img src="img/shop/cart/widget/08.jpg" width="64" alt="Product"></a>
+                          <div class="ps-2">
+                            <h6 class="widget-product-title"><a href="shop-single-v2.html">Android Smart TV Box</a></h6>
+                            <div class="widget-product-meta"><span class="text-accent me-2">$67.<small>00</small></span><span class="text-muted">x 1</span></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="d-flex flex-wrap justify-content-between align-items-center py-3">
+                      <div class="fs-sm me-2 py-2"><span class="text-muted">Subtotal:</span><span class="text-accent fs-base ms-1">$1,247.<small>00</small></span></div><a class="btn btn-outline-secondary btn-sm" href="shop-cart.html">Expand cart<i class="ci-arrow-right ms-1 me-n1"></i></a>
+                    </div><a class="btn btn-primary btn-sm d-block w-100" href="checkout-details.html"><i class="ci-card me-2 fs-base align-middle"></i>Checkout</a>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="navbar navbar-expand-lg  navbar-stuck-menu mt-n2 pt-0 pb-2" style="background: aquamarine;">
+          <div class="container">
+            <div class="collapse navbar-collapse  justify-content-center" id="navbarCollapse">
+              <!-- Search-->
+              <div class="input-group d-lg-none my-3"><i class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                <input class="form-control rounded-start" type="text" placeholder="Search for products">
+              </div>
+             
+              <!-- Primary menu-->
+              <ul class="navbar-nav">
+                <li class="nav-item dropdown active"><a class="nav-link dropdown-toggle" href="/" >Home</a>
+                </li>
+                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Categories</a>
+                  <div class="dropdown-menu p-0">
+                    <div class="d-flex flex-wrap flex-sm-nowrap px-2">
+                      <div class="mega-dropdown-column pt-1 pt-lg-4 pb-4 px-2 px-lg-3">
+                        <div class="widget widget-links mb-4">
+                          <ul class="widget-list">
+                            <li class="widget-list-item"><a class="widget-list-link" href="shop-grid-ls.html">Vegitables</a></li>
+                            <li class="widget-list-item"><a class="widget-list-link" href="shop-grid-rs.html">Fruits</a></li>
+                            <li class="widget-list-item"><a class="widget-list-link" href="shop-grid-ft.html">Honey</a></li>
+                            <li class="widget-list-item"><a class="widget-list-link" href="shop-list-ls.html">Tea</a></li>
+                            <li class="widget-list-item"><a class="widget-list-link" href="shop-list-rs.html">Bread</a></li>
+                            <li class="widget-list-item"><a class="widget-list-link" href="shop-list-ft.html"></a></li>
+                          </ul>
+                        </div> 
+                      </div>
+                    </div>
+                  </div>
+                </li>
+
+
+                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside">Contact Us</a>
+                    </li>
+                  </ul>
+                </li>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  
+
+    
+    
