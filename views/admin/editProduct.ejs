@@ -2,7 +2,7 @@
 <div class="col-lg" style="padding: 30px;">
   <div class="card"  style="height: 100vh;">
     <div class="card-body" >
-      <form action="/admin/editproduct/<%=product._id%>" method="post" enctype="multipart/form-data">
+      <form action="/admin/products/editproduct/<%=product._id%>" method="post" enctype="multipart/form-data">
         
         <div class="form-group">
           <label>Product Name</label>
@@ -11,21 +11,49 @@
 
         <div class="form-group">
           <label>Category Name</label>
-          <input type="text" value="<%=product.category%>" class="form-control"  name="category" required />
+          <select name="category" >
+            <% categoryList.forEach(category => {%>
+            
+              <option value="<%=category._id%>"><%=category.category%></option>
+            
+            <%}) %>
+          </select>
         </div>
         
         <div class="form-group" style="padding-top: 15px;">
           <label>Description</label>
           <input type="text" value="<%=product.description%>" class="form-control" name="description" required />
         </div>
-        
-        <div class="form-group" style="padding-top: 15px;">
+        <div></div>
+        <div class="form-group" id="image-group" style="padding-top: 15px;">
+
+          <% product.image.forEach(image=>{%>
+
+            <img src="/uploads/<%=image.img%>" alt="" style="height: auto;width: 100px;" class="imgView">
+
+            <%})%>
+          <!-- <img src="/uploads/<%=product.image[0]?.img%>" alt="" style="height: auto;width: 100px;" class="imgView">
+          <% if(product.image[1]) { %>
+          <img src="/uploads/<%=product.image[1]?.img%>" alt="" style="height: auto;width: 100px;"class="imgView">
+          <% if(product.image[2]) { %>
+          <img src="/uploads/<%=product.image[2]?.img%>" alt="" style="height: auto;width: 100px;"class="imgView">
+          <% if(product.image[3]) { %>
+          <img src="/uploads/<%=product.image[3]?.img%>" alt="" style="height: auto;width: 100px;"class="imgView">
+          <%}%>
+          <%}%>
+          <%}%> -->
+        </div>
+        <div>
             <label>Image</label>
-            <input type="file" value="<%=product.image%>" class="form-control" name="image" required />
+            <input type="file" value="<%=product.image%>" class="form-control" name="image" multiple required onchange="viewImage(event)" />
           </div>
           <div class="form-group" style="padding-top: 15px;">
             <label>Stock</label>
             <input type="number" value="<%=product.stock%>" class="form-control" name="stock" required />
+          </div>
+          <div class="form-group" style="padding-top: 15px;">
+            <label>Price</label>
+            <input type="number" value="<%=product.price%>" class="form-control" name="price" required />
           </div>
         <div style="padding-top: 15px;">
         <select name="status" >
@@ -42,3 +70,30 @@
     </div>
   </div>
 </div>
+
+<script>
+ 
+  const images =  document.getElementsByClassName('imgView');
+  const group = document.getElementById('image-group');
+  function viewImage(event){
+    console.log(images.length)
+    const files = Array.from(event.target.files)
+    files.forEach((file, index)=> {
+        if (index < images.length) {
+            images[index].src=URL.createObjectURL(file)
+        }
+    })
+  
+    if (files.length > images.length) {
+      const times = files.length - images.length;
+      for (let i = 0; i < times; i++) {
+            const file = files[images.length - 1 + i]
+            const src = URL.createObjectURL(file)
+            group.innerHTML += `<img src="${src}" alt="" style="height: auto;width: 100px;" class="imgView">`
+      }
+  
+  }
+  
+  }
+ 
+</script>

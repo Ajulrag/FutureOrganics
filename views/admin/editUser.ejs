@@ -1,0 +1,41 @@
+<%- include('../admin/layouts/adminHeader') %>
+<div class="col-lg" style="padding: 30px;">
+  <div class="card"  style="height: 100vh;">
+    <div class="card-body" >
+      <form action="/admin/products/editproduct/<%=userData._id%>" method="post" >
+        
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" value="<%=userData.name%>" class="form-control" name="product" required />
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="text" value="<%=userData.email%>" class="form-control"  name="category" required />
+        </div>
+        
+        <div class="form-group" style="padding-top: 15px;">
+          <label>Mobile</label>
+          <input type="text" value="<%=userData.mobile%>" class="form-control" name="description" required />
+        </div>
+        <div class="form-group" style="padding-top: 15px;">
+            <label>Password</label>
+            <input type="text" value="<%=userData.password%>" class="form-control" name="description" required />
+          </div>
+        
+        
+        <div style="padding-top: 15px;">
+        <select name="status" >
+            <option value="list">List</option>
+            <option value="unlist">Unlist</option>
+          </select>
+        </div>
+        <div style="padding-top: 60px;">
+        <button type="submit" class="btn btn-primary" >Update</button>
+    </div>     
+      </form>
+
+    
+    </div>
+  </div>
+</div>

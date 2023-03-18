@@ -21,8 +21,7 @@ const securePassword = async (password) => {
 const getLogin = async (req, res) => {
   try {
     if(req.session.admin_id){
-      res.redirect("/admin/dashboard");
-      
+      res.redirect("/admin/dashboard"); 
     }
     else{
       res.render('admin/adminlogin');
@@ -38,7 +37,6 @@ const doLogin = async (req, res, next) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
-
     const adminData = await Admin.findOne({ email: email });
     
     if (adminData) {
@@ -62,8 +60,7 @@ const doLogin = async (req, res, next) => {
 const getDashboard = async(req,res) => {
   try {
   let adminSession = req.session.admin_id
-   res.render("admin/dashboard",{adminSession})
-    
+   res.render("admin/dashboard",{adminSession})  
   } catch (error) {
     console.log(error.message);
   }
@@ -74,13 +71,11 @@ const getDashboard = async(req,res) => {
 const doLogout = async(req,res) => {
   try {
     req.session.admin_id="";
-  res.redirect("/admin/adminLogin");
+  res.redirect("/admin");
   console.log("session destroyed");
   } catch (error) {
     console.log(error.message);
   }
-  
-
 }
 
 
@@ -97,6 +92,4 @@ module.exports = {
   doLogin,
   getDashboard,
   doLogout,
- 
- 
 };

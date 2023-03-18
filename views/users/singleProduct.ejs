@@ -1,0 +1,139 @@
+<%- include('../users/layouts/head') %>
+<%- include('../users/layouts/header') %>
+<div class="page-title-overlap bg-dark pt-4">
+    <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+      <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
+            <li class="breadcrumb-item"><a class="text-nowrap" href="index.html"><i class="ci-home"></i>Home</a></li>
+            <li class="breadcrumb-item text-nowrap"><a href="#">Shop</a>
+            </li>
+            <li class="breadcrumb-item text-nowrap active" aria-current="page"><%=product.product%></li>
+          </ol>
+        </nav>
+      </div>
+      <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
+        <h1 class="h3 text-light mb-2"><%=product.product%></h1>
+        <div>
+          <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star"></i>
+          </div><span class="d-inline-block fs-sm text-white opacity-70 align-middle mt-1 ms-1">74 Reviews</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="bg-light shadow-lg rounded-3">
+      <!-- Tabs-->
+     
+      <div class="px-4 pt-lg-3 pb-3 mb-5">
+        <div class="tab-content px-lg-3">
+          <!-- General info tab-->
+          <div class="tab-pane fade show active" id="general" role="tabpanel">
+            <div class="row">
+
+
+
+              <!-- Product gallery-->
+              <div class="col-lg-7 pe-lg-0">
+                <div class="product-gallery">
+                  <div class="product-gallery-preview order-sm-2">
+                    <div class="product-gallery-preview-item active" id="first"><img class="image-zoom" src="/uploads/<%=product.image[0]?.img%>" data-zoom="/uploads/<%=product.image[0]?.img%>" alt="Product image">
+                      <div class="image-zoom-pane"></div>
+                    </div>
+                    <div class="product-gallery-preview-item" id="second"><img class="image-zoom" src="/uploads/<%=product.image[1]?.img%>" data-zoom="/uploads/<%=product.image[1]?.img%>" alt="Product image">
+                      <div class="image-zoom-pane"></div>
+                    </div>
+                    <div class="product-gallery-preview-item" id="third"><img class="image-zoom" src="/uploads/<%=product.image[2]?.img%>" data-zoom="/uploads/<%=product.image[2]?.img%>" alt="Product image">
+                      <div class="image-zoom-pane"></div>
+                    </div>
+                    <div class="product-gallery-preview-item" id="fourth"><img class="image-zoom" src="/uploads/<%=product.image[3]?.img%>" data-zoom="/uploads/<%=product.image[3]?.img%>" alt="Product image">
+                      <div class="image-zoom-pane"></div>
+                    </div>
+                  </div>
+                  <div class="product-gallery-thumblist order-sm-1">
+                    <a class="product-gallery-thumblist-item active" href="#first"><img src="/uploads/<%=product.image[0]?.img%>" alt="Product thumb"></a>
+                    <% if(product.image[1]) { %>
+                    <a class="product-gallery-thumblist-item" href="#second"><img src="/uploads/<%=product.image[1]?.img%>" alt="Product thumb"></a>
+                    <% if(product.image[2]) { %>
+                    <a class="product-gallery-thumblist-item" href="#third"><img src="/uploads/<%=product.image[2]?.img%>" alt="Product thumb"></a>
+                    <% if(product.image[3]) { %>
+                    <a class="product-gallery-thumblist-item" href="#fourth"><img src="/uploads/<%=product.image[3]?.img%>" alt="Product thumb"></a>
+                      </a>
+                      <%}%>
+                      <%}%>
+                      <%}%>
+                    </div>
+                </div>
+              </div>
+              
+
+
+              <!-- Product details-->
+              <div class="col-lg-5 pt-4 pt-lg-0">
+                <div class="product-details ms-auto pb-3">
+                  <div class="h3 fw-normal text-accent mb-3 me-1"><%= product.price%><small>.00</small></div>
+                  
+                    <div class="product-badge product-available mt-n1"><i class="ci-security-check"></i>Product available</div>
+                  </div>
+
+                  <div class="d-flex align-items-center pt-2 pb-4">
+                    <select class="form-select me-3" style="width: 5rem;">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+
+
+                    <a class="btn btn-primary btn-shadow d-block w-100" href="/cart" type="button"><i class="ci-cart fs-lg me-2"></i>Add to Cart</a>
+
+                  </div>
+                  <div class="d-flex mb-4">
+                    <div class="w-100 me-3">
+                      <button class="btn btn-secondary d-block w-100" type="button"><i class="ci-heart fs-lg me-2"></i><span class='d-none d-sm-inline'>Add to </span>Wishlist</button>
+                    </div>
+                    <div class="w-100">
+                      <button class="btn btn-secondary d-block w-100" type="button"><i class="ci-compare fs-lg me-2"></i>Compare</button>
+                    </div>
+                  </div>
+                  
+                  <!-- Product panels-->
+                  <div class="accordion mb-4" id="productPanels">
+                    <div class="accordion-item">
+                      <h3 class="accordion-header"><a class="accordion-button" href="#shippingOptions" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="shippingOptions"><i class="glyphicon glyphicon-list-alt text-muted lead align-middle mt-n1 me-2"></i>Product Description</a></h3>
+                      <div class="accordion-collapse collapse show" id="shippingOptions" data-bs-parent="#productPanels">
+                        <div class="accordion-body fs-sm">
+                          <div class="d-flex justify-content-between border-bottom pb-2">
+                            <div>
+                              <div class="fw-semibold text-dark">Farm Fresh Organic Fruits</div>
+                              <div class="fs-sm text-muted">One serving, or one medium ripe banana, provides about 110 calories, 0 gram fat, 1 gram protein, 28 grams carbohydrate, 15 grams sugar (naturally occurring), 3 grams fiber, and 450 mg potassium.</div>
+                            </div>
+                            
+                          </div>
+                          
+                          
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  
+                  
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+         
+            
+
+
+<%- include('../users/layouts/foot') %>
+<%- include('../users/layouts/footer') %>

@@ -10,9 +10,11 @@
         <h1 style="text-align: center; color: rgb(52, 49, 195); font-weight: 800;font-size: medium;"  >Verification</h1>
         <input type="number" name="otp" class="form-control"  placeholder="Enter OTP">
       </div>
-      <div class="form-group d-flex justify-content-center">
-      <button type="submit" class="btn btn-primary ">Submit</button>
+      <div style="padding-top: 20px;" class="form-group d-flex justify-content-center">
+      <button type="submit"  class="btn btn-primary ">Submit</button>
       </div>
+      <div style="align-items: end; padding-top: 20px; "><a style="color: rgb(26, 97, 159);" href="/resendotp" >Resend OTP</a></div>
+
       <%
       if(typeof message !== 'undefined') {
           %>

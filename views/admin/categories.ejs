@@ -6,7 +6,7 @@
       <div style="display: flex; justify-content: space-between">
         <h5 class="card-title"></h5>
         <div>
-          <form action="/admin/category" method="get">
+          <form action="/admin/categories/addcategory" method="get">
             <button class="btn btn-success me-md-2" type="submit">
               Add catogery
             </button>
@@ -32,7 +32,7 @@
               <td><%=category.category%></td>
               <td><%=category.description%></td>
               <td><%=category.status%></td>
-              <td><a class="btn btn-warning me-md-2" href="/admin/editcategory/<%= category._id %>">Edit</a></td>
+              <td><a class="btn btn-warning me-md-2" href="/admin/categories/editcategory/<%= category._id %>">Edit</a></td>
             </tr>
             <%}) %>
           </tbody>
@@ -43,8 +43,8 @@
 </div>
 
 <script>
-  // $(document).ready(function () {
-  //   $("#dtBasicExample").DataTable();
-  //   // $(".dataTables_length").addClass("bs-select");
-  // });
+  $(document).ready(function () {
+    $("#dtBasicExample").DataTable();
+    $(".dataTables_length").addClass("bs-select");
+  });
 </script>

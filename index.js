@@ -7,6 +7,8 @@ const flash = require("connect-flash");
 const env = require("dotenv").config();
 const path = require('path');
 const session = require('express-session');
+const cors = require('cors');
+const swal = require('sweetalert');
 const MongoStore = require('connect-mongodb-session')(session);
 
 const sessionStore = new MongoStore({
@@ -14,9 +16,15 @@ const sessionStore = new MongoStore({
     collection: 'sessions',
 })
 
+app.use(cors());
+app.options('*',cors());
+
 //ROUTES
 const userRoute = require('./routes/userRoute');
 const adminRoute = require('./routes/adminRoute');
+const productRoute = require('./routes/productRoute');
+const categoryRoute = require('./routes/categoryRoute');
+const userManagmentRoute = require('./routes/userManagmentRoute');
 
 //DATABASE CONNECTION
 const dbConnect = require('./config/dbConnection');
@@ -59,12 +67,21 @@ app.use(session(
 app.set('view engine','ejs');
 app.set("views",path.join(__dirname,"views"));
 app.use(express.static(path.join(__dirname,"public")));
+
+
+////////////////////////////////////NOT THAT ITH REVIEVERINOODE CHOIKKAN !!!!!!IMPORTANT
 app.use(userRoute);
 app.use(adminRoute);
+app.use(productRoute);
+app.use(categoryRoute);
+app.use(userManagmentRoute);
 
 //ROUTES
 app.use('/',userRoute);
 app.use('/admin',adminRoute);
+app.use('/admin/products',productRoute);
+app.use('/admin/categories',categoryRoute);
+app.use('/admin/usermanagment',userManagmentRoute);
 
 
 
