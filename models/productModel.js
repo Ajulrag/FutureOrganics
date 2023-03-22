@@ -11,6 +11,9 @@ const productSchema = new Schema({
         type: String,
         required: true
     },
+    richDescription: {
+        type: String
+    },
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref:"categories",
