@@ -1,64 +1,55 @@
-// const sharp = require('sharp');
-// const multer = require('multer');
+const sharp = require('sharp');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
-// const multerStorage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//       cb(null,path.join(__dirname, '../public/uploads'))
-//     },
-//     filename: function (req, file, cb) {
-//       const name =Date.now()+'-'+file.originalname;
-//       cb(null, name);
-//     }
-//   })
-
-
-// const multerFilter = (req,file,cb) => {
-//      if(file.mimetype.startWith('image')) {
-//         cb(null, true);
-//      } else {
-//         cb('Please upload only images!!! ', false);
-//      }
-// };
+const multerStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        
+      cb(null,path.join(__dirname, '../public/uploads'))
+    },
+    filename: function (req, file, cb) {
+      const name =Date.now()+'-'+file.originalname;
+      cb(null, name);
+    }
+  })
 
 
-// const upload = multer({
-//     storage: multerStorage,
-//     fileFilter: multerFilter
-// });
-
-
-// const uploadFiles = upload.array('images', 4);
+const upload = multer({
+    storage: multerStorage,
+});
 
 
 
-// const sharp = require("sharp");
 
-// const resizeImages = async (req, res, next) => {
-//   if (!req.files) return next();
+const resizeImages = async (req, res, next) => {
+  if (!req.files) return next();
+  console.log(req.files);
 
-//   req.body.images = [];
-//   await Promise.all(
-//     req.files.map(async file => {
-//       const newFilename = ...;
+  req.body.images = [];
+  await Promise.all(
+    req.files.map(async file => {
+      const newFilename = file.filename;
+        const buffer = fs.readFileSync(file.path)
+      await sharp(buffer)
+        .resize(500, 500)
+        .toFormat("jpeg")
+        .jpeg({ quality: 90 })
+        .toFile(file.path);
 
-//       await sharp(file.buffer)
-//         .resize(640, 320)
-//         .toFormat("jpeg")
-//         .jpeg({ quality: 90 })
-//         .toFile(`upload/${newFilename}`);
+      req.body.images.push(newFilename);
+    })
+  );
 
-//       req.body.images.push(newFilename);
-//     })
-//   );
-
-//   next();
-// };
+  next();
+};
 
 
 
-// module.exports = {
-//     uploadFiles,
-//     uploadImages,
+module.exports = {
+    upload,
+    resizeImages
+
 
     
-// }
+}

@@ -1,78 +1,55 @@
 <%- include('../admin/layouts/adminHeader') %>
-<div class="col-lg" style="padding: 30px;">
+<div class="col-lg" style="padding: 30px; height: 100vh;" >
   <div class="card"  style="height: 100vh;">
     <div class="card-body" >
       <form action="/admin/products/editproduct/<%=product._id%>" method="post" enctype="multipart/form-data">
-        
         <div class="form-group">
           <label>Product Name</label>
           <input type="text" value="<%=product.product%>" class="form-control" name="product" required />
         </div>
-
-        <div class="form-group">
-          <label>Category Name</label>
-          <select name="category" >
+        <div class="form-group" style="padding-top: 15px;">
+          <select class="form-control" name="category" >
             <% categoryList.forEach(category => {%>
-            
               <option value="<%=category._id%>"><%=category.category%></option>
-            
             <%}) %>
           </select>
         </div>
-        
         <div class="form-group" style="padding-top: 15px;">
           <label>Description</label>
           <input type="text" value="<%=product.description%>" class="form-control" name="description" required />
         </div>
         <div></div>
         <div class="form-group" id="image-group" style="padding-top: 15px;">
-
           <% product.image.forEach(image=>{%>
-
-            <img src="/uploads/<%=image.img%>" alt="" style="height: auto;width: 100px;" class="imgView">
-
-            <%})%>
-          <!-- <img src="/uploads/<%=product.image[0]?.img%>" alt="" style="height: auto;width: 100px;" class="imgView">
-          <% if(product.image[1]) { %>
-          <img src="/uploads/<%=product.image[1]?.img%>" alt="" style="height: auto;width: 100px;"class="imgView">
-          <% if(product.image[2]) { %>
-          <img src="/uploads/<%=product.image[2]?.img%>" alt="" style="height: auto;width: 100px;"class="imgView">
-          <% if(product.image[3]) { %>
-          <img src="/uploads/<%=product.image[3]?.img%>" alt="" style="height: auto;width: 100px;"class="imgView">
-          <%}%>
-          <%}%>
-          <%}%> -->
+            <img src="/uploads/<%=image.img%>" alt=""  style="height: auto;width: 100px;" class="imgView">
+          <%})%>
         </div>
         <div>
             <label>Image</label>
-            <input type="file" value="<%=product.image%>" class="form-control" name="image" multiple required onchange="viewImage(event)" />
-          </div>
-          <div class="form-group" style="padding-top: 15px;">
-            <label>Stock</label>
-            <input type="number" value="<%=product.stock%>" class="form-control" name="stock" required />
-          </div>
-          <div class="form-group" style="padding-top: 15px;">
-            <label>Price</label>
-            <input type="number" value="<%=product.price%>" class="form-control" name="price" required />
-          </div>
+            <input type="file" value="<%=product.image%>" accept="image/*" class="form-control" name="image" multiple required onchange="viewImage(event)" />
+        </div>
+        <div class="form-group" style="padding-top: 15px;">
+          <label>Stock</label>
+          <input type="number" value="<%=product.stock%>" class="form-control" name="stock" required />
+        </div>
+        <div class="form-group" style="padding-top: 15px;">
+          <label>Price</label>
+          <input type="number" value="<%=product.price%>" class="form-control" name="price" required />
+        </div>
         <div style="padding-top: 15px;">
-        <select name="status" >
+          <select name="status" >
             <option value="list">List</option>
             <option value="unlist">Unlist</option>
           </select>
         </div>
         <div style="padding-top: 60px;">
-        <button type="submit" class="btn btn-primary" >Update</button>
-    </div>     
+          <button type="submit" class="btn btn-primary" >Update</button>
+        </div>     
       </form>
-
-    
     </div>
   </div>
 </div>
-
 <script>
- 
   const images =  document.getElementsByClassName('imgView');
   const group = document.getElementById('image-group');
   function viewImage(event){
@@ -82,18 +59,20 @@
         if (index < images.length) {
             images[index].src=URL.createObjectURL(file)
         }
-    })
-  
+    })  
     if (files.length > images.length) {
       const times = files.length - images.length;
       for (let i = 0; i < times; i++) {
             const file = files[images.length - 1 + i]
             const src = URL.createObjectURL(file)
             group.innerHTML += `<img src="${src}" alt="" style="height: auto;width: 100px;" class="imgView">`
-      }
-  
+          } 
+    }
   }
-  
-  }
- 
 </script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<% if (editproduct) {%>
+  <script>
+       swal("Good job!", "You edited the Product!", "success");
+  </script>
+  <% } %> 

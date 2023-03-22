@@ -8,15 +8,15 @@ const orderSchema = new Schema({
         required: true,
         unique: true
       },
-      customer: {
+    customer: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'users',
         required: true
       },
-      products: [{
+    products: [{
         product: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Product',
+          ref: 'products',
           required: true
         },
         quantity: {
@@ -28,24 +28,16 @@ const orderSchema = new Schema({
           required: true
         }
       }],
-      shippingAddress: {
+    shippingAddress: {
         type: String,
         required: true
       },
-      status: {
+    status: {
         type: String,
         enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'],
         default: 'Pending'
       },
-      createdAt: {
-        type: Date,
-        default: Date.now
-      },
-      updatedAt: {
-        type: Date,
-        default: Date.now
-      }
-});
+}, {timestamps: true});
 
 
 

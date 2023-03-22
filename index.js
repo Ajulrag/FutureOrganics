@@ -53,7 +53,7 @@ app.use(function (req, res, next) {
     next();
     })
 app.use(session(
-    {secret:"key",
+    {secret:process.env.KEY,
     cookie:{maxAge:1*60*60*1000},
     resave:false,
     saveUninitialized:true,
@@ -68,23 +68,31 @@ app.set('view engine','ejs');
 app.set("views",path.join(__dirname,"views"));
 app.use(express.static(path.join(__dirname,"public")));
 
-
-////////////////////////////////////NOT THAT ITH REVIEVERINOODE CHOIKKAN !!!!!!IMPORTANT
-app.use(userRoute);
-app.use(adminRoute);
-app.use(productRoute);
-app.use(categoryRoute);
-app.use(userManagmentRoute);
-
 //ROUTES
-app.use('/',userRoute);
-app.use('/admin',adminRoute);
 app.use('/admin/products',productRoute);
 app.use('/admin/categories',categoryRoute);
 app.use('/admin/usermanagment',userManagmentRoute);
+app.use('/admin',adminRoute);
+app.use('/',userRoute);
 
 
 
+// error handler
+app.use((err, req, res, next)=>{
+    if (req.get('Origin')) {
+      res.status(err.status || 500).json({
+        error: {
+          status: err.status || 500,
+          message: err.message || 'internal server error',
+        },
+      });
+    } else {
+      res.render('common/500', {message: err.message});
+  };
+});
+
+
+app.get('*', (req, res) => res.render('common/404',{err: req.flash("err")}));
 
 //SERVER CREATION
 app.listen(PORT, () => {

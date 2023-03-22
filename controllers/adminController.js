@@ -10,7 +10,7 @@ const securePassword = async (password) => {
     const passwordHash = await bcrypt.hash(password, 10);
     return passwordHash;
   } catch (error) {
-    console.log(error.message);
+    next(error);
   }
 };
 
@@ -18,7 +18,7 @@ const securePassword = async (password) => {
 
 
 //GETTING ADMIN LOGIN PAGE
-const getLogin = async (req, res) => {
+const getLogin = async (req, res,next) => {
   try {
     if(req.session.admin_id){
       res.redirect("/admin/dashboard"); 
@@ -27,7 +27,7 @@ const getLogin = async (req, res) => {
       res.render('admin/adminlogin');
     }
   } catch (error) {
-    console.log(error.message);
+    next(error);
   }
 };
 
@@ -51,41 +51,32 @@ const doLogin = async (req, res, next) => {
       res.render("admin/adminlogin", { message: "No user found" });
     }
   } catch (error) {
-    console.log(error.message);
+    next(error);
   }
 };
 
 
 //GET ADMIN DASHBOARD
-const getDashboard = async(req,res) => {
+const getDashboard = async(req,res,next) => {
   try {
   let adminSession = req.session.admin_id
    res.render("admin/dashboard",{adminSession})  
   } catch (error) {
-    console.log(error.message);
+    next(error);
   }
 }
 
 
 //LOGGING OUT
-const doLogout = async(req,res) => {
+const doLogout = async(req,res,next) => {
   try {
     req.session.admin_id="";
   res.redirect("/admin");
   console.log("session destroyed");
   } catch (error) {
-    console.log(error.message);
+    next(error);
   }
 }
-
-
-
-
-
-
-
-
-
 
 module.exports = {
   getLogin,

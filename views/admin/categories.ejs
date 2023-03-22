@@ -1,10 +1,9 @@
 <%- include('../admin/layouts/adminHeader') %>
-
 <div class="col-lg">
   <div class="card">
     <div class="card-body">
       <div style="display: flex; justify-content: space-between">
-        <h5 class="card-title"></h5>
+        <h5 class="card-title">Categories</h5>
         <div>
           <form action="/admin/categories/addcategory" method="get">
             <button class="btn btn-success me-md-2" type="submit">
@@ -13,10 +12,8 @@
           </form>
         </div>
       </div>
-      <br />
-
+      <br/>
       <div class="table-responsive">
-        <h2 class="mb-3">Categories</h2>
         <table id="dtBasicExample" class="table" width="100%">
           <thead>
             <tr>
@@ -42,9 +39,9 @@
   </div>
 </div>
 
-<script>
+<!-- <script>
   $(document).ready(function () {
     $("#dtBasicExample").DataTable();
     $(".dataTables_length").addClass("bs-select");
   });
-</script>
+</script> -->

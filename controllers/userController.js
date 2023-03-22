@@ -13,7 +13,7 @@ const securePassword = async (password) => {
     const passwordHash = await bcrypt.hash(password, 10);
     return passwordHash;
   } catch (error) {
-    console.log(error.message);
+    next(error);
   }
 };
 
@@ -33,33 +33,33 @@ const transporter = nodemailer.createTransport({
 
 
 //GETTING USER REGISTER PAGE
-const getRegister = async (req, res) => {
+const getRegister = async (req, res,next) => {
   try {
-    if(req.session.user_id){
+    if(req.session.user){
       res.redirect("/");
     }else{
       res.render("users/registration");
     }
     
   } catch (error) {
-    console.log(error.message);
+    next(error);
   }
 };
 
 
 
 //GETTING OTP PAGE
-const getotp = async (req,res) => {
+const getotp = async (req,res,next) => {
   try {
     res.redirect('/otp');
   } catch (error) {
-    console.log(error.message);
+    next(error);
   }
 }
 
 
 //OTP VALIDATION
-const otpvalidation = async (req,res) => {
+const otpvalidation = async (req,res,next) => {
   try {
      req.session.name = req.body.name,
      req.session.email =req.body.email,
@@ -84,9 +84,7 @@ const otpvalidation = async (req,res) => {
       
       transporter.sendMail(mailFormat, (error,data) => {
         if(error) {
-          
           return console.log(error);
-          
         }else{
           res.render("users/otp");
         }
@@ -95,29 +93,23 @@ const otpvalidation = async (req,res) => {
       res.render("users/registration", {message:"We are sorry,this email login is already exist. Try another email address"});
      }
   } catch (error) {
-    console.log(error.message);
+    next(error);
   }
 }
 
 
 //otp verification 
-const verifyOtp = async (req,res) => {
-
+const verifyOtp = async (req,res,next) => {
   try {
-    
     if (req.body.otp == req.session.otp) {
       const securedPassword = await securePassword(req.session.password,10)
-
       const user = new User({
         name: req.session.name,
         email: req.session.email,
         mobile:req.session.mobile,
         password: securedPassword
       })
-
       const userData = await user.save();
-     
-
       if(userData) {
         res.render("users/login",{ succesmessage: "Your registration has been succesfull"})
       } else {
@@ -127,17 +119,15 @@ const verifyOtp = async (req,res) => {
       res.render("users/otp",{message:"Invalid OTP"})
       console.log(error.message);
     }
-
   } catch (error) {
-    
-    console.log(error.message)
+    next(error);
   }
 }
 
 
 
 //RESEND OTP
-const resendOtp = async (req,res) => {
+const resendOtp = async (req,res,next) => {
   try {
       var otp = Math.random();
       otp = otp * 1000000;
@@ -158,34 +148,35 @@ const resendOtp = async (req,res) => {
       }
     })
   } catch (error) {
-    console.log(error.message);
+    next(error);
   }
 }
 
 //GETTING USER HOME PAGE
-const getHomepage = async (req, res) => {
+const getHomepage = async (req, res,next) => {
   try {
-    let usersession = req.session.user_id;
+    let usersession = req.session.user;
     let user = req.session.name;
     const productlist = await Product.find({isDelete:false}).populate({path:'category', model:'categories'});
-    console.log(productlist);
     res.render('users/home',{usersession,productlist,user});
   } catch (error) {
-    console.log(error.message);
+    next(error);
   }
 };
 
 
 //GETTING USER LOGIN PAGE
-const getLogin = async (req, res) => {
+const getLogin = async (req, res,next) => {
   try {
-    if (req.session.user_id) {
+    if (req.session.user) {
       res.redirect('/');
     } else {
-      res.render('users/login');
+      const message = req.session.error
+      delete req.session.error
+      res.render('users/login', {message});
     }
   } catch (error) {
-    console.log(error.message);
+    next(error);
   }
 };
 
@@ -200,65 +191,81 @@ const doLogin = async (req, res, next) => {
     if (userData) {
       const passwordMatch = await bcrypt.compare(password, userData.password);
       if (passwordMatch) {
-        // if (userData.verified) {
-          req.session.user_id = userData._id;
+        if (userData.status == "Unblocked") {
+          req.session.user = userData;
           res.redirect("/");
-        // } else {
-        //   req.session.error = 'This website has preventsed you from browsing this URL.For more informatiion visit the help center'
-        //   res.redirect('/login');
-        // }
+        } else {
+          req.session.error = 'This website has preventsed you from browsing this URL.For more informatiion visit the help center'
+          res.redirect('/login');
+          console.log("preventsed");
+        }
         
       } else {
         res.render("users/login", { message: "Password is incorrect" });
+        console.log("password thett");
       }
     } else {
       res.render("users/login", { message: "No user found" });
+      console.log("catchile error");
     }
   } catch (error) {
-    console.log(error.message);
+    next(error);
   }
 };
 
 
+//GETING PROFILE PAGE
+const getProfile = async (req,res,next) => {
+  try {
+    const user = req.session.user;
+    if(user){
+      res.render('users/userprofile',{user})
+    }
+  } catch (error) {
+    next(error);
+  }
+}
+
 
 //LOGGING OUT
-const doLogout = async(req,res) => {
+const doLogout = async(req,res,next) => {
     try {
       req.session.destroy();
       res.redirect('/login');
     } catch (error) {
-      console.log(error.message);
+      next(error);
     }
 }
 
 
 //GET SINGLE PRODUCT VIEW
-const getSingleProduct = async (req,res) => {
+const getSingleProduct = async (req,res,next) => {
   try {
-    let usersession = req.session.user_id;
+    let usersession = req.session.user;
     const id = req.params.id;
     const product = await Product.findById(id);
     console.log(product);
     res.render('users/singleProduct',{product,usersession});
   } catch (error) {
-    console.log(error.message);
+    next(error);
   }
 }
 
 
 //GET ALL PRODUCTS
-const getAllProducts= async (req,res) => {
+const getAllProducts= async (req,res,next) => {
   try {
     const productList = await Product.find({isDelete: false});
-    let usersession = req.session.user_id;
+    let usersession = req.session.user;
     res.render('users/allProducts',{productList , usersession});
   } catch (error) {
-    console.log(error.message);
+    next(error);
   }
 }
 
+
 //GET CART PAGE
-const getCart = async (req,res) => {
+const getCart = async (req,res,next) => {
   try {
     const { user_id } = req.session;
     const cartData = await Cart.findOne({ user_id }).populate('products.product_id')
@@ -270,33 +277,56 @@ const getCart = async (req,res) => {
     }
     
   } catch (error) {
-    console.log(error)
+    next(error);
   }
 }
 
 //ADD TO CART
-const addToCart = async(req,res) => {
+const addToCart = async(req,res, next) => {
   try {
-    const { product_id, quantity, price } = req.body;
-    const { user_id } = req.session;
-
+    const id = req.params.id;
+    const { product_id, user_id } = req.body;
     const userCart =  await Cart.findById({user_id})
-
     if(userCart){
       Cart.updateOne(
         {user_id},
-        {$push: { products: { product_id, quantity, price }}},
-        { upsert: true, new: true },
+        {$push: { products: { product_id, quantity, price }}}
         )
-        res.redirect('/users/products');
-
-      }   
+        res.json({})
+      } else {
+        const cart = new Cart({
+          products:{ product_id, quantity, price },
+          _id:{ user_id }
+      });
+      const cart_data = await cart.save();
+      res.json({})
+      
+      }  
   } catch (error) {
-    console.log(error);
+    // res.json(error)
+    next(error);
   }
 }
 
 
+//GETTING ADD ADDRESS PAGE
+const getAddAddress = async(req,res,next) => {
+  try {
+    let usersession = req.session.user;
+    res.render('users/addAddress',{usersession})
+  } catch (error) {
+    next(error);
+  }
+}
+
+//ADD NEW ADDRESS
+const doAddAddress = async (req,res) => {
+  try {
+    
+  } catch (error) {
+    nest(error);
+  }
+}
 
 module.exports = {
   getHomepage,
@@ -307,11 +337,12 @@ module.exports = {
   resendOtp,
   getLogin,
   doLogin,
+  getProfile,
   doLogout,
   getSingleProduct,
   getAllProducts,
   getCart,
   addToCart,
-
-
+  getAddAddress,
+  doAddAddress
 };

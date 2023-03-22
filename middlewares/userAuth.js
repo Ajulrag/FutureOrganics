@@ -1,6 +1,6 @@
 const isLogin = async(req,res,next) => {
     try {
-        if(req.session.user_id){
+        if(req.session.user){
             next();
         }
         else{

@@ -104,7 +104,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(rgb(127 167 75 / 5%), rgb(193 208 156)) ;
+  background: url("https://pngimg.com/uploads/green_leaves/green_leaves_PNG3654.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -119,10 +119,6 @@
   width: 450px ;
   height: 500px;
   
-  /* background: linear-gradient(rgb(226 230 115),rgb(169 184 65));
-  border:   rgba(92, 21, 21, 0);
-  border-radius: 10px;
-  box-shadow: 10px rgba(21, 221, 41, 0.637); */
 } 
 #img{
   padding-top: 0px;
@@ -132,13 +128,27 @@
 }
 #login-div{
   border: 1px solid rgba(32, 98, 14, 0.537);
- 
   border-radius: 10px;
   box-shadow: 100px rgba(221, 54, 21, 0.637); 
   padding: 40px;
   min-width: 200px;
   max-width: 400px;
   align-items: center; 
+}
+#resend{
+  color: #1c10f9;
+  background: transparent;
+  border: none;
+  padding-top: 10px;
+  padding-left: 0%;
+}
+#countdown-timer{
+  color: #4d4747;
+  font-size: xx-small;
+}
+#otperr{
+  color: red;
+  margin-top: 50px;
 }
 #btn{
   height: 50px;

@@ -8,6 +8,11 @@ const cartSchema = new Schema({
       ref:'users',
       required: true
     },
+    customer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'users',
+      required: true
+    },
     products:[{
       product_id: {
           type: mongoose.Schema.Types.ObjectId,
@@ -22,7 +27,10 @@ const cartSchema = new Schema({
           type: Number,
           required: true,
       }
-    }]
+    }],
+    cartTotal: {
+      type: Number
+    }
 })
 
 module.exports = mongoose.model('carts',cartSchema);

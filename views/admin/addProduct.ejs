@@ -1,46 +1,44 @@
 <%- include("../admin/layouts/adminHeader")%>
-<div class="col-lg" style="align-items: center">
-    <form action="/addproduct" method="post" enctype="multipart/form-data"> 
-      <div class="form-group">
-        <label >Product Name</label>
-        <input type="text" class="form-control" name="product" required>
+<div class="col-lg" style="align-items: center;">
+  <form action="/admin/products/addproduct" method="post" enctype="multipart/form-data"> 
+    <div class="form-group">
+      <label >Product Name</label>
+      <input type="text" class="form-control" name="product" required>
+    </div>
+    <div class="form-group" style="padding-top: 15px;"> 
+      <select class="form-control" name="category" >
+        <option >Select Category</option>
+        <% categoryList.forEach(category => {%>
+        <option value="<%=category._id%>"><%=category.category%></option>
+        <%}) %>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <input type="text" class="form-control" name="description" required>
+    </div>
+      <hr/>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <div class="preview-images"></div>
       </div>
-        <div class="form-group">
-          <label for="cars">Choose Category</label>
-          <select name="category" >
-          <% categoryList.forEach(category => {%>
-          
-            <option value="<%=category._id%>"><%=category.category%></option>
-          
-          <%}) %>
-        </select>
-        </div>
-        
-        <div class="form-group">
-          <label>Description</label>
-          <input type="text" class="form-control" name="description" required>
-        </div>
-        <hr />
-        <div class="form-group">
-          <div class="col-sm-12">
-            <div class="preview-images"></div>
-          </div>
-        <div class="form-group">
-          <label>Image</label>
-          <input type="file" accept="image/*" class="form-control" name="image" multiple required>
-        </div>
-        <div class="form-group">
-          <label>Price</label>
-          <input type="number" class="form-control" name="price" required>
-        </div>
-        <div class="form-group">
-          <label>Stock</label>
-          <input type="number" class="form-control" name="stock" required>
-        </div>
-        <div class="form-group">
-         
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+    <div class="form-group">
+      <label>Image</label>
+      <input type="file" accept="image/*" class="form-control" name="image" multiple required>
+    </div>
+    <div class="form-group">
+      <label>Price</label>
+      <input type="number" class="form-control" name="price" required>
+    </div>
+    <div class="form-group">
+      <label>Stock</label>
+      <input type="number" class="form-control" name="stock" required>
+    </div>
+    <div style="padding-top: 15px;">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
 </div>
+
+
 

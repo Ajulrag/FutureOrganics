@@ -8,6 +8,7 @@ userManagmentRoute.get('/',adminAuth.isLogin,userManagmentController.getUserMana
 userManagmentRoute.get('/adduser',adminAuth.isLogin,userManagmentController.getAddUser);
 userManagmentRoute.post('/adduser',adminAuth.isLogin,userManagmentController.addUser);
 userManagmentRoute.get('/edituser/:id',adminAuth.isLogin,userManagmentController.getEditUSer);
+userManagmentRoute.post('/edituser/:id',adminAuth.isLogin,userManagmentController.editUser);
 
 
 module.exports = userManagmentRoute;

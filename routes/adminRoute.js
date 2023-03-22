@@ -4,7 +4,6 @@ const adminController = require("../controllers/adminController");
 const adminAuth = require("../middlewares/adminAuth");
 
 
-// /admin
 // /admin/dashboard
 
 adminRoute.get("/",adminController.getLogin);

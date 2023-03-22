@@ -23,7 +23,10 @@ const userSchema = new Schema({
   },
   status: {
     type: String,
-    default:"unbanned"
+    default:"Unblocked"
+  },
+  address: {
+    type: String
   }
  
 });
