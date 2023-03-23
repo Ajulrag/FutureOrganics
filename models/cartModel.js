@@ -8,13 +8,8 @@ const cartSchema = new Schema({
       ref:'users',
       required: true
     },
-    customer: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'users',
-      required: true
-    },
     products:[{
-      product_id: {
+      proId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'products',
           required: true,
@@ -26,6 +21,11 @@ const cartSchema = new Schema({
       price: {
           type: Number,
           required: true,
+      },
+      image:{
+          type: String,
+          ref: "products",
+          required: true
       }
     }],
     cartTotal: {

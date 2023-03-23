@@ -5,6 +5,7 @@ const Email = process.env.EMAIL;
 const Password = process.env.EMAILPASS;
 const Product = require('../models/productModel');
 const Cart = require('../models/cartModel');
+const Wishlist = require('../models/wishlistModel');
 
 
 //SECURING PASSWORD
@@ -264,14 +265,25 @@ const getAllProducts= async (req,res,next) => {
 }
 
 
+//ADD TO WISHLIST
+const addToWishlist = async (req,res,next) => {
+  try {
+    
+    const { prodId, userId } = req.body;
+    const wishlist = await Wishlist.findById({userId});
+  } catch (error) {
+    next();
+  }
+}
+
 //GET CART PAGE
 const getCart = async (req,res,next) => {
   try {
-    const { user_id } = req.session;
-    const cartData = await Cart.findOne({ user_id }).populate('products.product_id')
-
-    if(cartData) {
-      res.render('users/cart',{cartData});
+    const user_id = req.session.user._id;
+    const products = await Cart.findOne({_id: user_id }).populate('products.proId')
+    console.log(products);
+    if(products) {
+      res.render('users/cart',{products});
     } else {
       res.send("Emptyy cart")
     }
@@ -284,25 +296,36 @@ const getCart = async (req,res,next) => {
 //ADD TO CART
 const addToCart = async(req,res, next) => {
   try {
-    const id = req.params.id;
-    const { product_id, user_id } = req.body;
-    const userCart =  await Cart.findById({user_id})
+    const { proId, price, image } = req.body;
+    console.log(req.body);
+    const user_id = req.session.user._id;
+    const userCart =  await Cart.findOne({_id:user_id})
+  
     if(userCart){
-      Cart.updateOne(
-        {user_id},
-        {$push: { products: { product_id, quantity, price }}}
+      await Cart.updateOne(
+        {_id: user_id},
+        {$push: { products: { proId, price, image }}}
         )
         res.json({})
       } else {
-        const cart = new Cart({
-          products:{ product_id, quantity, price },
-          _id:{ user_id }
+        const cart = await new Cart({
+          _id:user_id ,
+          products:[ {
+              proId: proId,
+              price: price,
+                image: image 
+              }],
+          
       });
       const cart_data = await cart.save();
+      console.log(cart_data);
+      console.log("saved");
       res.json({})
       
       }  
   } catch (error) {
+    
+    console.log(error);
     // res.json(error)
     next(error);
   }
@@ -341,6 +364,7 @@ module.exports = {
   doLogout,
   getSingleProduct,
   getAllProducts,
+  addToWishlist,
   getCart,
   addToCart,
   getAddAddress,

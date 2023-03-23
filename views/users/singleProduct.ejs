@@ -78,20 +78,20 @@
                       </div>
                     </div>
                   </div>
-                  <div class="h3 fw-normal text-danger  mb-3 me-1">$<%= product.price%><small>.00</small></div>
-                  <div class="d-flex align-items-center pt-2 pb-4">
-                    <select class="form-select me-3" style="width: 5rem;">
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                    </select>
-                    <button class="btn btn-success btn-shadow d-block w-100" onclick="addToCart('<%= product._id%>')"><i class="ci-cart fs-lg me-2"></i>Add to Cart</a>
-                  </div>
+                  <div class="h3 fw-normal text-danger  mb-3 me-1">RS. <%= product.price%><small>.00</small></div>
+                  <!-- <div class="d-flex align-items-center pt-2 pb-4"> -->
+                    <div class="d-flex mb-4">
+                      <div class="w-100 me-3">
+                    <button class="btn btn-success btn-shadow d-block w-100"><i class="ci-cart fs-lg me-2"></i>Buy Now</a></button>
+                    </div>
+                      <div class="w-100 me-3">
+                    <button class="btn btn-success btn-shadow d-block w-100" onclick="addToCart('<%= product._id%>', '<%= product.price %>','/uploads/<%=product.image[0]?.img%>')"><i class="ci-cart fs-lg me-2"></i>Add to Cart</a></button>
+                    </div>
+                    </div>
+                  <!-- </div> -->
                   <div class="d-flex mb-4">
                     <div class="w-100 me-3">
-                      <button class="btn btn-secondary d-block w-100" type="button"><i class="ci-heart fs-lg me-2"></i><span class='d-none d-sm-inline'>Add to </span>Wishlist</button>
+                      <button class="btn btn-secondary d-block w-100" type="button" onclick="addToWishlist('<%= product._id%>')"><i class="ci-heart fs-lg me-2"></i><span class='d-none d-sm-inline'>Add to </span>Wishlist</button>
                     </div>
                     <div class="w-100">
                       <button class="btn btn-secondary d-block w-100" type="button"><i class="ci-compare fs-lg me-2"></i>Compare</button>
@@ -106,9 +106,15 @@
     </div>
   </div>
  <script>
-    function addToCart(id) {
+    function addToCart(id, price, image) {
+      console.log(id)
       fetch(`/addtocart/${id}`, {
         method: 'POST',
+        body: JSON.stringify({
+          proId:id,
+          price: price,
+          image: image,
+        }),
         headers: {
           'Content-Type': 'application/json'
         },
@@ -122,6 +128,27 @@
         console.error(error);
       });
     }
+
+
+  function addToWishlist(id) {
+    fetch(`/addtowishlist/${id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: {
+
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      alert(data)
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
 </script>
 
 <%- include('../users/layouts/foot') %>

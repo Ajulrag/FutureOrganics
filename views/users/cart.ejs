@@ -21,18 +21,18 @@
     <div class="row">
       <!-- List of items-->
       <section class="col-lg-8">
-        <% products.forEach( product => {%>
+        <% products.forEach(product => {%>
         <div class="d-flex justify-content-between align-items-center pt-3 pb-4 pb-sm-5 mt-1">
           <h2 class="h6 text-light mb-0">Products</h2><a class="btn btn-outline-primary btn-sm ps-2" href="/getallproducts"><i class="ci-arrow-left me-2"></i>Continue shopping</a>
         </div>
         <!-- Item-->
         <div class="d-sm-flex justify-content-between align-items-center my-2 pb-3 border-bottom">
           
-          <div class="d-block d-sm-flex align-items-center text-center text-sm-start"><a class="d-inline-block flex-shrink-0 mx-auto me-sm-4" href="/singleproduct/<%= product._id %>"><img src="/uploads/<%=product.image[0].img%>" width="160" alt="Product"></a>
+          <div class="d-block d-sm-flex align-items-center text-center text-sm-start"><a class="d-inline-block flex-shrink-0 mx-auto me-sm-4" href="/singleproduct/<%= product._id %>"><img src="<%= product.products.image %>" width="160" alt="Product"></a>
             <div class="pt-2">
-              <h3 class="product-title fs-base mb-2"><a href="/singleproduct/<%= product._id %>"><%= product.product%></a></h3>
-              <div class="fs-sm"><span class="text-muted me-2"><%= product.category.category%></span></div>
-              <div class="fs-lg text-accent pt-2"><%= product.price%><small>00</small></div>
+              <h3 class="product-title fs-base mb-2"><a href="/singleproduct/<%= product._id %>"><%= product.products.proId%></a></h3>
+              <!-- <div class="fs-sm"><span class="text-muted me-2"><%= product.category.category%></span></div> -->
+              <div class="fs-lg text-accent pt-2"><%= product.products.price%><small>00</small></div>
             </div>
           </div>
           <div class="pt-2 pt-sm-0 ps-sm-3 mx-auto mx-sm-0 text-center text-sm-start" style="max-width: 9rem;">

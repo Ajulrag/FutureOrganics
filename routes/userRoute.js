@@ -16,6 +16,7 @@ user_route.get("/singleproduct/:id",userController.getSingleProduct);
 user_route.get('/getallproducts', userController.getAllProducts);
 user_route.get('/cart',userAuth.isLogin,userController.getCart)
 user_route.post('/addtocart/:id',userController.addToCart);
+user_route.post('/addtowishlist/:id',userAuth.isLogin,userController.addToWishlist);
 user_route.get('/profile',userAuth.isLogin,userController.getProfile);
 
 user_route.get('/addaddress',userAuth.isLogin,userController.getAddAddress);
