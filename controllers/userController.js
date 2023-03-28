@@ -6,6 +6,9 @@ const Password = process.env.EMAILPASS;
 const Product = require('../models/productModel');
 const Cart = require('../models/cartModel');
 const Wishlist = require('../models/wishlistModel');
+const Address = require('../models/addressModel');
+const Order = require('../models/orderModel');
+const mongoose = require('mongoose')
 
 
 //SECURING PASSWORD
@@ -156,10 +159,10 @@ const resendOtp = async (req,res,next) => {
 //GETTING USER HOME PAGE
 const getHomepage = async (req, res,next) => {
   try {
-    let usersession = req.session.user;
-    let user = req.session.name;
+    let user = req.session.user;
+    let username = req.session.name;
     const productlist = await Product.find({isDelete:false}).populate({path:'category', model:'categories'});
-    res.render('users/home',{usersession,productlist,user});
+    res.render('users/home',{user,productlist,username});
   } catch (error) {
     next(error);
   }
@@ -228,6 +231,27 @@ const getProfile = async (req,res,next) => {
 }
 
 
+//UPDATING USER
+const updateUser = async(req,res,next) => {
+  const id=req.params.id;
+  try {
+    
+    const user = await User.updateOne({_id:id},req.body);
+    
+    if(user){
+      req.flash("Success","USer updated")
+      res.redirect('/profile');
+    }else{
+      console.log("jdshfjdsbfkjsbfs");
+    }
+    
+  } catch (error) {
+    console.log("dkjasbdabhd");
+    next();
+  }
+}
+
+
 //LOGGING OUT
 const doLogout = async(req,res,next) => {
     try {
@@ -243,11 +267,17 @@ const doLogout = async(req,res,next) => {
 const getSingleProduct = async (req,res,next) => {
   try {
     let usersession = req.session.user;
-    const id = req.params.id;
+    
+    const id = mongoose.Types.ObjectId(req.params.id);
+   
     const product = await Product.findById(id);
-    console.log(product);
-    res.render('users/singleProduct',{product,usersession});
+    const cart = await Cart.findById(usersession._id)
+    
+    const isInCart =  cart?.products.some(item => item.proId.equals(id));
+    const user = req.session.user;
+    res.render('users/singleProduct',{product,usersession,isInCart,user});
   } catch (error) {
+    console.log(error);
     next(error);
   }
 }
@@ -257,8 +287,9 @@ const getSingleProduct = async (req,res,next) => {
 const getAllProducts= async (req,res,next) => {
   try {
     const productList = await Product.find({isDelete: false});
+    const user = req.session.user;
     let usersession = req.session.user;
-    res.render('users/allProducts',{productList , usersession});
+    res.render('users/allProducts',{productList , usersession,user});
   } catch (error) {
     next(error);
   }
@@ -280,13 +311,10 @@ const addToWishlist = async (req,res,next) => {
 const getCart = async (req,res,next) => {
   try {
     const user_id = req.session.user._id;
+    const user = req.session.user;
     const products = await Cart.findOne({_id: user_id }).populate('products.proId')
     console.log(products);
-    if(products) {
-      res.render('users/cart',{products});
-    } else {
-      res.send("Emptyy cart")
-    }
+      res.render('users/cart',{products,user});
     
   } catch (error) {
     next(error);
@@ -296,30 +324,32 @@ const getCart = async (req,res,next) => {
 //ADD TO CART
 const addToCart = async(req,res, next) => {
   try {
-    const { proId, price, image } = req.body;
-    console.log(req.body);
+    const { proId,name, price, image, quantity } = req.body;
     const user_id = req.session.user._id;
     const userCart =  await Cart.findOne({_id:user_id})
   
     if(userCart){
-      await Cart.updateOne(
-        {_id: user_id},
-        {$push: { products: { proId, price, image }}}
-        )
-        res.json({})
+      const isProduct = await Cart.findOne({proid: req.body.proId});
+      if(isProduct){
+        await Cart.updateOne(
+          {_id: user_id},
+          {$push: { products: { proId, name, price, image, quantity}}}
+          )
+          res.json({})
+        }
       } else {
-        const cart = await new Cart({
+        const cart = new Cart({
           _id:user_id ,
           products:[ {
               proId: proId,
+              name: name,
               price: price,
-                image: image 
+              image: image,
+              quantity: quantity, 
               }],
           
       });
       const cart_data = await cart.save();
-      console.log(cart_data);
-      console.log("saved");
       res.json({})
       
       }  
@@ -331,23 +361,200 @@ const addToCart = async(req,res, next) => {
   }
 }
 
-
-//GETTING ADD ADDRESS PAGE
-const getAddAddress = async(req,res,next) => {
+//UPDATE CART
+const updateCart = async (req, res) => {
+  let cart;
+  const user= req.session.user._id;
   try {
-    let usersession = req.session.user;
-    res.render('users/addAddress',{usersession})
+    
+    let action = Number(req.body.action);
+    let userCart = await Cart.findOneAndUpdate(
+     
+      { _id: user, 'products.proId': req.query.q },
+      { $inc: { 'products.$.quantity': action } },
+      { new: true }
+      
+    ); 
+    if (!userCart) return res.status(403).json({message: 'not found' });
+
+    //IF QUALTITY IS ZERO DELETE PRODUCT
+    if (action == -1) {
+      for(let item of userCart.products) {
+        if (item.quantity == 0) {
+          cart = await Cart.findOneAndUpdate(
+            { user: user },
+            { $pull: { products: { quantity: 0 } } },
+            { new: true }
+          );
+          if (cart) {
+            if (cart.products.length == 0) {
+              deleteCart(cart.user);
+
+            }
+          }
+        }
+      };
+      return res.json({  success: true,message: 'updatd' });
+    }
+    res.json({ success: true, message: 'updated' });
+  } catch (error) {
+    console.log(error)
+    res.json({ message: error.message });
+  }
+};
+
+//DELETE CART
+async function deleteCart(user) {
+  await Cart.findOneAndDelete({ user: user }).catch((err) => {
+    console.log(err);
+    return;
+  });
+}
+
+//REMOVE FROM CART
+const removeFromCart = async (req,res,next) => {
+  try {
+    const id = req.params.id;
+    const product = await Cart.findByIdAndUpdate(req.session.user._id,{$pull: { products: { proId: id} }})
+    res.redirect('/cart')
+  } catch (error) {
+    next(error)
+  }
+}
+
+
+//GETTING CHECKOUT PAGE
+const getCheckout = async (req,res,next) => {
+  try {
+    const user = req.session.user;
+    const user_id = req.session.user._id;
+    const userCart = await Cart.findOne({_id: user_id }).populate('products.proId');
+    const userAddresses = await Address.findOne({_id: user}).populate('addresses._id');
+    if(userCart){ 
+    res.render('users/checkout',{userCart,user,userAddresses})
+    }
+  } catch (error) {
+    next();
+  }
+} 
+
+//GETTING ADDRESS PAGE
+const getAddress = async(req,res,next) => {
+  try {
+    
+    let user = req.session.user;
+    res.render('users/addresses',{user})
   } catch (error) {
     next(error);
   }
 }
 
-//ADD NEW ADDRESS
-const doAddAddress = async (req,res) => {
+//GETTING ADD ADDRESS PAGE
+const getAddAddress = async (req,res,next) => {
   try {
-    
+    let user = req.session.user;
+    res.render('users/addAddress',{user})
   } catch (error) {
-    nest(error);
+    next();
+  }
+}
+
+//ADD NEW ADDRESS
+const doAddAddress = async (req,res,next) => {
+  try {
+    const id=req.session.user._id;
+    let user = req.session.user;
+    const userAddress = await Address.findById({_id: id})
+    console.log(userAddress);
+    if(userAddress){
+      await Address.updateOne(
+        {_id: id},
+        {$push: {addresses: {
+          name: req.body.name,
+            mobile: req.body.mobile,
+            street: req.body.street,
+            locality: req.body.locality,
+            city: req.body.city,
+            country:req.body.country,
+            state: req.body.state,
+            pincode: req.body.pincode
+        }}}
+      )
+    }
+    else{
+      const address = new Address({
+        _id:id,
+        addresses:[{
+            name: req.body.name,
+            mobile: req.body.mobile,
+            street: req.body.street,
+            locality: req.body.locality,
+            city: req.body.city,
+            country:req.body.country,
+            state: req.body.state,
+            pincode: req.body.pincode
+        }]
+      
+      })
+      const address_data = await address.save();
+    };
+        res.redirect('/cart/checkout');
+  } catch (error) {
+    next(error);
+  }
+}
+
+
+//GETTING ORDERS PAGE
+const getOrders = async(req,res,next) => {
+  try {
+    const user = req.session.user._id;
+    const userData = req.session.user;
+    res.render('users/orders',{user,userData});
+  } catch (error) {
+    next();
+  }
+} 
+
+//PLACING ORDER
+const placeOrder = async(req,res,next) => {
+  try {
+    const userid = req.session.user._id;
+    const userCart = await Cart.findOne({_id: userid }).populate('products.proId');
+    const userAddresses = await Address.findOne({_id: userid})
+    const address = userAddresses.addresses.find((address)=> address._id.equals(mongoose.Types.ObjectId(req.body.address)))
+    for(let item of userCart.products)
+    {
+             await Product.findOneAndUpdate(
+            { _id: item.proId._id },
+            { $inc: { stock: -item.quantity } },
+            { new: true }
+          );          
+          }
+
+    const products = userCart.products.map((ele)=>{
+      return {
+        product : ele.proId,
+        quantity : ele.quantity,
+        price : ele.price
+      }
+    })
+    console.log(products);
+    const newOrder = new Order({
+      customer: req.session.user,
+      shippingAddress : address,
+      products : products,
+      status:'Processing'
+    })
+    const order_data = await newOrder.save();
+    const cartItems = await Cart.findById(req.session.user._id);
+    cartItems.products = [];
+    await cartItems.save()
+
+    
+    res.render('users/orderSuccess',{newOrder})
+  } catch (error) {
+    next(error);
   }
 }
 
@@ -361,12 +568,19 @@ module.exports = {
   getLogin,
   doLogin,
   getProfile,
+  updateUser,
   doLogout,
   getSingleProduct,
   getAllProducts,
   addToWishlist,
   getCart,
   addToCart,
+  removeFromCart,
+  getAddress,
+  doAddAddress,
+  updateCart,
+  getCheckout,
   getAddAddress,
-  doAddAddress
+  getOrders,
+  placeOrder
 };

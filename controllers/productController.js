@@ -2,7 +2,7 @@ const multer = require("multer");
 const Product = require("../models/productModel");
 const Category = require('../models/categoryModel');
 const path = require('path');
-const Swal = require('sweetalert2');
+
 
 
 
@@ -102,6 +102,7 @@ const editProduct = async (req,res,next) => {
             req.body.image = productpictures;
         }
         const productData = await Product.updateOne({_id:id},req.body);
+        
         if(productData){
             req.session.editproduct = true;
             res.redirect("/admin/products")
@@ -113,6 +114,9 @@ const editProduct = async (req,res,next) => {
         next(error);
     }
 }
+
+
+
 
 
 //DELETING PRODUCT
@@ -132,7 +136,5 @@ module.exports = {
     addProducts,
     getEditProduct,
     editProduct,
-   
     deleteProduct,
-
 }

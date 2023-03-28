@@ -14,6 +14,11 @@ const cartSchema = new Schema({
           ref: 'products',
           required: true,
           },
+      name: {
+        type: String,
+        ref: 'products',
+        required: true, 
+      },
       quantity: {
           type: Number,
           default: 1,
@@ -26,6 +31,10 @@ const cartSchema = new Schema({
           type: String,
           ref: "products",
           required: true
+      },
+      isAdded: {
+        type: Boolean,
+        default: true
       }
     }],
     cartTotal: {

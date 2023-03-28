@@ -8,7 +8,6 @@ const env = require("dotenv").config();
 const path = require('path');
 const session = require('express-session');
 const cors = require('cors');
-const swal = require('sweetalert');
 const MongoStore = require('connect-mongodb-session')(session);
 
 const sessionStore = new MongoStore({
@@ -24,6 +23,7 @@ const userRoute = require('./routes/userRoute');
 const adminRoute = require('./routes/adminRoute');
 const productRoute = require('./routes/productRoute');
 const categoryRoute = require('./routes/categoryRoute');
+const orderRoute =  require('./routes/orderRoute');
 const userManagmentRoute = require('./routes/userManagmentRoute');
 
 //DATABASE CONNECTION
@@ -72,6 +72,7 @@ app.use(express.static(path.join(__dirname,"public")));
 app.use('/admin/products',productRoute);
 app.use('/admin/categories',categoryRoute);
 app.use('/admin/usermanagment',userManagmentRoute);
+app.use('/admin/orders',orderRoute);
 app.use('/admin',adminRoute);
 app.use('/',userRoute);
 

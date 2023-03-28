@@ -1,7 +1,8 @@
-<%- include('../users/layouts/head') %>
-<%- include('../users/layouts/header') %>
+<%- include('../users/layouts/head') %> 
+<%- include('../users/layouts/header') %>      
 <div class="container">
-<div class="modal-content">
+  <form action="/profile/addaddress" method="post">
+  <div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title">Add a new address</h5>
       <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -9,23 +10,30 @@
     <div class="modal-body">
       <div class="row gx-4 gy-3">
         <div class="col-sm-6">
-          <label class="form-label" for="address-fn">First name</label>
-          <input class="form-control" type="text" id="address-fn" required>
-          <div class="invalid-feedback">Please fill in you first name!</div>
+          <label class="form-label" for="address-fn">Name</label>
+          <input class="form-control" type="text" id="address-fn" name="name" required>
         </div>
         <div class="col-sm-6">
-          <label class="form-label" for="address-ln">Last name</label>
-          <input class="form-control" type="text" id="address-ln" required>
-          <div class="invalid-feedback">Please fill in you last name!</div>
+          <label class="form-label" for="address-ln">Mobile</label>
+          <input class="form-control" type="number" id="address-ln" name="mobile" required>
         </div>
         <div class="col-sm-6">
-          <label class="form-label" for="address-company">Company</label>
-          <input class="form-control" type="text" id="address-company">
+          <label class="form-label" for="address-company">Street</label>
+          <input class="form-control" type="text" id="address-company" name="street" required>
+        </div>
+        <div class="col-sm-6">
+          <label class="form-label" for="address-company">Locality</label>
+          <input class="form-control" type="text" id="address-company" name="locality" required>
+        </div>
+        <div class="col-sm-6">
+          <label class="form-label" for="address-company">City</label>
+          <input class="form-control" type="text" id="address-company" name="city" required>
         </div>
         <div class="col-sm-6">
           <label class="form-label" for="address-country">Country</label>
-          <select class="form-select" id="address-country" required>
+          <select class="form-select" id="address-country" name="country" required>
             <option value>Select country</option>
+            <option value="India">India</option>
             <option value="Argentina">Argentina</option>
             <option value="Belgium">Belgium</option>
             <option value="France">France</option>
@@ -37,33 +45,31 @@
           <div class="invalid-feedback">Please select your country!</div>
         </div>
         <div class="col-sm-6">
-          <label class="form-label" for="address-city">City</label>
-          <input class="form-control" type="text" id="address-city" required>
-          <div class="invalid-feedback">Please fill in your city!</div>
+          <label class="form-label" for="address-country">State</label>
+          <select class="form-select" id="address-country" name="state" required>
+            <option value>Select State</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Tamilnadu">Tamilnadu</option>
+            <option value="Bombai">Bombai</option>
+            <option value="Goa">Goa</option>
+            <option value="Sikkim">Sikkim</option>
+          </select>
         </div>
         <div class="col-sm-6">
-          <label class="form-label" for="address-line1">Line 1</label>
-          <input class="form-control" type="text" id="address-line1" required>
-          <div class="invalid-feedback">Please fill in your address!</div>
+          <label class="form-label" for="address-company">Pincode</label>
+          <input class="form-control" type="number" id="address-company" name="pincode" required>
         </div>
-        <div class="col-sm-6">
-          <label class="form-label" for="address-line2">Line 2</label>
-          <input class="form-control" type="text" id="address-line2">
-        </div>
-        <div class="col-sm-6">
-          <label class="form-label" for="address-zip">ZIP code</label>
-          <input class="form-control" type="text" id="address-zip" required>
-          <div class="invalid-feedback">Please add your ZIP code!</div>
-        </div>
-      
       </div>
     </div>
     <div class="modal-footer">
-
-      <button class="btn btn-primary btn-shadow" type="submit">Add address</button>
+      <button class="btn btn-primary btn-shadow" type="submit"> Add address</button>
     </div>
   </div>
+  </form>
 </div>
-  
-<%- include('../users/layouts/foot') %>
+          
+
+      
+  <%- include('../users/layouts/foot') %>
 <%- include('../users/layouts/footer') %>
