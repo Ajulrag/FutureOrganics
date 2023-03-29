@@ -24,14 +24,9 @@ user_route.get('/profile',userAuth.isLogin,userController.getProfile);
 user_route.post('/profile/updateuser/:id',userAuth.isLogin,userController.updateUser);
 user_route.get('/cart/checkout',userAuth.isLogin,userController.getCheckout);
 user_route.post('/cart/checkout/placeorder',userAuth.isLogin,userController.placeOrder);
-
 user_route.get('/profile/address',userAuth.isLogin,userController.getAddress);
-
 user_route.get('/profile/addaddress',userAuth.isLogin,userController.getAddAddress);
 user_route.post('/profile/addaddress',userAuth.isLogin,userController.doAddAddress);
-
-
-
 user_route.get('/profile/orders',userAuth.isLogin,userController.getOrders)
 
 

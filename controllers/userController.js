@@ -267,9 +267,7 @@ const doLogout = async(req,res,next) => {
 const getSingleProduct = async (req,res,next) => {
   try {
     let usersession = req.session.user;
-    
     const id = mongoose.Types.ObjectId(req.params.id);
-   
     const product = await Product.findById(id);
     const cart = await Cart.findById(usersession._id)
     
@@ -416,7 +414,12 @@ const removeFromCart = async (req,res,next) => {
   try {
     const id = req.params.id;
     const product = await Cart.findByIdAndUpdate(req.session.user._id,{$pull: { products: { proId: id} }})
-    res.redirect('/cart')
+    if (req.get('Origin')) {
+      console.log(543125245)
+      return
+    }
+    res.json({success: true})
+    // res.redirect('/cart')
   } catch (error) {
     next(error)
   }
@@ -441,9 +444,9 @@ const getCheckout = async (req,res,next) => {
 //GETTING ADDRESS PAGE
 const getAddress = async(req,res,next) => {
   try {
-    
     let user = req.session.user;
-    res.render('users/addresses',{user})
+    const userAddresses = await Address.findOne({_id: user}).populate('addresses._id');
+    res.render('users/addresses',{user,userAddresses})
   } catch (error) {
     next(error);
   }
@@ -510,9 +513,12 @@ const getOrders = async(req,res,next) => {
   try {
     const user = req.session.user._id;
     const userData = req.session.user;
-    res.render('users/orders',{user,userData});
+    const orders = await Order.find({customer:user}).populate('products.product');
+    console.log(orders);
+    res.render('users/orders',{user,userData,orders});
   } catch (error) {
-    next();
+    console.log(error);
+    next(error);
   }
 } 
 

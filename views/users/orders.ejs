@@ -59,28 +59,40 @@
         </div>
         <!-- Profile form-->
         
-
+        <% if(!orders || orders.length < 1){ %>
+          <section class="d-flex align-items-center justify-content-center empty-cart">
+              <img src="/img/empty_cart.jpg" alt="cart is empty">
+              <hr>
+             
+          </section>
+          <div class="align-items-center justify-content-center "><a href="/getallproducts">Contenue Shopping</a></div>
+          <% } else { %>
         <table class="table">
             <thead>
               <tr>
-                <th scope="col">No.</th>
                 <th scope="col">Order Id</th>
-                <th scope="col">Date</th>
+                <th scope="col">Ordered Date</th>
+                <th scope="col">Product</th>
                 <th scope="col">Status</th>
               </tr>
             </thead>
             <tbody>
+              
               <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <%orders.forEach(order => {%>
+                <th ><%= order._id%></th>
+                <td><%= order.createdAt.toISOString().substring(0,10)%></td>
+                    <% order.products.forEach(product => {%>
+                  <td style="max-width: 100px;word-wrap: break-word"><%= product.product.product%></td>
+                   <%})%>
+                <td><%= order.status%></td>
+                
               </tr>
-             
-             
+              <%})%>
             </tbody>
           </table>
       </section>
     </div>
   </div>
+  <% } %>
   <%- include('../users/layouts/foot') %>

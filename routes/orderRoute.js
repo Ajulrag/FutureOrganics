@@ -5,6 +5,7 @@ const adminAuth = require('../middlewares/adminAuth');
 
 
 orderRoute.get('/',adminAuth.isLogin,orderController.getOrders);
+orderRoute.get('/editorder/:id',adminAuth.isLogin,orderController.getEditOrder);
 
 
 module.exports = orderRoute;

@@ -1,13 +1,19 @@
 <%- include('../users/layouts/head')%>
 <%- include('../users/layouts/header') %> 
 <main>
+
   <% if(!products || products?.products.length < 1){ %>
+    <div style="align-items: center;text-align: center;justify-content: center;">
     <section class="d-flex align-items-center justify-content-center empty-cart">
-        <img src="/img/empty_cart.jpg" alt="cart is empty">
+      <img src="https://assets.materialup.com/uploads/66fb8bdf-29db-40a2-996b-60f3192ea7f0/preview.png" style="height: 300px;" alt="">
+      
         <hr>
        
     </section>
-    <div class="align-items-center justify-content-center "><a href="/getallproducts">Contenue Shopping</a></div>
+    <i class="fa fa-shopping-cart" style="font-size:28px;color:rgb(0, 255, 26)">YOU DONT HAVE ANY PRODUCT INYOUR CART!!!</i>
+    <div style="border: 2px solid rgb(255, 255, 255); background-color: rgb(81, 255, 0); color: aqua;"><a href="/getallproducts">Contenue Shopping</a></div>
+  </div>
+   
     <% } else { %>
 <div class="page-title-overlap bg-dark pt-4">
     <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
@@ -61,7 +67,7 @@
             <button class="qty-btn inc" data-id="<%= product.proId._id %>" value="+" id="inc<%= product.proId._id%>" onclick="updateCart(1, this)">+</button>
 
             
-              <a href="/cart/remove/<%= product.proId._id %>" id="dlt-btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+              <!-- <a href="/cart/remove/<%= product.proId._id %>" data-id = '<%=product.proId._id%>' id="dlt-btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16"> -->
                 <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
               </svg></a>
 
@@ -104,13 +110,42 @@
   </div>
   <% } %>
 </main>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
   let incrementBtn = document.getElementsByClassName('inc');
   let decrementBtn = document.getElementsByClassName('dec');
   
+
+
+  function removeFromCart(e) {
+    fetch(`/cart/remove/${e.dataset.id}`)
+    .then((response)=> response.json())
+    .then((data)=> {
+      if (data.success) {
+        location.reload()
+      }
+    })
+  }
     
     //UPDATE CART REQUEST
     function updateCart(reqaction, e) {
+
+      if (reqaction == -1 && e.parentElement.children[1].value == 1 ) {
+        swal({
+  title: "Are you sure?",
+  text: "Once deleted, you will not be able to recover this imaginary file!",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {   
+    return removeFromCart(e)
+  } else {
+    swal("Your imaginary file is safe!");
+  }
+});
+      } else {
         fetch(`/cart/update?q=${e.dataset.id}`,
             {
                 method: 'POST',
@@ -138,6 +173,9 @@
             .catch(err => {
               alert(err);
             })
+      }
+
+       
     }
 
 
@@ -145,8 +183,8 @@
   dltBtn.addEventListener('click', (e)=> {
     e.preventDefault();
     
-    if ( confirm('Are you sure')) {
-      location.href =dltBtn.href;
+    if ( confirm('Are you sure want to remove this product from your cart?')) {
+      removeFromCart(e)
     } else {
       alert( 'okay')
     }
