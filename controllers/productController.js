@@ -44,6 +44,8 @@ const getAddproducts = async (req,res,next) => {
 //ADDING NEW PRODUCTS
 const addProducts = async(req,res,next) => {
     try {
+        const orders = "ajul";
+        console.log(orders);
         let productpictures = [];
         if(req.files.length > 0) {
             productpictures = req.files.map((file) => {
