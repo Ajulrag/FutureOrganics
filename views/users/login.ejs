@@ -5,7 +5,7 @@
   <div class="containere">
     
   <form action="/login" method="post">
-       <img src="/img/FUTURELOGO1.png" id="img" alt="">
+       <img src="/img/FutureOrganics_logo.png" id="img" alt="">
     <div class="mb-3">
      
       
@@ -19,13 +19,13 @@
     </div>
   
     
-    <div style="padding-top: 10px;"><button  type="submit" class="btn btn-danger mt-5 " >Log In</button></div>
-    <div style="padding-top: 10px;" ><a id="user-signup" href="/registration">Dont have account? Signup</a></div>
+    <div style="padding-top: 10px; "><button style="background-color: #ccdd59;"  type="submit" class="btn mt-5 " >Log In</button></div>
+    <div style="padding-top: 20px;" ><a style="color: yellowgreen;" href="/registration">Dont have account? Signup</a></div>
   </form>
   <%
   if(typeof message !== 'undefined') {
       %>
-      <p style="color: rgb(255, 0, 0);padding-top: 50px;"><%= message %></p>
+      <p style="color: rgb(255, 0, 0);"><%= message %></p>
       <%
   }
   %>

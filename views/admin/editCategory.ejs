@@ -2,7 +2,7 @@
 <div class="col-lg" style="padding: 30px;">
   <div class="card"  style="height: 100vh;">
     <div class="card-body" >
-      <form action="/admin/editcategory/<%=category._id%>" method="post">
+      <form action="/admin/categories/editcategory/<%=category._id%>" method="post">
         <div class="form-group">
           <label>Category Name</label>
           <input
@@ -24,21 +24,15 @@
           />
         </div>
         <div style="padding-top: 15px;">
-        <select name="status" >
+          <select name="status" >
             <option value="list">List</option>
             <option value="unlist">Unlist</option>
           </select>
         </div>
         <div style="padding-top: 60px;">
-        <button type="submit" class="btn btn-primary" >Update</button>
-    </div>
-
-    
-
-        
-    
+          <button type="submit" class="btn btn-primary" >Update</button>
+        </div>
       </form>
-
       <p style="color: rgb(255, 17, 17)"><%= message %></p>
     </div>
   </div>

@@ -1,121 +1,73 @@
-<header id="header">
-    <div class="container">
-        <div class="header-top" style="height: 75px;">
-            <div class="row align-items-center" style="height:80px;">
-                <!-- Header Left -->
-                <div class="col-lg-5 col-md-5 col-sm-12">
-                    <!-- Main Menu -->
-                    <div id="main-menu">
-                        <ul class="menu">
-                            <li class="dropdown">
-                                <a href="/" title="Homepage">Home</a>
-                            </li>
-                            
-                            <li class="dropdown">
-                                <a href="#" title="Product">Categories</a>
-                            </li>
-                        
-                            <li>
-                                <a href="#">About Us</a>
-                            </li>
-                            
-                            <li>
-                                <a href="#">Contact</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Header Center -->
-                <div class="col-lg-2 block-cart col-md-2 col-sm-12 header-center justify-content-center ">
-                    <!-- Logo -->
-                    <div class="logo">
-                        <a href="/">
-                            <img class="img-responsive" src="img/FUTURELOGO1.png" alt="Logo" style="height: 80px;padding-left: 14px;">
-                        </a>
-                    </div>
-                    
-                    <span id="toggle-mobile-menu"><i class="zmdi zmdi-menu"></i></span>
-                </div>
-                
-                
-                <!-- Header Right -->
-                <div class="col-lg-5 col-md-5 col-sm-12 header-right d-flex justify-content-end align-items-center">
-                  
-                    <!-- Search -->							
-                    <div class="form-search">
-                        <form action="#" method="get">
-                            <input type="text" class="form-input" placeholder="Search">
-                            <button type="submit" class="fa fa-search"></button>
-                        </form>
-                    </div>
-                    <% if(usersession) { %> 
-                    <div class="block-cart">
-                        <div class="cart-title">
-                            <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-                            <span class="cart-count"></span>
-                        </div>
-                    </div>
-                    <% } %>
-                    
-                    <!-- Cart -->
-                    <% if(usersession) { %> 
-                    <div class=" dropdown">
-                      
-                        <% } %>
 
-                        <div class="my-account dropdown toggle-icon">
-                        <% if(usersession) { %> 
-                        
-                        <div class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="zmdi zmdi-menu"></i>
-                            <% }else{ %>
-                                <a href="/login"> <button class="btn btn-primary" type="submit" >LOGIN</button></a>
-                            
-                            <% } %>
-                        </div>
-                        <div class="dropdown-menu">	
-                            <% if(usersession) { %>  			
-                            <div class="item">
-                                <a href="#" title="Log in to your customer account"><i class="fa fa-cog"></i>My Account</a>
-                            </div>
-                            <% } %>	
-                         
-                            <!-- <% if(usersession) { %>  <% }else{ %>  <% } %> -->
-                            <div class="item">
-                                <% if(usersession) { %>
-                                <a href="/logout" title="My Wishlists"><i class="fa fa-sign-out"></i>Logout</a>
-                                <% }else{ %>
-                                <a href="/login" title="Log in to your customer account"><i class="fa fa-sign-in"></i>Login</a>
-                               <% } %>
-                                
-                            
-                            </div>
-                            
-                            <!-- <div class="item">
-                                <a href="/registration" title="Register Account"><i class="fa fa-user"></i>Register</a>
-                            </div> -->
-                            <% if(usersession) { %>
-                            <div class="item">
-                                <a href="#" title="My Wishlists"><i class="fa fa-heart"></i>My Wishlists</a>
-                            </div>
-                            <% } %>	
-                            
-                           
-                        </div>
-                    </div>
-                        
-                    </div>
-                    
-                    
-                    <!-- My Account -->
+  <!-- Google Tag Manager (noscript)-->
+  <noscript>
+    <iframe src="http://www.googletagmanager.com/ns.html?id=GTM-WKV3GT5" height="0" width="0" style="display: none; visibility: hidden;"></iframe>
+  </noscript>
+
+  <main class="page-wrapper">
+
+    <!-- Navbar Electronics Store-->
+    <header class="shadow-sm">
+     
+      <div class="navbar-sticky bg-light">
+        <div style="max-height: 115px;" class="navbar navbar-expand-lg navbar-light">
+          <div  class="container"><a class="navbar-brand d-none d-sm-block me-3 flex-shrink-0" href="/"><img src="/img/FutureOrganics_logo.png" width="142" alt="Future Organics"></a><a class="navbar-brand d-sm-none me-2" href="home.ejs"><img src="/img/FutureOrganics_logo.png" width="74" alt="Futureorganics"></a>
+            <!-- Search-->
+            <div class="input-group d-none d-lg-flex flex-nowrap mx-4"><i class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+              <input class="form-control rounded-start w-100" type="text" placeholder="Search for products">
 
 
-                    
-                </div>
+
+              <!-- <select class="form-select flex-shrink-0" style="width: 10.5rem;">
+                <option>All categories</option>
+                <option>Vegitables</option>
+                <option>Fruits</option>
+                <option>Honey</option>
+                <option>Tea</option>
+                <option>Bread</option>
+              </select> -->
             </div>
+            <!-- Toolbar-->
+            <div class="navbar-toolbar d-flex flex-shrink-0 align-items-center">
+              <% if(user) { %>
+                <div class="item">
+                  <img style="height: 20px; width: 20px;"  src="https://cdn-icons-png.flaticon.com/512/2609/2609282.png" alt="">
+                  <a href="/profile" class="fa fa-cog" >My Account</a>
+              </div>
+                <!-- <a href="/logout" title="My Wishlists" class="btn btn-danger"><i class="fa fa-sign-out"></i>Logout</a> -->
+                <% }else{ %>
+                  <div style="height: 40px;width: 80px;color: rgb(255, 255, 255); background-color: #42d697 ;border: 3px solid rgb(255, 255, 255);border-radius: 5px;display: flex;align-items: center;justify-content: center; ">
+                  <img src="https://cdn-icons-png.flaticon.com/512/295/295128.png" style="height: 20px; width: 20px;" alt="">
+                <a href="/login" style="color: #ffffff;"><i class="fa fa-sign-in"></i>Login</a>
+                  </div>
+               <% } %>
+              <div class="navbar-tool dropdown ms-3"><a class="navbar-tool-icon-box bg-secondary dropdown-toggle" href="/cart"><span class="navbar-tool"></span><i class="navbar-tool-icon ci-cart"></i></a>
+                
+              </div>
+            </div>
+          </div>
         </div>
-    </div>	
-</header>
+        <div class="navbar navbar-expand-lg  navbar-stuck-menu mt-n2 pt-0 pb-2" style="background: #42d697;">
+          <div class="container">
+            <div class="collapse navbar-collapse  justify-content-center" id="navbarCollapse">
+              <!-- Search-->
+              <div class="input-group d-lg-none my-3"><i class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                <input class="form-control rounded-start" type="text" placeholder="Search for products">
+              </div>
+             
+              <!-- Primary menu-->
+              <ul class="navbar-nav">
+                <li  class="nav-item dropdown active"><a style="color: #ffffff;" class="nav-link dropdown-toggle" href="/" >Home</a></li>
+                <li class="nav-item dropdown active"><a style="color: #ffffff;" class="nav-link dropdown-toggle" href="/getallproducts" >Shop</a></li>
+                <li class="nav-item dropdown"><a style="color: #ffffff;" class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside">Contact Us</a></li>
+              </ul>
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  
 
-
+    
+    

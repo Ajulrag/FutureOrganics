@@ -1,0 +1,113 @@
+  <%- include('../users/layouts/head')%>
+  <%- include('../users/layouts/header') %> 
+<main class="page-wrapper">
+    <!-- Navbar Marketplace-->
+    <!-- Remove "navbar-sticky" class to make navigation bar scrollable with the page.-->
+    
+    <!-- Page Title-->
+    <div class="page-title bg-success pt-4">
+      <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+        <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
+              <li class="breadcrumb-item"><a class="text-nowrap" href="index.html"><i class="ci-home"></i>Home</a></li>
+              <li class="breadcrumb-item text-nowrap"><a href="marketplace-category.html">Market</a>
+              </li>
+              <li class="breadcrumb-item text-nowrap active" aria-current="page">Checkout</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
+          <h1 class="h3 text-light mb-0">Checkout</h1>
+        </div>
+      </div>
+    </div>
+    <div class="container mb-5 pb-3">
+      <div class="bg-light shadow-lg rounded-3 overflow-hidden">
+        <div class="row">
+          <!-- Content-->
+          <section class="col-lg-8 pt-2 pt-lg-4 pb-4 mb-3">
+            <div class="pt-2 px-4 pe-lg-0 ps-xl-5">
+              <!-- Title-->
+              <h2 class="h6 border-bottom pb-3 mb-3">Billing details</h2>
+              <!-- Billing detail-->
+              <div><a href="/profile/addaddress">Add New Address</a></div>
+              <div class="form-check">
+                <form action="checkout/placeorder/" method="POST">
+              <% userAddresses?.addresses.forEach(address => {%>
+                <input class="form-check-input" type="radio" name="address" value="<%= address._id%>" id="flexRadioDefault1" required>
+                <label class="form-check-label" for="flexRadioDefault1"></label>
+                  
+                    <%= address.name%> <br>
+                    <%= address.mobile%><br>
+                    <%= address.street%><br>
+                    <%= address.locality%><br>
+                    <%= address.city%><br>
+                    <%= address.country%><br>
+                    <%= address.state%><br>
+                    <%= address.pincode%><br>
+                    
+                
+              <% }) %>
+              </div>
+              
+             <div style="margin-top: 30px;"><h3>Payment Method</h3></div>
+             <input class="form-check-input" type="radio" name="payment" value="cod" id="flexRadioDefault1" required>
+                <label class="form-check-label" for="flexRadioDefault1">COD</label>
+
+              <!-- Order preview on mobile (screens small than 991px)-->
+              <% let total1=0 %>
+              <div class="widget mb-3 d-lg-none">
+                <h2 class="widget-title">Order summary</h2>
+                <% userCart.products.forEach(product=> {%>
+                <div class="d-flex align-items-center pb-2 border-bottom"><a class="d-block flex-shrink-0 me-2" href="/singleproduct/<%= product.proId %>"><img class="rounded-1" src="<%= product.image %>" width="64" alt="Product"></a>
+                  <div class="ps-1">
+                    <h6 class="widget-product-title"><a href="/singleproduct/<%= product._id %>"><%= product.name%></a></h6>
+                    <div class="widget-product-meta"><span class="text-accent border-end pe-2 me-2">RS:<%= (product.price)*(product.quantity)%><small>.00</small></div>
+                  </div>
+                </div>
+                <%total1 += (product.price)*(product.quantity) %>
+                <% }) %>
+                <ul class="list-unstyled fs-sm pt-3 pb-2 border-bottom">
+                  <li class="d-flex justify-content-between align-items-center"><span class="me-2">Total:</span><span class="text-end">rs.<%= total1%><small>.00</small></span></li>
+                  <li class="d-flex justify-content-between align-items-center"><span class="me-2">Delivery charges:</span><span class="text-end">rs.40<small>.00</small></span></li>
+                </ul>
+              </div>
+             
+                
+                <h3 class="fw-normal text-end  my">Total:      <%= total1+40%><small>.00</small></h3>
+            
+                <a > <button class="btn btn-success d-block w-100" type="submit"> Place order</button></a>
+              
+              </form>
+            </div>
+          </section>
+          <!-- Sidebar-->
+          <!-- Order preview on desktop (screens larger than 991px)-->
+          <aside class="col-lg-4 d-none d-lg-block ps-xl-5">
+            <hr class="d-lg-none">
+            <div class="p-4 h-100 ms-auto border-start">
+              <div class="widget px-lg-2 py-2 mb-3">
+                <h2 class="widget-title text-center">Order summary</h2>
+                <% let total2=0 %>
+                <% userCart.products.forEach(product=> {%>
+                <div class="d-flex align-items-center pb-2 border-bottom"><a class="d-block flex-shrink-0 me-2" href="/singleproduct/<%= product.proId %>"><img class="rounded-1" src="<%= product.image %>" width="64" alt="Product"></a>
+                  <div class="ps-1">
+                    <h6 class="widget-product-title"><a href="/singleproduct/<%= product.proId %>"><%= product.name%></a></h6>
+                    <div class="widget-product-meta"><span class="text-accent border-end pe-2 me-2">RS:<%= (product.price)*(product.quantity)%>.<small>.00</small></span>Quantity:<%=product.quantity %></div>
+                  </div>
+                </div>
+                <%total2 += (product.price)*(product.quantity) %>
+                <% }) %>
+                <ul class="list-unstyled fs-sm pt-3 pb-2 border-bottom">
+                  <li class="d-flex justify-content-between align-items-center"><span class="me-2" >Total:</span><span class="text-end">rs.<%= total2%><small>.00</small></span></li>
+                  <li class="d-flex justify-content-between align-items-center"><span class="me-2">Delivery charges:</span><span class="text-end">rs.40<small>.00</small></span></li>
+                </ul>
+              </div>
+              
+          </aside>
+        </div>
+      </div>
+    </div>
+  </main>
+  <%- include('../users/layouts/foot')%>

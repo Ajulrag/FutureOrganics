@@ -1,0 +1,75 @@
+<%- include('../users/layouts/head') %> 
+<%- include('../users/layouts/header') %>      
+<div class="container">
+  <form action="/profile/addaddress" method="post">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Add a new address</h5>
+      <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="row gx-4 gy-3">
+        <div class="col-sm-6">
+          <label class="form-label" for="address-fn">Name</label>
+          <input class="form-control" type="text" id="address-fn" name="name" required>
+        </div>
+        <div class="col-sm-6">
+          <label class="form-label" for="address-ln">Mobile</label>
+          <input class="form-control" type="number" id="address-ln" name="mobile" required>
+        </div>
+        <div class="col-sm-6">
+          <label class="form-label" for="address-company">Street</label>
+          <input class="form-control" type="text" id="address-company" name="street" required>
+        </div>
+        <div class="col-sm-6">
+          <label class="form-label" for="address-company">Locality</label>
+          <input class="form-control" type="text" id="address-company" name="locality" required>
+        </div>
+        <div class="col-sm-6">
+          <label class="form-label" for="address-company">City</label>
+          <input class="form-control" type="text" id="address-company" name="city" required>
+        </div>
+        <div class="col-sm-6">
+          <label class="form-label" for="address-country">Country</label>
+          <select class="form-select" id="address-country" name="country" required>
+            <option value>Select country</option>
+            <option value="India">India</option>
+            <option value="Argentina">Argentina</option>
+            <option value="Belgium">Belgium</option>
+            <option value="France">France</option>
+            <option value="Germany">Germany</option>
+            <option value="Spain">Spain</option>
+            <option value="UK">United Kingdom</option>
+            <option value="USA">USA</option>
+          </select>
+          <div class="invalid-feedback">Please select your country!</div>
+        </div>
+        <div class="col-sm-6">
+          <label class="form-label" for="address-country">State</label>
+          <select class="form-select" id="address-country" name="state" required>
+            <option value>Select State</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Tamilnadu">Tamilnadu</option>
+            <option value="Bombai">Bombai</option>
+            <option value="Goa">Goa</option>
+            <option value="Sikkim">Sikkim</option>
+          </select>
+        </div>
+        <div class="col-sm-6">
+          <label class="form-label" for="address-company">Pincode</label>
+          <input class="form-control" type="number" id="address-company" name="pincode" required>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary btn-shadow" type="submit"> Add address</button>
+    </div>
+  </div>
+  </form>
+</div>
+          
+
+      
+  <%- include('../users/layouts/foot') %>
+<%- include('../users/layouts/footer') %>

@@ -7,6 +7,7 @@ const flash = require("connect-flash");
 const env = require("dotenv").config();
 const path = require('path');
 const session = require('express-session');
+const cors = require('cors');
 const MongoStore = require('connect-mongodb-session')(session);
 
 const sessionStore = new MongoStore({
@@ -14,9 +15,16 @@ const sessionStore = new MongoStore({
     collection: 'sessions',
 })
 
+app.use(cors());
+app.options('*',cors());
+
 //ROUTES
 const userRoute = require('./routes/userRoute');
 const adminRoute = require('./routes/adminRoute');
+const productRoute = require('./routes/productRoute');
+const categoryRoute = require('./routes/categoryRoute');
+const orderRoute =  require('./routes/orderRoute');
+const userManagmentRoute = require('./routes/userManagmentRoute');
 
 //DATABASE CONNECTION
 const dbConnect = require('./config/dbConnection');
@@ -45,7 +53,7 @@ app.use(function (req, res, next) {
     next();
     })
 app.use(session(
-    {secret:"key",
+    {secret:process.env.KEY,
     cookie:{maxAge:1*60*60*1000},
     resave:false,
     saveUninitialized:true,
@@ -59,15 +67,33 @@ app.use(session(
 app.set('view engine','ejs');
 app.set("views",path.join(__dirname,"views"));
 app.use(express.static(path.join(__dirname,"public")));
-app.use(userRoute);
-app.use(adminRoute);
 
 //ROUTES
-app.use('/',userRoute);
+app.use('/admin/products',productRoute);
+app.use('/admin/categories',categoryRoute);
+app.use('/admin/usermanagment',userManagmentRoute);
+app.use('/admin/orders',orderRoute);
 app.use('/admin',adminRoute);
+app.use('/',userRoute);
 
 
 
+// error handler
+app.use((err, req, res, next)=>{
+    if (req.get('Origin')) {
+      res.status(err.status || 500).json({
+        error: {
+          status: err.status || 500,
+          message: err.message || 'internal server error',
+        },
+      });
+    } else {
+      res.render('common/500', {message: err.message});
+  };
+});
+
+
+app.get('*', (req, res) => res.render('common/404',{err: req.flash("err")}));
 
 //SERVER CREATION
 app.listen(PORT, () => {

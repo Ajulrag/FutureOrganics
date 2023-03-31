@@ -1,109 +1,134 @@
 const multer = require("multer");
 const Product = require("../models/productModel");
+const Category = require('../models/categoryModel');
 const path = require('path');
 
 
-//MULTER STORAGE
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null,path.join(__dirname, '../public/uploads'))
-    },
-    filename: function (req, file, cb) {
-      const name =Date.now()+'-'+file.originalname;
-      cb(null, name);
-    }
-  })
 
-  const upload = multer({ storage: storage })
+
 
 
 
 //GETTING PRODUCT MANAGMENT
-const getProductmanagment = async(req,res) => {
+const getProductmanagment = async(req,res,next) => {
     try {
         if(req.session.admin_id) {
-            const productlist = await Product.find();
-            res.render("admin/products",{ productlist });
+            const productlist = await Product.find({isDelete: false}).populate({path:'category', model:'categories'});
+            const product = req.session.product;
+            delete req.session.product;
+            res.render("admin/products",{ productlist, product });
         }else{
             res.redirect("/adminLogin");
         }
-        
     } catch (error) {
-        console.log(error.message);
+        next(error);
     }
 }
 
 
 //GETTING ADD PRODUCTS
-const getAddproducts = async (req,res) => {
+const getAddproducts = async (req,res,next) => {
     try {
         if (req.session.admin_id) {
-            res.render("admin/addProduct",{ message: req.flash("error") });
+            const categoryList = await Category.find({status:"list"});
+            res.render("admin/addProduct",{categoryList, message: req.flash("error") });
         } else {
             res.redirect("/product")
         }
-        
     } catch (error) {
-        console.log(error.message);
+        next(error);
     }
 }
 
 
 //ADDING NEW PRODUCTS
-const addProducts = async(req,res) => {
+const addProducts = async(req,res,next) => {
     try {
-        const fieldName = req.file.filename
+        const orders = "ajul";
+        console.log(orders);
+        let productpictures = [];
+        if(req.files.length > 0) {
+            productpictures = req.files.map((file) => {
+                return { img:file.filename}
+            });
+        }
         const product = new Product({
             product: req.body.product,
             category: req.body.category,
             description: req.body.description,
-            image: fieldName,
+            image: productpictures,
+            price:req.body.price,
             stock: req.body.stock,
-            status: req.body.status
-        })
-
+            status: req.body.status,
+            isFeatured: req.body.isFeatured,
+        });
         const product_data = await product.save();
-
-        res.redirect('/admin/products');
+            req.session.product = true;
+            res.redirect('/admin/products');
+        
     } catch (error) {
-        console.log(error.message);
+        next(error);
     }
 }
 
 
 //GET EDIT PRODUCT
-const getEditProduct = async (req,res) => {
+const getEditProduct = async (req,res,next) => {
     try {
         const id = req.params.id;
-
-        const productData = await Product.findById({ _id: id});
-
+        const categoryList = await Category.find({status:"list"});
+        const productData = await Product.findById(id);
+        const editproduct = req.session.product;
+        delete req.session.product;
         if(productData) {
-            res.render("admin/editProduct",{product:productData,message:req.flash("error")});
+            
+            res.render("admin/editProduct",{product:productData,editproduct,categoryList,message:req.flash("error")});
         }else{
             res.redirect("/admin/products");
         }
     } catch (error) {
-        console.log(error.message);
+        next(error);
     }
 }
 
 //EDITING PRODUCT
-const editProduct = async (req,res) => {
+const editProduct = async (req,res,next) => {
     const id = req.params.id;
     try {
-        req.body.image = [req.file.filename]
+        console.log(req.files)
+        let productpictures = [];
+        if(req.files.length > 0) {
+            productpictures = req.files.map((file) => {
+                return { img:file.filename}
+            });
+            req.body.image = productpictures;
+        }
         const productData = await Product.updateOne({_id:id},req.body);
-
+        
         if(productData){
-            req.flash("Success", "Product updated succesfully")
+            req.session.editproduct = true;
             res.redirect("/admin/products")
         }else{
-            res.flash("error", "Product updation failed!!!")
+            
             res.redirect("/admin/editproduct");
         }
     } catch (error) {
-        console.log(error.message);
+        next(error);
+    }
+}
+
+
+
+
+
+//DELETING PRODUCT
+const deleteProduct = async(req,res,next) => {
+    try {
+        const id = req.params.id;
+        const product = await Product.findByIdAndUpdate({_id:id},{$set:{isDelete:true}});
+        const product_data = await product.save().then( res.redirect("/admin/products"));
+    } catch (error) {
+        next(error);
     }
 }
 
@@ -113,5 +138,5 @@ module.exports = {
     addProducts,
     getEditProduct,
     editProduct,
-    upload,
+    deleteProduct,
 }

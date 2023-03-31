@@ -1,0 +1,25 @@
+<%- include('../admin/layouts/adminHeader') %>
+<div class="col-lg" style="padding: 30px; height: 100vh;" >
+  <div class="card"  style="height: 100vh;">
+    <div class="card-body" >
+      <form action="/admin/products/editproduct/<%=orderData._id%>" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label>Status</label>
+          <input type="text" value="<%=orderData.status%>" class="form-control" name="product" required />
+        </div>
+        <div class="form-group" style="padding-top: 15px;"> 
+            <select class="form-control" name="status" >
+              <option >Change Status</option>
+              <% orderData.forEach(status => {%>
+              <option value="<%=status.status%>"><%=status.status%></option>
+              <%}) %>
+            </select>
+          </div>
+      
+        <div style="padding-top: 60px;">
+          <button type="submit" class="btn btn-primary" >Update</button>
+        </div>     
+      </form>
+    </div>
+  </div>
+</div>

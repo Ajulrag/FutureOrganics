@@ -1,26 +1,48 @@
 <%- include('../users/layouts/head') %>
 <div class="registerwrap">
-<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-<div class="form-group" id="login-div">
-    <form action="/otp" method="post">
-      <div class="d-flex justify-content-center align-items-center">
-        <img src="https://static.thenounproject.com/png/2396814-200.png" id="img" alt="">
-      </div>
-      <div class="form-group">
-        <h1 style="text-align: center; color: rgb(52, 49, 195); font-weight: 800;font-size: medium;"  >Verification</h1>
-        <input type="number" name="otp" class="form-control"  placeholder="Enter OTP">
-      </div>
-      <div class="form-group d-flex justify-content-center">
-      <button type="submit" class="btn btn-primary ">Submit</button>
+  <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="form-group" id="login-div">
+      <form action="/otp" method="post">
+        <div class="d-flex justify-content-center align-items-center">
+          <img src="https://static.thenounproject.com/png/2396814-200.png" id="img" alt="">
+        </div>
+        <div class="form-group">
+          <h1 style="text-align: center; color: rgb(52, 49, 195); font-weight: 800;font-size: medium;"  >Verification</h1>
+          <input type="number" name="otp" class="form-control"  placeholder="Enter OTP">
+        </div>
+        <div style="padding-top: 20px;" class="form-group d-flex justify-content-center">
+          <button type="submit"  class="btn btn-primary ">Submit</button>
+        </div>
+      </form>
+      <div>
+        <a href="/resendotp"> <button id="resend" disabled>Resend OTP</button></a>
+        <div id="countdown-timer"></div>
       </div>
       <%
       if(typeof message !== 'undefined') {
           %>
-          <p style="color: green;"><%= message %></p>
+          <p id="otperr"><%= message %></p>
           <%
       }
       %>
-    </form>
+    </div>
+  </div>
 </div>
-</div>
-</div>
+<script>
+    window.onload=resendOTP();
+function resendOTP() {
+  const COUNTDOWN_SECONDS = 30;
+  let countdownInterval = null;
+  let remainingSeconds = COUNTDOWN_SECONDS;
+  countdownInterval = setInterval(() => {
+    remainingSeconds--;
+    if (remainingSeconds === 0) {
+      clearInterval(countdownInterval);
+      document.getElementById("countdown-timer").innerHTML = "";
+      document.getElementById("resend").disabled=false
+    } else {
+      document.getElementById("countdown-timer").innerHTML = `(Resend OTP in ${remainingSeconds} seconds)`;
+    }
+ },1000);
+}
+</script>

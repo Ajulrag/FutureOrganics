@@ -1,22 +1,19 @@
 <%- include('../admin/layouts/adminHeader') %>
-
 <div class="col-lg">
   <div class="card">
     <div class="card-body">
       <div style="display: flex; justify-content: space-between">
-        <h5 class="card-title"></h5>
+        <h5 class="card-title">Categories</h5>
         <div>
-          <form action="/admin/category" method="get">
+          <form action="/admin/categories/addcategory" method="get">
             <button class="btn btn-success me-md-2" type="submit">
               Add catogery
             </button>
           </form>
         </div>
       </div>
-      <br />
-
+      <br/>
       <div class="table-responsive">
-        <h2 class="mb-3">Categories</h2>
         <table id="dtBasicExample" class="table" width="100%">
           <thead>
             <tr>
@@ -32,7 +29,7 @@
               <td><%=category.category%></td>
               <td><%=category.description%></td>
               <td><%=category.status%></td>
-              <td><a class="btn btn-warning me-md-2" href="/admin/editcategory/<%= category._id %>">Edit</a></td>
+              <td><a class="btn btn-warning me-md-2" href="/admin/categories/editcategory/<%= category._id %>">Edit</a></td>
             </tr>
             <%}) %>
           </tbody>
@@ -42,9 +39,9 @@
   </div>
 </div>
 
-<script>
-  // $(document).ready(function () {
-  //   $("#dtBasicExample").DataTable();
-  //   // $(".dataTables_length").addClass("bs-select");
-  // });
-</script>
+<!-- <script>
+  $(document).ready(function () {
+    $("#dtBasicExample").DataTable();
+    $(".dataTables_length").addClass("bs-select");
+  });
+</script> -->
