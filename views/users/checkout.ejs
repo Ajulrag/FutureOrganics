@@ -31,8 +31,10 @@
               <!-- Title-->
               <h2 class="h6 border-bottom pb-3 mb-3">Billing details</h2>
               <!-- Billing detail-->
+              <button style="color: rgb(26, 194, 0);background-color: aliceblue;border: 1px solid white;height: 48px;width: 809px;"><img src="https://cdn2.iconfinder.com/data/icons/thin-line-color-1/21/06-1024.png" style="height:24px;width:23px;padding-bottom: 2px;" alt="">  ADD A NEW ADDRESS</button>
               <div><a href="/profile/addaddress">Add New Address</a></div>
-              <div class="form-check">
+              <div class="form-check ">
+                <div>
                 <form action="checkout/placeorder/" method="POST">
               <% userAddresses?.addresses.forEach(address => {%>
                 <input class="form-check-input" type="radio" name="address" value="<%= address._id%>" id="flexRadioDefault1" required>
@@ -49,6 +51,7 @@
                     
                 
               <% }) %>
+              </div>
               </div>
               
              <div style="margin-top: 30px;"><h3>Payment Method</h3></div>

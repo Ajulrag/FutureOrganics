@@ -56,18 +56,27 @@
           <h6 class="fs-base text-light mb-0">Update you profile details below:</h6><a class="btn btn-primary btn-sm" href="/logout"><i class="ci-sign-out me-2"></i>Sign out</a>
         </div>
      
-        <div style="height: 50px;border: 1px solid rgb(123, 123, 123); align-items: center; justify-content: center;text-align: center; background-color: rgb(255, 255, 255);"><i class="fa-solid fa-plus"></i><a style="color: rgb(6, 187, 242);align-items: center;text-align: center;justify-content: center;"  href="/profile/addaddress">Add New Address</a></div>
-              <div style="background-color: antiquewhite;">
+        <!-- <button style="height: 50px;border: 1px solid rgb(123, 123, 123); align-items: center; justify-content: center;text-align: center; background-color: rgb(255, 255, 255);"><i class="fa-solid fa-plus"></i><a style="color: rgb(6, 187, 242);align-items: center;text-align: center;justify-content: center;"  href="/profile/addaddress"><img src="https://www.creativefabrica.com/wp-content/uploads/2021/04/11/Medical-CrossPlus-Icon-Graphics-10662713-1.jpg" style="height: 50px;width: 50px;" alt=""> Add New Address</a></button> -->
+        <button style="color: rgb(26, 194, 0);background-color: aliceblue;border: 1px solid white;height: 48px;width: 809px;"><img src="https://o.remove.bg/downloads/78b4a745-74f8-4137-984d-2c92b5a6658a/500_F_251955466_7zEFs6dhjLvROKdfm2l1ZV3pO0tX90m7-removebg-preview.png" style="height:27px;width:26px;padding-bottom: 2px;" alt=""> ADD A NEW ADDRESS</button>
+              <div style="background-color: rgb(255, 255, 255);">
                 
               <% userAddresses?.addresses.forEach(address => {%>
-                    <%= address.name%> <br>
-                    <%= address.mobile%><br>
-                    <%= address.street%><br>
-                    <%= address.locality%><br>
-                    <%= address.city%><br>
-                    <%= address.country%><br>
-                    <%= address.state%><br>
-                    <%= address.pincode%><br>
+                    <div style="border: 1px solid; margin-top: 10px;height: 90px;justify-content: center;align-items: center;text-align:left;padding:10px;">
+                    <div class="d-flex justify-content-between">
+                      <%= address.name%></p>
+                      <button>...</button>
+                    </div>
+                    <p><%= address.mobile%>,
+                      <%= address.street%>,
+                      <%= address.locality%>,
+                      <%= address.city%>,<br>
+                      <%= address.country%>,
+                      <%= address.state%>-
+                      <%= address.pincode%></p>
+                      
+                    
+      
+                  </div>
               <% }) %>
               </div>
 

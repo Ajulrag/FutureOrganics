@@ -1,14 +1,16 @@
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
 const User = require("../models/userModel");
-const bcrypt = require("bcrypt");
-const nodemailer = require("nodemailer");
+const Cart = require('../models/cartModel');
+const Order = require('../models/orderModel');
+const Address = require('../models/addressModel');
+const Product = require('../models/productModel');
+const Wishlist = require('../models/wishlistModel');
 const Email = process.env.EMAIL;
 const Password = process.env.EMAILPASS;
-const Product = require('../models/productModel');
-const Cart = require('../models/cartModel');
-const Wishlist = require('../models/wishlistModel');
-const Address = require('../models/addressModel');
-const Order = require('../models/orderModel');
-const mongoose = require('mongoose')
+
+
 
 
 //SECURING PASSWORD
@@ -201,16 +203,12 @@ const doLogin = async (req, res, next) => {
         } else {
           req.session.error = 'This website has preventsed you from browsing this URL.For more informatiion visit the help center'
           res.redirect('/login');
-          console.log("preventsed");
         }
-        
       } else {
         res.render("users/login", { message: "Password is incorrect" });
-        console.log("password thett");
       }
     } else {
       res.render("users/login", { message: "No user found" });
-      console.log("catchile error");
     }
   } catch (error) {
     next(error);
@@ -235,18 +233,12 @@ const getProfile = async (req,res,next) => {
 const updateUser = async(req,res,next) => {
   const id=req.params.id;
   try {
-    
     const user = await User.updateOne({_id:id},req.body);
-    
     if(user){
       req.flash("Success","USer updated")
       res.redirect('/profile');
-    }else{
-      console.log("jdshfjdsbfkjsbfs");
     }
-    
   } catch (error) {
-    console.log("dkjasbdabhd");
     next();
   }
 }
@@ -269,13 +261,11 @@ const getSingleProduct = async (req,res,next) => {
     let usersession = req.session.user;
     const id = mongoose.Types.ObjectId(req.params.id);
     const product = await Product.findById(id);
-    const cart = await Cart.findById(usersession._id)
-    
+    const cart = await Cart.findById(usersession._id);
     const isInCart =  cart?.products.some(item => item.proId.equals(id));
     const user = req.session.user;
     res.render('users/singleProduct',{product,usersession,isInCart,user});
   } catch (error) {
-    console.log(error);
     next(error);
   }
 }
@@ -297,7 +287,6 @@ const getAllProducts= async (req,res,next) => {
 //ADD TO WISHLIST
 const addToWishlist = async (req,res,next) => {
   try {
-    
     const { prodId, userId } = req.body;
     const wishlist = await Wishlist.findById({userId});
   } catch (error) {
@@ -311,9 +300,7 @@ const getCart = async (req,res,next) => {
     const user_id = req.session.user._id;
     const user = req.session.user;
     const products = await Cart.findOne({_id: user_id }).populate('products.proId')
-    console.log(products);
       res.render('users/cart',{products,user});
-    
   } catch (error) {
     next(error);
   }
@@ -325,7 +312,6 @@ const addToCart = async(req,res, next) => {
     const { proId,name, price, image, quantity } = req.body;
     const user_id = req.session.user._id;
     const userCart =  await Cart.findOne({_id:user_id})
-  
     if(userCart){
       const isProduct = await Cart.findOne({proid: req.body.proId});
       if(isProduct){
@@ -352,9 +338,6 @@ const addToCart = async(req,res, next) => {
       
       }  
   } catch (error) {
-    
-    console.log(error);
-    // res.json(error)
     next(error);
   }
 }
@@ -364,7 +347,6 @@ const updateCart = async (req, res) => {
   let cart;
   const user= req.session.user._id;
   try {
-    
     let action = Number(req.body.action);
     let userCart = await Cart.findOneAndUpdate(
      
@@ -415,11 +397,9 @@ const removeFromCart = async (req,res,next) => {
     const id = req.params.id;
     const product = await Cart.findByIdAndUpdate(req.session.user._id,{$pull: { products: { proId: id} }})
     if (req.get('Origin')) {
-      console.log(543125245)
       return
     }
     res.json({success: true})
-    // res.redirect('/cart')
   } catch (error) {
     next(error)
   }

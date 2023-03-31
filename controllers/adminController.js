@@ -1,19 +1,5 @@
 const Admin = require("../models/adminModel");
 const bcrypt = require("bcrypt");
-const session = require("express-session");
-
-
-
-//SECURING PASSWORD
-const securePassword = async (password) => {
-  try {
-    const passwordHash = await bcrypt.hash(password, 10);
-    return passwordHash;
-  } catch (error) {
-    next(error);
-  }
-};
-
 
 
 
@@ -38,7 +24,6 @@ const doLogin = async (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     const adminData = await Admin.findOne({ email: email });
-    
     if (adminData) {
       const passwordMatch = await bcrypt.compare(password, adminData.password);
       if (passwordMatch) {
@@ -59,8 +44,8 @@ const doLogin = async (req, res, next) => {
 //GET ADMIN DASHBOARD
 const getDashboard = async(req,res,next) => {
   try {
-  let adminSession = req.session.admin_id
-   res.render("admin/dashboard",{adminSession})  
+    let adminSession = req.session.admin_id
+    res.render("admin/dashboard",{adminSession})  
   } catch (error) {
     next(error);
   }

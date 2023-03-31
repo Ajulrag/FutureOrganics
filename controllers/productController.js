@@ -44,8 +44,6 @@ const getAddproducts = async (req,res,next) => {
 //ADDING NEW PRODUCTS
 const addProducts = async(req,res,next) => {
     try {
-        const orders = "ajul";
-        console.log(orders);
         let productpictures = [];
         if(req.files.length > 0) {
             productpictures = req.files.map((file) => {
@@ -81,7 +79,6 @@ const getEditProduct = async (req,res,next) => {
         const editproduct = req.session.product;
         delete req.session.product;
         if(productData) {
-            
             res.render("admin/editProduct",{product:productData,editproduct,categoryList,message:req.flash("error")});
         }else{
             res.redirect("/admin/products");
@@ -104,7 +101,6 @@ const editProduct = async (req,res,next) => {
             req.body.image = productpictures;
         }
         const productData = await Product.updateOne({_id:id},req.body);
-        
         if(productData){
             req.session.editproduct = true;
             res.redirect("/admin/products")
