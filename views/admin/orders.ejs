@@ -15,7 +15,9 @@
                 <th scope="col">Order Id</th>
                 <th scope="col">Order Date</th>
                 <th scope="col">Product</th>
-                <th scope="col">Customer Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Payment</th>
                 <th scope="col">Address</th>
                 <th scope="col">Mobile</th>
                 <th scope="col">Status</th>
@@ -30,9 +32,10 @@
                 <td style="max-width: 100px;word-wrap: break-word"><%= order.createdAt.toISOString().substring(0,10)%></td>
                 <% order.products.forEach(product => {%>
                 <td style="max-width: 100px;word-wrap: break-word"><%= product.product.product%></td>
+                <td style="max-width: 100px;word-wrap: break-word"><%= product.product.quantity%></td>
                 <%})%>
                 <td style="max-width: 100px;word-wrap: break-word"><%= order.customer.name%></td>
-                
+                <td style="max-width: 100px;word-wrap: break-word"><%= order.customer.name%></td>
                 <td style="max-width: 100px;word-wrap: break-word"><%= order.shippingAddress.name%>,<%= order.shippingAddress.street%>,<%= order.shippingAddress.locality%></td>
                 <td style="max-width: 100px;word-wrap: break-word"><%= order.customer.mobile%></td>
                 

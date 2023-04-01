@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const Razorpay = require('razorpay');
 const nodemailer = require('nodemailer');
 const User = require("../models/userModel");
 const Cart = require('../models/cartModel');
@@ -11,7 +12,11 @@ const Email = process.env.EMAIL;
 const Password = process.env.EMAILPASS;
 
 
-
+//INITIATING RAZORPAY INSTANCE
+let instance = new Razorpay({
+  key_id: process.env.RAZORPAY_KEYID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET
+})
 
 //SECURING PASSWORD
 const securePassword = async (password) => {
@@ -505,6 +510,7 @@ const getOrders = async(req,res,next) => {
 //PLACING ORDER
 const placeOrder = async(req,res,next) => {
   try {
+    console.log(req.body);
     const userid = req.session.user._id;
     const userCart = await Cart.findOne({_id: userid }).populate('products.proId');
     const userAddresses = await Address.findOne({_id: userid})
@@ -525,7 +531,6 @@ const placeOrder = async(req,res,next) => {
         price : ele.price
       }
     })
-    console.log(products);
     const newOrder = new Order({
       customer: req.session.user,
       shippingAddress : address,
@@ -535,10 +540,13 @@ const placeOrder = async(req,res,next) => {
     const order_data = await newOrder.save();
     const cartItems = await Cart.findById(req.session.user._id);
     cartItems.products = [];
-    await cartItems.save()
+    await cartItems.save();
+    if(req.body.payment == 'COD'){
+      res.render('users/orderSuccess',{newOrder})
+    }else{
 
+    }
     
-    res.render('users/orderSuccess',{newOrder})
   } catch (error) {
     next(error);
   }

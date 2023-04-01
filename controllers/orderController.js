@@ -1,8 +1,8 @@
 const Order = require("../models/orderModel");
-const Category = require('../models/categoryModel');
 
 
-//GETTING ORDER MANAGMENT PAGE
+
+//GETTING ADMIN ORDER MANAGMENT PAGE
 const getOrders = async (req,res,next) => {
     try {
         if(req.session.admin_id) {
@@ -17,7 +17,7 @@ const getOrders = async (req,res,next) => {
     }
 }
 
-//GETTING EDIT ORDER MANAGMENT PAGE
+//GETTING ADMIN EDIT ORDER MANAGMENT PAGE
 const getEditOrder = async (req,res,next) => {
     try {
         const id = req.params.id;
