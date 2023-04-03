@@ -35,7 +35,7 @@
               <div></div>
               <div class="form-check ">
                 <div>
-                <form action="checkout/placeorder/" method="POST">
+            <form action="" method="POST" id="submit-form">
               <% userAddresses?.addresses.forEach(address => {%>
                 <input class="form-check-input" type="radio" name="address" value="<%= address._id%>" id="flexRadioDefault1" required>
                 <label class="form-check-label" for="flexRadioDefault1"></label>
@@ -85,9 +85,9 @@
                 
                 <h3 class="fw-normal text-end  my">Total:      <%= total1%><small>.00</small></h3>
             
-                <a > <button class="btn btn-success d-block w-100" type="submit"> Place order</button></a>
+                <a > <button class="btn btn-success d-block w-100"  type="submit"> Place order</button></a>
               
-              </form>
+            </form>
             </div>
           </section>
           <!-- Sidebar-->
@@ -117,4 +117,81 @@
       </div>
     </div>
   </main>
+
+<script>
+
+  //to plpace order
+
+  $('#submit-form').submit((el) => {
+    el.preventDefault()
+    $.ajax({
+      url:"/cart/checkout",
+      method:'post',
+      data:$("#submit-form").serialize(),
+
+      success:(response) => {   
+        if(response.cod){
+          location.href='/codsuccess';
+        } else{
+          razorPayment(response)
+        }
+      }
+    })
+  }
+)
+
+
+function razorPayment(order) {
+  console.log('--------razorpay----------');
+
+  var options = {
+    "key":'rzp_test_8emA6zzli6nGP1',
+    "amount":order.amount,
+    "currency": "INR",
+    "name":"Future Organics",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": order._id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+        verifyPayment(response,order)
+    },
+    "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9000090000"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+  }
+  console.log("Coming to last stage");
+
+  var rzp1 = new Razorpay(options);
+  rzp1.open();
+}
+
+
+function verifyPayment(response,order) {
+  $.ajax({
+    url:'/verify-razorpay',
+    data:JSON.stringify({response, order}),
+    method:'post',
+    success:(response) => {
+      console.log(response,"data is coming to the verify payment");
+      if(response.success==true) {
+        location.href='/onlinesuccess';
+      } else {
+        alert('payment faild');
+      }
+    }
+  })
+}
+</script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <%- include('../users/layouts/foot')%>
+
+
+  

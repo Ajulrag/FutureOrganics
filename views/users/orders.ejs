@@ -60,12 +60,12 @@
         <!-- Profile form-->
         
         <% if(!orders || orders.length < 1){ %>
-          <section class="d-flex align-items-center justify-content-center empty-cart">
-              <img src="/img/empty_cart.jpg" alt="cart is empty">
-              <hr>
+          <section class="d-flex align-items-center justify-content-center ">
+              <h1>Ooops!!!</h1>
+              <h3>You didnt Orderd anything</h3>
              
           </section>
-          <div class="align-items-center justify-content-center "><a href="/getallproducts">Contenue Shopping</a></div>
+          <button class="align-items-center justify-content-center " style="border: 0;background-color: rgb(255, 89, 0);margin-left: 350px;"><a style="color: aliceblue;" href="/getallproducts">SHOP NOW</a></button>
           <% } else { %>
         <table class="table">
             <thead>
@@ -73,6 +73,9 @@
                 <th scope="col">Order Id</th>
                 <th scope="col">Ordered Date</th>
                 <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Payment</th>
                 <th scope="col">Status</th>
               </tr>
             </thead>
@@ -85,7 +88,15 @@
                     <% order.products.forEach(product => {%>
                   <td style="max-width: 100px;word-wrap: break-word"><%= product.product.product%></td>
                    <%})%>
+                   
+                   <%order.products.forEach(product => {%>
+                    <td><%= product.quantity%></td>
+                   <td><%= product.price*product.quantity%></td>
+                   
+                   <%})%>
+                   <td><%= order.payment%></td>
                 <td><%= order.status%></td>
+                
                 
               </tr>
               <%})%>

@@ -22,8 +22,16 @@ user_route.get('/cart/remove/:id',userAuth.isLogin,userController.removeFromCart
 user_route.post('/addtowishlist/:id',userAuth.isLogin,userController.addToWishlist);
 user_route.get('/profile',userAuth.isLogin,userController.getProfile);
 user_route.post('/profile/updateuser/:id',userAuth.isLogin,userController.updateUser);
+
 user_route.get('/cart/checkout',userAuth.isLogin,userController.getCheckout);
-user_route.post('/cart/checkout/placeorder',userAuth.isLogin,userController.placeOrder);
+
+user_route.post('/cart/checkout',userAuth.isLogin,userController.placeOrder);
+user_route.get('/codsuccess',userAuth.isLogin,userController.getcodSuccess);
+user_route.get('/onlinesuccess',userAuth.isLogin,userController.getonlineSuccess);
+
+user_route.post('/verify-razorpay',userAuth.isLogin,userController.verifyRazorpay)
+
+
 user_route.get('/profile/address',userAuth.isLogin,userController.getAddress);
 user_route.get('/profile/addaddress',userAuth.isLogin,userController.getAddAddress);
 user_route.post('/profile/addaddress',userAuth.isLogin,userController.doAddAddress);

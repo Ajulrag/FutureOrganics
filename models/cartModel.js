@@ -37,9 +37,10 @@ const cartSchema = new Schema({
         default: true
       }
     }],
-    cartTotal: {
-      type: Number
-    }
+    // cartTotal: {
+    //   type: Number,
+    //   required: true
+    // }
 })
 
 module.exports = mongoose.model('carts',cartSchema);

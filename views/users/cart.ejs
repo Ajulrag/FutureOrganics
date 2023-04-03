@@ -133,7 +133,7 @@
       if (reqaction == -1 && e.parentElement.children[1].value == 1 ) {
         swal({
   title: "Are you sure?",
-  text: "Once deleted, you will not be able to recover this imaginary file!",
+  text: "Do you want to remove this product from cart",
   icon: "warning",
   buttons: true,
   dangerMode: true,
@@ -142,7 +142,7 @@
   if (willDelete) {   
     return removeFromCart(e)
   } else {
-    swal("Your imaginary file is safe!");
+    swal("Your product safe!");
   }
 });
       } else {

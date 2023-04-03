@@ -1,5 +1,6 @@
 const Admin = require("../models/adminModel");
 const bcrypt = require("bcrypt");
+const Order = require('../models/orderModel');
 
 
 
@@ -45,7 +46,8 @@ const doLogin = async (req, res, next) => {
 const getDashboard = async(req,res,next) => {
   try {
     let adminSession = req.session.admin_id
-    res.render("admin/dashboard",{adminSession})  
+    const orderList = await Order.find().populate('customer').populate('products.product');
+    res.render("admin/dashboard",{adminSession,orderList})  
   } catch (error) {
     next(error);
   }
