@@ -2,17 +2,23 @@
 <div class="col-lg" style="padding: 30px; height: 100vh;" >
   <div class="card"  style="height: 100vh;">
     <div class="card-body" >
-      <form action="/admin/products/editproduct/<%=orderData._id%>" method="post" enctype="multipart/form-data">
+      <form action="/admin/orders/editorder/<%=orderData._id%>" method="post" >
         <div class="form-group">
           <label>Status</label>
-          <input type="text" value="<%=orderData.status%>" class="form-control" name="product" required />
+          <input type="text" value="<%=orderData.status%>" class="form-control" disabled />
         </div>
         <div class="form-group" style="padding-top: 15px;"> 
             <select class="form-control" name="status" >
               <option >Change Status</option>
-              <% orderData.forEach(status => {%>
-              <option value="<%=status.status%>"><%=status.status%></option>
-              <%}) %>
+             
+              <option value="<%=orderData.status%>"><%=orderData.status%></option>
+              <option value="Pending">Pending</option>
+              <option value="Processing">Processing</option>
+              <option value="Placed">Placed</option>
+              <option value="Shipped">Shipped</option>
+              <option value="Delivered">Delivered</option>
+              <option value="Cancelled">Cancelled</option>
+   
             </select>
           </div>
       

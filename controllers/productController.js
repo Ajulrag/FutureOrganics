@@ -92,7 +92,6 @@ const getEditProduct = async (req,res,next) => {
 const editProduct = async (req,res,next) => {
     const id = req.params.id;
     try {
-        console.log(req.files)
         let productpictures = [];
         if(req.files.length > 0) {
             productpictures = req.files.map((file) => {

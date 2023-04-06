@@ -263,9 +263,10 @@ const doLogout = async (req, res, next) => {
 const getSingleProduct = async (req, res, next) => {
   try {
     let usersession = req.session.user;
-    const id = mongoose.Types.ObjectId(req.params.id);
+    const id = req.params.id;
+    console.log(id);
     const product = await Product.findById(id);
-    const cart = await Cart.findById(usersession._id);
+    const cart = await Cart.findOne({_id:id});
     const isInCart = cart?.products.some((item) => item.proId.equals(id));
     const user = req.session.user;
     res.render("users/singleProduct", { product, usersession, isInCart, user });

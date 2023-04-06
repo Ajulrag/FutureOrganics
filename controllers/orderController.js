@@ -34,7 +34,25 @@ const getEditOrder = async (req,res,next) => {
     }
 }
 
+
+//DOING EDIT ORDER
+const doEditorder = async(req,res,next) => {
+    try {
+        const id = req.params.id;
+
+        const orderData = await Order.updateOne({_id:id},req.body);
+        if(orderData){
+            res.redirect("/admin/orders")
+        }else{
+            res.redirect("/admin/editorder");
+        }
+    } catch (error) {
+        next()
+    }
+}
+
 module.exports = {
      getOrders,
-     getEditOrder
+     getEditOrder,
+     doEditorder
 }

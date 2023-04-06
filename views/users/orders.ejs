@@ -85,15 +85,13 @@
                 <%orders.forEach(order => {%>
                 <th ><%= order._id%></th>
                 <td><%= order.createdAt.toISOString().substring(0,10)%></td>
-                    <% order.products.forEach(product => {%>
-                  <td style="max-width: 100px;word-wrap: break-word"><%= product.product.product%></td>
-                   <%})%>
+     
+                  <td style="max-width: 100px;word-wrap: break-word"><%= order.products[0].product.product%></td>
+   
                    
-                   <%order.products.forEach(product => {%>
-                    <td><%= product.quantity%></td>
-                   <td><%= product.price*product.quantity%></td>
-                   
-                   <%})%>
+
+                    <td><%= order.products[0].quantity%></td>
+                   <td><%= order.products[0].price * order.products[0].quantity%></td>
                    <td><%= order.payment%></td>
                 <td><%= order.status%></td>
                 

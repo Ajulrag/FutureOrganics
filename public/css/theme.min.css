@@ -194,6 +194,7 @@
   border-radius: 50px;
 }
 body {
+
   margin: 0;
   font-family: var(--cz-body-font-family);
   font-size: var(--cz-body-font-size);

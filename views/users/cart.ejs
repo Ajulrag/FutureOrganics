@@ -5,13 +5,13 @@
   <% if(!products || products?.products.length < 1){ %>
     <div style="align-items: center;text-align: center;justify-content: center;">
     <section class="d-flex align-items-center justify-content-center empty-cart">
-      <img src="https://assets.materialup.com/uploads/66fb8bdf-29db-40a2-996b-60f3192ea7f0/preview.png" style="height: 300px;" alt="">
+      <img src="/img/empty-cart.jpg" style="height: 250px;margin-top: 50px;" alt="">
       
         <hr>
        
     </section>
-    <i class="fa fa-shopping-cart" style="font-size:28px;color:rgb(0, 255, 26)">YOU DONT HAVE ANY PRODUCT INYOUR CART!!!</i>
-    <div style="border: 2px solid rgb(255, 255, 255); background-color: rgb(81, 255, 0); color: aqua;"><a href="/getallproducts">Contenue Shopping</a></div>
+    <p class="fa fa-shopping-cart" style="font-size:16px;color:rgb(22, 24, 23);margin-top: 30px;">YOU DONT HAVE ANY PRODUCT INYOUR CART!!!</p>
+    <div style="border: 2px solid rgb(255, 255, 255); background-color: rgb(255, 255, 255); color: aqua;margin-top: 50px;"><button style="border: 1px solid black;border-radius: 8px;background-color: rgb(212, 130, 21);"><a style="color: aliceblue;" href="/getallproducts">Continue Shopping</a></button></div>
   </div>
    
     <% } else { %>
