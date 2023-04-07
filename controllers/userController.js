@@ -287,15 +287,7 @@ const getAllProducts = async (req, res, next) => {
   }
 };
 
-//ADD TO WISHLIST
-const addToWishlist = async (req, res, next) => {
-  try {
-    const { prodId, userId } = req.body;
-    const wishlist = await Wishlist.findById({ userId });
-  } catch (error) {
-    next();
-  }
-};
+
 
 //GET CART PAGE
 const getCart = async (req, res, next) => {
@@ -318,7 +310,6 @@ const addToCart = async (req, res, next) => {
 
     const { proId, name, price, image, quantity } = req.body;
     const user_id = req.session.user._id;
-    console.log(user_id);
     const userCart = await Cart.findOne({ _id: user_id });
     console.log(userCart);
     // let cartTotal = 0;
@@ -526,9 +517,7 @@ const getOrders = async (req, res, next) => {
   try {
     const user = req.session.user._id;
     const userData = req.session.user;
-    const orders = await Order.find({ customer: user }).populate(
-      "products.product"
-    );
+    const orders = await Order.find({ customer: user }).populate({path: "products",populate:{path:"product",populate:{path:"category"}}});
     console.log(orders);
     res.render("users/orders", { user, userData, orders });
   } catch (error) {
@@ -640,6 +629,77 @@ const verifyRazorpay = async (req,res,next) => {
     next();
   }
 }
+
+
+//GETTING WISHLIST
+const getWishlist = async(req,res,next) => {
+  try {
+    const user=req.session.user;
+    const products = await Wishlist.findOne({_id:user._id}).populate("products.proId");
+    console.log(products);
+    res.render('users/wishlist',{user,products});
+  } catch (error) {
+    next()
+  }
+}
+
+//ADD TO WISHLIST
+const addToWishlist = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    
+    const user_id = req.session.user._id;
+    
+    console.log(req.body);
+    const { proId, name, price, image, quantity } = req.body;
+  
+    const userWishlist = await Wishlist.findOne({ _id: user_id });
+    if(userWishlist) {
+      const isProduct = await Wishlist.findOne({ proid: req.body.proId})
+        if(isProduct) {
+          await Wishlist.updateOne(
+            {_id: user_id},
+            {
+              $push: { products: { proId, name, image, price, quantity } },
+            }
+          );
+          res.json({});
+        }
+    } else {
+      const wishlist = new Wishlist({
+        _id: user_id,
+        products: [
+          {
+            proId: proId,
+            name: name,
+            price: price,
+            image: image,
+            quantity: quantity,
+          },
+        ],
+      });
+      const wishlist_data = await wishlist.save();
+      res.json({});
+    }
+  } catch (error) {
+    console.log(error);
+    next();
+  }
+};
+
+//REMOVING FROM WISHLIST
+const removeFromWishlist = async(req,res,next) => {
+  try {
+    const id = req.params.id;
+    const product = await Wishlist.findByIdAndUpdate(req.session.user._id, {
+      $pull: { products: { proId: id } },
+    });
+    res.redirect('/profile/wishlist')
+  } catch (error) {
+    next();
+  }
+}
+
 module.exports = {
   getHomepage,
   getRegister,
@@ -654,7 +714,6 @@ module.exports = {
   doLogout,
   getSingleProduct,
   getAllProducts,
-  addToWishlist,
   getCart,
   addToCart,
   removeFromCart,
@@ -667,5 +726,9 @@ module.exports = {
   placeOrder,
   getcodSuccess,
   getonlineSuccess,
-  verifyRazorpay
+  verifyRazorpay,
+
+  addToWishlist,
+  getWishlist,
+  removeFromWishlist
 };
