@@ -310,31 +310,25 @@ const addToCart = async (req, res, next) => {
 
     const { proId, name, price, image, quantity } = req.body;
     const user_id = req.session.user._id;
+
     const userCart = await Cart.findOne({ _id: user_id });
-    console.log(userCart);
-    // let cartTotal = 0;
-    // // for (let i = 0; i < userCart.products.length; i++) {
-    // //   let products = userCart.products[i];
-    // //   let subtotal = products.price * products.quantity;
-    // //   cartTotal += subtotal;
-    // // }
-
-    // userCart &&userCart.products.forEach((product) => {
-    //   cartTotal += product.price * product.quantity;
-    // });
-
-    // console.log(cartTotal);
+  
     if (userCart) {
       const isProduct = await Cart.findOne({ proid: req.body.proId });
       if (isProduct) {
         await Cart.updateOne(
-          { _id: user_id },
+          { _id: user_id ,'products.proId':id},
           {
-            $push: { products: { proId, name, price, image, quantity } },
-            // $set: { cartTotal: cartTotal },
+            $inc: { "products.$.quantity" : 1  },
+            
           }
         );
         res.json({});
+      } else {
+        await Cart.updateOne(
+          { _id: user_id },{
+            $push: {products: {proId, name, price, image, quantity}}
+          })
       }
     } else {
       const cart = new Cart({
@@ -383,7 +377,7 @@ const updateCart = async (req, res) => {
           );
           if (cart) {
             if (cart.products.length == 0) {
-              deleteCart(cart.user);
+              deleteCart(user);
             }
           }
         }
@@ -399,7 +393,7 @@ const updateCart = async (req, res) => {
 
 //DELETE CART
 async function deleteCart(user) {
-  await Cart.findOneAndDelete({ user: user }).catch((err) => {
+  await Cart.findOneAndDelete({ _id: user }).then((e)=>{console.log(e);}).catch((err) => {
     console.log(err);
     return;
   });
@@ -411,7 +405,13 @@ const removeFromCart = async (req, res, next) => {
     const id = req.params.id;
     const product = await Cart.findByIdAndUpdate(req.session.user._id, {
       $pull: { products: { proId: id } },
-    });
+    },
+    { new : true}
+    );
+    if(product.products.length == 0){
+      deleteCart(req.session.user._id)
+    }
+    console.log(product);
     if (req.get("Origin")) {
       return;
     }
@@ -594,6 +594,23 @@ const placeOrder = async (req, res, next) => {
   }
 };
 
+//CANSELLING ORDER
+const cancelOrder = async (req,res,next) => {
+  try {
+    
+    const id = req.params.id;
+    console.log(id);
+    const canceld_order = await Order.updateOne({_id:id},{$set: {status:"Cancelled"}});
+      if(canceld_order) {
+        res.redirect("/profile/orders")
+      }
+      
+  } catch (error) {
+    console.log(error);
+    next();
+  }
+}
+
 //GETING COD SUCCESS PAGE
 const getcodSuccess = async(req,res,next) => {
   try {
@@ -722,8 +739,10 @@ module.exports = {
   updateCart,
   getCheckout,
   getAddAddress,
+
   getOrders,
   placeOrder,
+  cancelOrder,
   getcodSuccess,
   getonlineSuccess,
   verifyRazorpay,

@@ -249,14 +249,19 @@ small{
                   </div>
                   <div class="col " style="margin-left: 80px;">
                     <p class="text-muted "> Order ID  : <span class="font-weight-bold text-dark"> <%= order._id%></span></p> 
-                    <p class="text-muted"> Place On : <span class="font-weight-bold text-dark"> <%= order.createdAt.toISOString().substring(0,10)%></span> </p></div>
+                    <p class="text-muted"> Place On : <span class="font-weight-bold text-dark"> <%= order.createdAt.toISOString().substring(0,10)%></span> </p>
+                    <p class="text-muted">Status: <span class="font-weight-bold text-dark"> <%= order.status%></span></p>
+                  </div>
+
               </div>
               
                <div class="card-footer  ">
                   <div class="row text-center  ">
-                     
-                      <div class="col  my-auto  border-line "><h5>Cancel</h5></div>
-              
+                     <% if(order.status == "Cancelled" ) {%>
+                      
+                      <%} else {%>
+                      <div class="col  my-auto  border-line "><a href="/profile/orders/cancelorder/<%= order._id%>">Cancel</a></div>
+                        <%}%>
                       
                   </div>
               </div>
@@ -264,4 +269,10 @@ small{
       </div>
       <%})%>
 
+
+      
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
   <%- include('../users/layouts/foot') %>
+ 

@@ -11,7 +11,7 @@
        
     </section>
     <p class="fa fa-shopping-cart" style="font-size:16px;color:rgb(22, 24, 23);margin-top: 30px;">YOU DONT HAVE ANY PRODUCT INYOUR CART!!!</p>
-    <div style="border: 2px solid rgb(255, 255, 255); background-color: rgb(255, 255, 255); color: aqua;margin-top: 50px;"><button style="border: 1px solid black;border-radius: 8px;background-color: rgb(212, 130, 21);"><a style="color: aliceblue;" href="/getallproducts">Continue Shopping</a></button></div>
+    <P class=""><a class="btn btn-success btn-shadow" href="/getallproducts">Shop Now<i class="ci-arrow-right ms-2 me-n1"></i></a></P>
   </div>
    
     <% } else { %>
@@ -132,19 +132,19 @@
 
       if (reqaction == -1 && e.parentElement.children[1].value == 1 ) {
         swal({
-  title: "Are you sure?",
-  text: "Do you want to remove this product from cart",
-  icon: "warning",
-  buttons: true,
-  dangerMode: true,
-})
-.then((willDelete) => {
-  if (willDelete) {   
-    return removeFromCart(e)
-  } else {
-    swal("Your product safe!");
-  }
-});
+              title: "Are you sure?",
+              text: "Do you want to remove this product from cart",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {   
+          return removeFromCart(e)
+          } else {
+          swal("Your product safe!");
+          }
+        });
       } else {
         fetch(`/cart/update?q=${e.dataset.id}`,
             {

@@ -61,6 +61,9 @@ const orderSchema = new Schema({
       type: Number,
       required: true
     },
+    expectedDeliveryDate: {
+      type:Date
+    },
     payment: {
       type: String,
       required: true
