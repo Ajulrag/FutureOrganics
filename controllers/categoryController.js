@@ -29,6 +29,7 @@ const getaddCategory = async (req, res,next) => {
   }
 };
 
+
 //ADDING NEW CATEGORY
 const addCategory = async (req, res,next) => {
   try {

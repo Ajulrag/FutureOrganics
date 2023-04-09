@@ -57,9 +57,23 @@ const orderSchema = new Schema({
           required: true
       }
     },
+    orderAmount: {
+      type: Number,
+      required: true
+    },
+    expectedDeliveryDate: {
+      type:Date
+    },
+    payment: {
+      type: String,
+      required: true
+    },
+    paymentStatus: {
+      type: String
+    },
     status: {
         type: String,
-        enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'],
+        enum: ['Pending', 'Processing','Placed','Ordered', 'Shipped', 'Delivered', 'Cancelled'],
         default: 'Pending'
       },
 }, {timestamps: true});

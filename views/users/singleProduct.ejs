@@ -14,8 +14,8 @@
     <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
         <h1 class="h3 text-light mb-2"><%=product.product%></h1>
       <div>
-        <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star"></i>
-        </div><span class="d-inline-block fs-sm text-white opacity-70 align-middle mt-1 ms-1">74 Reviews</span>
+        <!-- <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star"></i> -->
+        <!-- </div><span class="d-inline-block fs-sm text-white opacity-70 align-middle mt-1 ms-1">74 Reviews</span> -->
       </div>
     </div>
   </div>
@@ -81,9 +81,7 @@
                   <div class="h3 fw-normal text-danger  mb-3 me-1">RS. <%= product.price%><small>.00</small></div>
                   <!-- <div class="d-flex align-items-center pt-2 pb-4"> -->
                     <div class="d-flex mb-4">
-                      <div class="w-100 me-3">
-                    <button class="btn btn-success btn-shadow d-block w-100"><i class="ci-cart fs-lg me-2"></i>Buy Now</a></button>
-                    </div>
+                      
                       <div class="w-100 me-3">
                       <% if(isInCart) {%>
                         <button class="btn btn-success btn-shadow d-block w-100" type="submit"><a style="color: rgb(255, 255, 255);" href="/cart"><i class="ci-compare fs-lg me-2"></i>Go To Cart</a></button>
@@ -95,11 +93,11 @@
                   <!-- </div> -->
                   <div class="d-flex mb-4">
                     <div class="w-100 me-3">
-                      <button class="btn btn-secondary d-block w-100" type="button" onclick="addToWishlist('<%= product._id%>')"><i class="ci-heart fs-lg me-2"></i><span class='d-none d-sm-inline'>Add to </span>Wishlist</button>
+                        <button class="btn btn-secondary d-block w-100"  onclick="addtowishlist('<%= product._id%>', '<%= product.product%>', '<%= product.price%>', '/uploads/<%=product.image[0].img%>')"><i class="ci-heart fs-lg me-2"></i>Add to Wishlist</button>
                     </div>
-                    <div class="w-100">
-                      <button class="btn btn-secondary d-block w-100" type="button"><i class="ci-compare fs-lg me-2"></i>Compare</button>
-                    </div>
+                    <!-- <div class="w-100"> -->
+                      <!-- <button class="btn btn-secondary d-block w-100" type="button"><i class="ci-compare fs-lg me-2"></i>Compare</button> -->
+                    <!-- </div> -->
                   </div>
                 </div>
               </div>
@@ -114,7 +112,7 @@
  <script>
   
     function addToCart(id, product, price, image, quantity) {
-      console.log(id)
+      console.log();
       fetch(`/addtocart/${id}`, {
         method: 'POST',
         body: JSON.stringify({
@@ -143,20 +141,27 @@
     }
 
 
-  function addToWishlist(id) {
+  function addtowishlist(id, product, price, image, quantity) {
     fetch(`/addtowishlist/${id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: {
-        
-      }
+      body: JSON.stringify({
+        proId:id,
+        name: product,
+        price: price,
+        image: image,
+        quantity: quantity
+      })
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data);
-      alert(data)
+      Swal.fire(
+        'Sucess!',
+        'Product added to wishlist',
+        'success'
+      )
     })
     .catch(error => {
       console.error(error);

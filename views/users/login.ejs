@@ -1,26 +1,24 @@
 <%- include('../users/layouts/head') %>
 
-<div class="loginwrap">
+<div class="loginwrap " >
   
-  <div class="containere">
+  <div class="containere ">
     
   <form action="/login" method="post">
        <img src="/img/FutureOrganics_logo.png" id="img" alt="">
     <div class="mb-3">
-     
-      
-      <label for="exampleInputEmail1" class="form-label  text-light">Email address</label>
-      <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+      <label for="exampleInputPassword1" class="form-label  text-dark"></label>
+      <input style="border-radius: 50px;border: rgba(0, 0, 0, 0) 1px solid;box-shadow: #999090 0px 1px 7px -3px;" type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required placeholder="Email">
       
     </div>
     <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label  text-light">Password</label>
-      <input type="password" name="password" class="form-control" id="exampleInputPassword1" required>
+      <label for="exampleInputPassword1" class="form-label  text-dark"></label>
+      <input style="border-radius: 50px;border: rgba(0, 0, 0, 0) 1px solid;box-shadow: #999090 0px 1px 7px -3px;" type="password" name="password" class="form-control" id="exampleInputPassword1" required placeholder="Password">
     </div>
   
     
-    <div style="padding-top: 10px; "><button style="background-color: #ccdd59;"  type="submit" class="btn mt-5 " >Log In</button></div>
-    <div style="padding-top: 20px;" ><a style="color: yellowgreen;" href="/registration">Dont have account? Signup</a></div>
+    <div style=" "><button style="background-color: #ccdd59;"  type="submit" class="btn mt-5 " >Log In</button></div>
+    <div style="padding-top: 8px;" ><a style="color: yellowgreen;" href="/registration"><span style="color: black; font-size: small;">Dont have account?</span>  Signup</a></div>
   </form>
   <%
   if(typeof message !== 'undefined') {

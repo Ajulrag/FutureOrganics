@@ -11,8 +11,8 @@
       <% productlist.forEach( product => {%>
       <div class="col-lg-3 col-md-4 col-sm-6 px-2 mb-4">
         <div  class="card product-card">
-          <div class="product-card-actions d-flex align-items-center"><a class="btn-action nav-link-style me-2" href="#"><i class="ci-compare me-1"></i>Compare</a>
-            <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button>
+          <div class="product-card-actions d-flex align-items-center"><a class="btn-action nav-link-style me-2" href="#"></a>
+            <button onclick="addtowishlist('<%= product._id%>', '<%= product.product%>', '<%= product.price%>', '/uploads/<%=product.image[0].img%>')" class="btn-wishlist btn-sm"  data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button>
           </div><a class="card-img-top d-block overflow-hidden" href="/singleproduct/<%= product._id %>"><img src="/uploads/<%=product.image[0].img%>" alt="Product"></a>
           <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#"><%=product.category.category%></a>
             <h3 class="product-title fs-sm"><a href="/singleproduct/<%= product._id %>"><%=product.product%></a></h3>
@@ -23,9 +23,6 @@
             </div>
           </div>
           <div class="card-body card-body-hidden">
-            
-           
-            
           </div>
         </div>
         <hr class="d-sm-none">
@@ -44,3 +41,32 @@
   <div class="d-table table-layout-fixed w-100"><a class="d-table-cell handheld-toolbar-item" href="account-wishlist.html"><span class="handheld-toolbar-icon"><i class="ci-heart"></i></span><span class="handheld-toolbar-label">Wishlist</span></a><a class="d-table-cell handheld-toolbar-item" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" onclick="window.scrollTo(0, 0)"><span class="handheld-toolbar-icon"><i class="ci-menu"></i></span><span class="handheld-toolbar-label">Menu</span></a><a class="d-table-cell handheld-toolbar-item" href="shop-cart.html"><span class="handheld-toolbar-icon"><i class="ci-cart"></i><span class="badge bg-primary rounded-pill ms-1">4</span></span><span class="handheld-toolbar-label">$265.00</span></a></div>
 </div>
 <!-- Back To Top Button--><a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon ci-arrow-up">   </i></a>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  function addtowishlist(id, product, price, image, quantity) {
+    fetch(`/addtowishlist/${id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        proId:id,
+        name: product,
+        price: price,
+        image: image,
+        quantity: quantity
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      Swal.fire(
+        'Sucess!',
+        'Product added to wishlist',
+        'success'
+      )
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
+</script>

@@ -1,7 +1,7 @@
 <%- include('../admin/layouts/adminHeader') %>
-<div class="col-lg" style="padding: 30px; height: 100vh;" >
+<div class="col-lg" style="margin-left: 0px;margin-right: 0px; height: 100vh;" >
   <div class="card"  style="height: 100vh;">
-    <div class="card-body" >
+    <div class="card-body" style="overflow: auto;">
       <form action="/admin/products/editproduct/<%=product._id%>" method="post" enctype="multipart/form-data">
         <div class="form-group">
           <label>Product Name</label>

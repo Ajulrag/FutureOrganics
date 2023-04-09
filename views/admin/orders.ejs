@@ -1,44 +1,42 @@
 <%- include('../admin/layouts/adminHeader') %>
-<div class="col-lg">
-    <div class="card">
-      <div class="card-body">
-        <div style="display: flex; justify-content: space-between">
-          <h5 class="card-title"></h5>
-          
-        </div>
-        <br />
+<div class="col-lg-8" style="width: 76.666669%;padding-left: 0px;padding-right: 0px;">
+    <div class="card body"style="height: 650px;overflow: auto;padding:0;padding-left:0;">
+      
   
         <div class="table">
-          <table class="table">
+          <table class="table" style="align-items: center;text-align: center;justify-content: center;">
             <thead >
               <tr>
                 <th scope="col">Order Id</th>
                 <th scope="col">Order Date</th>
                 <th scope="col">Product</th>
-                <th scope="col">Customer Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Payment</th>
                 <th scope="col">Address</th>
                 <th scope="col">Mobile</th>
                 <th scope="col">Status</th>
+                <th scope="col">Change</th>
                 
                
               </tr>
             </thead>
             <tbody >
               <% orderList.forEach(order => {%>
-              <tr>
-                <td style="max-width: 100px;word-wrap: break-word"><%= order._id%></td>
-                <td style="max-width: 100px;word-wrap: break-word"><%= order.createdAt.toISOString().substring(0,10)%></td>
+              <tr >
+                <td><%= order._id%></td>
+                <td  style="min-width: 120px;"><%= order.createdAt.toISOString().substring(0,10)%></td>
                 <% order.products.forEach(product => {%>
-                <td style="max-width: 100px;word-wrap: break-word"><%= product.product.product%></td>
+                <td ><%= product.product.product%></td>
+                <td ><%= product.quantity%></td>
                 <%})%>
-                <td style="max-width: 100px;word-wrap: break-word"><%= order.customer.name%></td>
+                <td ><%= order.customer.name%></td>
+                <td ><%= order.payment%></td>
+                <td style="min-width: 10px;word-wrap: break-word;" ><%= order.shippingAddress.name%><br><%= order.shippingAddress.street%>,<%= order.shippingAddress.locality%></td>
+                <td ><%= order.customer.mobile%></td>
+                <td ><%= order.status%></td>  
                 
-                <td style="max-width: 100px;word-wrap: break-word"><%= order.shippingAddress.name%>,<%= order.shippingAddress.street%>,<%= order.shippingAddress.locality%></td>
-                <td style="max-width: 100px;word-wrap: break-word"><%= order.customer.mobile%></td>
-                
-                <td style="max-width: 100px;word-wrap: break-word"><%= order.status%></td>  
-                
-              </div></td>
+              
               <td>
                 <div>
                   <a href="/admin/orders/editorder/<%= order._id%>"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -46,12 +44,11 @@
                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/></svg></a>
                   </div>
               </td>
-            
              <%})%>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-    </div>
+    
   </div>
