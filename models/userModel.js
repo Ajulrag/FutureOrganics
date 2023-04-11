@@ -25,9 +25,6 @@ const userSchema = new Schema({
     type: String,
     default:"Unblocked"
   },
-  address: {
-    type: String
-  }
  
 });
 

@@ -38,6 +38,7 @@ user_route.get('/profile/addaddress',userAuth.isLogin,userController.getAddAddre
 user_route.post('/profile/addaddress',userAuth.isLogin,userController.doAddAddress);
 user_route.get('/profile/orders',userAuth.isLogin,userController.getOrders);
 user_route.get('/profile/orders/cancelorder/:id',userAuth.isLogin,userController.cancelOrder);
+user_route.get('/profile/orders/returnorder/:id',userAuth.isLogin,userController.returnOrder);
 
 
 user_route.get('/profile/wishlist',userAuth.isLogin,userController.getWishlist);

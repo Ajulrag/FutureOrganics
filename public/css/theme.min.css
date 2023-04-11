@@ -86,7 +86,7 @@
   box-sizing: border-box;
 }
 .loginwraper{
-  background: url("https://img.freepik.com/free-photo/geometric-composition-made-with-blue-yellow-cardboard_24972-998.jpg?w=360");
+  background: url("https://i.pinimg.com/originals/5c/0f/68/5c0f6834e0f766121ee18a619243debc.gif");
    background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -103,8 +103,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background: url("https://img.freepik.com/premium-vector/white-background-with-zigzag-line-pattern-design-texture_541806-42.jpg?w=2000"); */
-  /* background-repeat: no-repeat;
+  /* background: url("https://cdn.dribbble.com/users/2234430/screenshots/8587843/media/5a7b6b3be7edd17ae98a25d010277e62.gif");
+  background-repeat: no-repeat;
   background-position: center;
   background-size: cover; */
  
@@ -183,6 +183,8 @@
   align-items: center; 
 }
 
+
+
 .content {
   width: 300px;
   height: 200px;
@@ -211,6 +213,7 @@
   opacity: 0;
   transition: opacity 0.2s ease-in-out;
 }
+
 
 .content:hover p {
   opacity: 1;

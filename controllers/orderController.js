@@ -7,7 +7,6 @@ const getOrders = async (req,res,next) => {
     try {
         if(req.session.admin_id) {
             const orderList = await Order.find().populate('customer').populate('products.product');
-       console.log(orderList);
         res.render('admin/orders',{orderList});
     }else{
         res.redirect("/adminLogin");
@@ -22,7 +21,6 @@ const getEditOrder = async (req,res,next) => {
     try {
         const id = req.params.id;
         const orderData = await Order.findById(id);
-        console.log(orderData);
         if(orderData){
             res.render('admin/editOrder',{orderData})
         }

@@ -1,6 +1,6 @@
 <%- include('../users/layouts/head') %>
 <%- include('../users/layouts/header') %>
-<div class="page-title-overlap bg-dark pt-4">
+<div class="page-title bg-success pt-4" s">
     <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
       <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
         <nav aria-label="breadcrumb">
@@ -40,22 +40,23 @@
                       <div class="widget widget-links widget-filter">
                         
                         <ul class="widget-list widget-filter-list pt-1" style="height: 12rem;" data-simplebar data-simplebar-auto-hide="false">
-                          <li class="widget-list-item widget-filter-item"><a class="widget-list-link d-flex justify-content-between align-items-center" href="#"><span class="widget-filter-item-text">View all</span><span class="fs-xs text-muted ms-3">1,953</span></a></li>
+                          <% categoryList.forEach(category => {%>
+                            
                           
+                          <li class="widget-list-item widget-filter-item"><a class="widget-list-link d-flex justify-content-between align-items-center" href="#"><span class="widget-filter-item-text"><%=category.category%></span></a></li>
+                          <%}) %>
                         </ul>
                       </div>
                     </div>
                   </div>
                 </div>
                 
-                
-                
-                
-                
-                
               </div>
             </div>
-            <!-- Price range-->
+
+
+            
+            <!-- Price range
             <div class="widget mb-4 pb-4 border-bottom">
               <h3 class="widget-title">Price</h3>
               <div class="range-slider" data-start-min="250" data-start-max="680" data-min="0" data-max="1000" data-step="1">
@@ -73,7 +74,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
             
             
             
@@ -101,8 +102,8 @@
               </select><span class="fs-sm text-light opacity-75 text-nowrap ms-2 d-none d-md-block">of 287 products</span> -->
             </div>
           </div>
-          <div class="d-flex pb-3"><a class="nav-link-style nav-link-light me-3" href="#"><i ></i></a><span class="fs-md text-light"></span><a class="nav-link-style nav-link-light ms-3" href="#"><i class=""></i></a></div>
-          <div class="d-none d-sm-flex pb-3"><a class="btn btn-icon nav-link-style bg-light text-dark disabled opacity-100 me-2" href="/getallproducts"><i class="ci-view-grid"></i></a></div>
+          <!-- <div class="d-flex pb-3"><a class="nav-link-style nav-link-light me-3" href="#"><i ></i></a><span class="fs-md text-light"></span><a class="nav-link-style nav-link-light ms-3" href="#"><i class=""></i></a></div>
+          <div class="d-none d-sm-flex pb-3"><a class="btn btn-icon nav-link-style bg-light text-dark disabled opacity-100 me-2" href="/getallproducts"><i class="ci-view-grid"></i></a></div> -->
         </div>
         <!-- Products grid-->
         <div class="row mx-n2">
@@ -151,20 +152,33 @@
           
         <hr class="my-3">
         <!-- Pagination-->
+        
         <nav class="d-flex justify-content-between pt-2" aria-label="Page navigation">
           <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#"><i class="ci-arrow-left me-2"></i>Prev</a></li>
+            <% if(currentPage > 1) { %>
+            <li class="page-item"><a class="page-link" href="?page=<%= currentPage - 1 %>"><i class="ci-arrow-left me-2"></i>Prev</a></li>
+            <% } %>
           </ul>
-          <ul class="pagination">
+          <% for (let i = 1; i <= totalPages; i++) { %>
+            <% if (i === currentPage) { %>
+              <span><%= i %></span>
+            <% } else { %>
+              <a href="?page=<%= i %>"><%= i %></a>
+              <% } %>
+            <% } %>
+          
+            <% if (currentPage < totalPages) { %>
+          <!-- <ul class="pagination">
             <li class="page-item d-sm-none"><span class="page-link page-link-static">1 / 5</span></li>
             <li class="page-item active d-none d-sm-block" aria-current="page"><span class="page-link">1<span class="visually-hidden">(current)</span></span></li>
             <li class="page-item d-none d-sm-block"><a class="page-link" href="#">2</a></li>
             <li class="page-item d-none d-sm-block"><a class="page-link" href="#">3</a></li>
             <li class="page-item d-none d-sm-block"><a class="page-link" href="#">4</a></li>
             <li class="page-item d-none d-sm-block"><a class="page-link" href="#">5</a></li>
-          </ul>
+          </ul> -->
           <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#" aria-label="Next">Next<i class="ci-arrow-right ms-2"></i></a></li>
+            <li class="page-item"><a class="page-link" href="?page=<%= currentPage + 1%>" aria-label="Next">Next<i class="ci-arrow-right ms-2"></i></a></li>
+            <% } %>
           </ul>
         </nav>
       </section>

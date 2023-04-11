@@ -108,11 +108,11 @@
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+  <script src="sweetalert2.min.js"></script>
+  <link rel="stylesheet" href="sweetalert2.min.css">
  <script>
   
     function addToCart(id, product, price, image, quantity) {
-      console.log();
       fetch(`/addtocart/${id}`, {
         method: 'POST',
         body: JSON.stringify({
@@ -128,11 +128,15 @@
       })
       .then(response => response.json())
       .then(data => {
-        Swal.fire(
-          'Sucess!',
-          'Product added to cart',
-          'success'
-        )
+        console.log(data)
+        Swal.fire({
+             position: 'top-end',
+              icon: 'success',
+              title: data.message,
+              showConfirmButton: false,
+              timer: 1500
+        })
+       
                 
       })
       .catch(error => {
@@ -157,11 +161,13 @@
     })
     .then(response => response.json())
     .then(data => {
-      Swal.fire(
-        'Sucess!',
-        'Product added to wishlist',
-        'success'
-      )
+      Swal.fire({
+             position: 'top-end',
+              icon: 'success',
+              title: data.message,
+              showConfirmButton: false,
+              timer: 1500
+        })
     })
     .catch(error => {
       console.error(error);

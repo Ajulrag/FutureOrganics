@@ -1,0 +1,107 @@
+<%- include('../admin/layouts/adminHeader') %>
+<div class="col-lg-8" style="width: 76.666669%;padding-left: 0px;padding-right: 0px;">
+  <div class="card body justify-content-center"style="overflow: auto;padding:0;padding-left:0; justify-content:center;">
+
+<div class="d-flex " style="justify-content: space-between;">
+  <div style="background-color: rgb(198, 248, 248);margin: 10px;border-radius: 5px;align-items: center;justify-content: center;text-align: center;">
+    <h5 style="padding: 5px;">Total Number of Orders</h5>
+    <h1><%= totalOrder%></h1>
+  </div>
+
+  <div style="background-color: rgb(198, 248, 248);margin: 10px;border-radius: 5px;align-items: center;justify-content: center;text-align: center;">
+    <h5 style="padding: 5px;">Total Number of Users</h5>
+    <h1><%= totalUsers%></h1>
+  </div>
+
+  <div style="background-color: rgb(198, 248, 248);margin: 10px;border-radius: 5px;align-items: center;justify-content: center;text-align: center;">
+    <h6 style="padding: 5px;">Products & Categories</h6>
+    <h4><span style="font-size: medium;">Total Products:</span>  <%= products%></h4>
+    <h4><span style="font-size: medium;">Total Categories:</span>  <%= category%></h4>
+  </div>
+
+  <div style="background-color: rgb(198, 248, 248);margin: 10px;border-radius: 5px;align-items: center;justify-content: center;text-align: center;">
+    <h6 style="padding: 5px;">Payment Methods</h6>
+    <h4>2</h4>
+    <h6>1.COD <br>2.Razorpay</h6>
+    
+  </div>
+
+</div>
+
+
+
+<div id="myChart" style="width:100%; max-width:600px; height:500px;">
+</div>
+
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    const Ordered = parseInt('<%=Ordered%>');
+    const Shipped = parseInt('<%=Shipped%>')
+    const InTransist = parseInt('<%=InTransist%>');
+    const orderCancelled = parseInt('<%=Cancelled%>');
+    const Delivered = parseInt('<%=Delivered%>');
+    const ReturnProcessing = parseInt('<%=ReturnProcessing%>');
+    const Returned = parseInt('<%=Returned%>');
+    
+    
+    
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    
+    function drawChart() {
+    const data = google.visualization.arrayToDataTable([
+      ['Contry', 'Mhl'],
+      ['Ordered',Ordered],
+      ['In Transist',InTransist],
+      ['Returned',Returned],
+      ['ReturnProcessing',ReturnProcessing],
+      ['Delivered',Delivered],
+      ['Cancelled',orderCancelled]
+    ]);
+    
+    const options = {
+     title: 'Sales Details',
+      is3D:true
+    };
+    
+    const chart = new google.visualization.PieChart(document.getElementById('myChart'));
+      chart.draw(data, options);
+    }
+    </script>
+
+
+<div>
+  <canvas id="myChart2"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart2');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Ordered', 'InTransist', 'Returned', 'ReturnProcessing', 'Delivered', 'orderCancelled'],
+      datasets: [{
+        label: 'Sales',
+        data: [Ordered, InTransist, Returned, ReturnProcessing, Delivered, orderCancelled],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
+
+  </div>    
+</div>

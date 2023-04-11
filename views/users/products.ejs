@@ -10,7 +10,7 @@
       <!-- Product-->
       <% productlist.forEach( product => {%>
       <div class="col-lg-3 col-md-4 col-sm-6 px-2 mb-4">
-        <div  class="card product-card">
+        <div  class="card product-card ">
           <div class="product-card-actions d-flex align-items-center"><a class="btn-action nav-link-style me-2" href="#"></a>
             <button onclick="addtowishlist('<%= product._id%>', '<%= product.product%>', '<%= product.price%>', '/uploads/<%=product.image[0].img%>')" class="btn-wishlist btn-sm"  data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button>
           </div><a class="card-img-top d-block overflow-hidden" href="/singleproduct/<%= product._id %>"><img src="/uploads/<%=product.image[0].img%>" alt="Product"></a>
@@ -18,7 +18,8 @@
             <h3 class="product-title fs-sm"><a href="/singleproduct/<%= product._id %>"><%=product.product%></a></h3>
             <div class="d-flex justify-content-between">
               <div class="product-price"><span class="text-accent"><%= product.price%><small>.00</small></span></div>
-              <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
+              <div class="star-rating">
+                <!-- <i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i> -->
               </div>
             </div>
           </div>
@@ -61,7 +62,7 @@
     .then(data => {
       Swal.fire(
         'Sucess!',
-        'Product added to wishlist',
+        data.message,
         'success'
       )
     })

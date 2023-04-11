@@ -1,6 +1,9 @@
 const Admin = require("../models/adminModel");
 const bcrypt = require("bcrypt");
 const Order = require('../models/orderModel');
+const User = require("../models/userModel");
+const Category = require("../models/categoryModel");
+const Product = require("../models/productModel");
 
 
 
@@ -45,9 +48,33 @@ const doLogin = async (req, res, next) => {
 //GET ADMIN DASHBOARD
 const getDashboard = async(req,res,next) => {
   try {
-    let adminSession = req.session.admin_id
+    let adminSession = req.session.admin_id;
+    if(req.session.admin_id){
+    
+      const totalDelivery = (await Order.find({ status: "Delivered"})).length;
+      const totalOrder = (await Order.find()).length;
+      const totalUsers = (await User.find()).length;
+      const category = (await Category.find()).length;
+      const products = (await Product.find()).length;
+
+      const sale = await Order.find().count();
+      const Ordered = await Order.find({status:"Ordered"}).count();
+      const Shipped = await Order.find({status:"Shipped"}).count();
+      const InTransist = await Order.find({status:"In Transist"}).count();
+      const Delivered = await Order.find({status:"Delivered"}).count();
+      const Cancelled = await Order.find({status:"Cancelled"}).count();
+      const ReturnProcessing = await Order.find({status:"Return Processing"}).count();
+      const Returned = await Order.find({status: "Returned"});
+
     const orderList = await Order.find().populate('customer').populate('products.product');
-    res.render("admin/dashboard",{adminSession,orderList})  
+
+
+    res.render("admin/dashboard",{adminSession,orderList,totalDelivery,totalOrder,totalUsers,category,products,
+                                  sale,Ordered,Shipped,InTransist,Delivered,Cancelled,ReturnProcessing,Returned}); 
+
+    } else {
+      res.redirect("/admin")
+    }
   } catch (error) {
     next(error);
   }

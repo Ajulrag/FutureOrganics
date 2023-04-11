@@ -39,24 +39,30 @@
               
               <% userAddresses?.addresses.forEach(address => {%>
                 <div class="d-flex mt-3">
-                <input class="form-check-input" type="radio" name="address" value="<%= address._id%>" id="flexRadioDefault1" required>
-                <label class="form-check-label" for="flexRadioDefault1"></label>
-                <div style="border: 1px solid #dadada;height: 100px;width:615px;text-align:left;padding-top: 0%;display: flex;margin-left: 10px;">
-                    <p><%= address.name%><br> 
-                      
-                      <%= address.street%>
-                      <%= address.locality%>
-                      <%= address.city%><br>
-                      <%= address.country%>
-                      <%= address.state%>-
-                      <%= address.pincode%><br>
-                      <%= address.mobile%></p>
+                 
+                  
                     
-                  </div>
+                    <div style="border: 1px solid #dadada;height: 100px;width:615px;text-align:left;padding-top: 0%;display: flex;margin-left: 10px;">
+                      <label for="">
+                      <input class="form-check-input" type="radio" name="address" value="<%= address._id%>" id="flexRadioDefault1" required>
+                        <p><%= address.name%><br> 
+
+                          <%= address.street%>
+                          <%= address.locality%>
+                          <%= address.city%><br>
+                          <%= address.country%>
+                          <%= address.state%>-
+                          <%= address.pincode%><br>
+                          <%= address.mobile%></p>
+                    
+                    </div>
+                    
+
                 </div>
               <% }) %>
               
               </div>
+             
               
              <div style="margin-top: 30px;"><h3>Payment Method</h3></div>
              <input class="form-check-input" type="radio" name="payment" value="cod" id="flexRadioDefault1" required>
@@ -116,6 +122,21 @@
                 </ul>
               </div>
               
+              <!-- PROMOCODE -->
+              <div class="accordion-item">
+                <h3 class="accordion-header"><a class="accordion-button" href="#promo-code" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="promo-code">Apply promo code</a></h3>
+                <div class="accordion-collapse collapse show" id="promo-code" data-bs-parent="#order-options">
+                  <form class="accordion-body needs-validation" method="post" novalidate>
+                    <div class="mb-3">
+                      <input class="form-control" type="text" placeholder="Promo code" required>
+                      <div class="invalid-feedback">Please provide promo code.</div>
+                    </div>
+                    <button class="btn btn-outline-primary d-block w-100" type="submit">Apply promo code</button>
+                  </form>
+                </div>
+              </div>
+
+
           </aside>
         </div>
       </div>

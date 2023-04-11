@@ -9,6 +9,7 @@ const Order = require("../models/orderModel");
 const Address = require("../models/addressModel");
 const Product = require("../models/productModel");
 const Wishlist = require("../models/wishlistModel");
+const Category = require("../models/categoryModel");
 const { log } = require("console");
 const Email = process.env.EMAIL;
 const Password = process.env.EMAILPASS;
@@ -239,12 +240,19 @@ const getProfile = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   const id = req.params.id;
   try {
-    const user = await User.updateOne({ _id: id }, req.body);
+    const user = await User.findOneAndUpdate({ _id: id }, 
+    {$set: { name:req.body.name,
+      mobile:req.body.mobile
+    }});
+    console.log(user);
     if (user) {
       req.flash("Success", "USer updated");
+      req.session.user.name = req.body.name;
+      req.session.user.mobile = req.body.mobile;
       res.redirect("/profile");
     }
   } catch (error) {
+    console.log(error);
     next();
   }
 };
@@ -278,10 +286,17 @@ const getSingleProduct = async (req, res, next) => {
 //GET ALL PRODUCTS
 const getAllProducts = async (req, res, next) => {
   try {
-    const productList = await Product.find({ isDelete: false });
+    const PAGE_SIZE = 9;
+    const page = parseInt(req.query.page) || 1;
+    const skip = (page - 1) * PAGE_SIZE;
+
+    const productList = await Product.find({ isDelete: false }).skip(skip).limit(PAGE_SIZE);
+    const totalProducts = await Product.countDocuments();
+    const totalPages = Math.ceil(totalProducts / PAGE_SIZE);
+    const categoryList = await Category.find();
     const user = req.session.user;
     let usersession = req.session.user;
-    res.render("users/allProducts", { productList, usersession, user });
+    res.render("users/allProducts", { productList, usersession, user,categoryList,currentPage:page,totalPages });
   } catch (error) {
     next(error);
   }
@@ -307,28 +322,25 @@ const getCart = async (req, res, next) => {
 const addToCart = async (req, res, next) => {
   try {
     const id = req.params.id;
-
     const { proId, name, price, image, quantity } = req.body;
     const user_id = req.session.user._id;
-
     const userCart = await Cart.findOne({ _id: user_id });
-  
     if (userCart) {
-      const isProduct = await Cart.findOne({ proid: req.body.proId });
+      const isProduct = await Cart.findOne({  _id: user_id ,'products.proId':proId });
       if (isProduct) {
         await Cart.updateOne(
           { _id: user_id ,'products.proId':id},
           {
-            $inc: { "products.$.quantity" : 1  },
-            
+            $inc: { "products.$.quantity" : 1  },  
           }
         );
-        res.json({});
+        res.json({message: 'Product is already in cart, Quantity Increased'});
       } else {
         await Cart.updateOne(
           { _id: user_id },{
             $push: {products: {proId, name, price, image, quantity}}
-          })
+          });
+          res.json({message: 'Product added to cart'});
       }
     } else {
       const cart = new Cart({
@@ -342,10 +354,10 @@ const addToCart = async (req, res, next) => {
             quantity: quantity,
           },
         ],
-        // cartTotal: price,
+
       });
       const cart_data = await cart.save();
-      res.json({});
+      res.json({message: 'Product added to cart'});
     }
   } catch (error) {
     console.log(error);
@@ -518,7 +530,6 @@ const getOrders = async (req, res, next) => {
     const user = req.session.user._id;
     const userData = req.session.user;
     const orders = await Order.find({ customer: user }).populate({path: "products",populate:{path:"product",populate:{path:"category"}}});
-    console.log(orders);
     res.render("users/orders", { user, userData, orders });
   } catch (error) {
     console.log(error);
@@ -581,9 +592,8 @@ const placeOrder = async (req, res, next) => {
       receipt: "" + order_data._id,
     },(err,order) => {
       if(err){
-        console.log(err,'hugvbhy');
+        console.log(err);
       }else{
-        console.log("sjkdhcfbskjhfdb");
         res.json(order);
       }
     })
@@ -605,6 +615,20 @@ const cancelOrder = async (req,res,next) => {
         res.redirect("/profile/orders")
       }
       
+  } catch (error) {
+    console.log(error);
+    next();
+  }
+}
+
+//RETURNING THE ORDER
+const returnOrder = async (req,res,next) => {
+  try {
+    const id = req.params.id;
+    const return_order = await Order.updateOne({_id:id},{$set: {status:"Return Processing"}});
+    if(return_order) {
+      res.redirect("/profile/orders")
+    }
   } catch (error) {
     console.log(error);
     next();
@@ -664,23 +688,22 @@ const getWishlist = async(req,res,next) => {
 const addToWishlist = async (req, res, next) => {
   try {
     const id = req.params.id;
-    
     const user_id = req.session.user._id;
-    
-    console.log(req.body);
     const { proId, name, price, image, quantity } = req.body;
-  
     const userWishlist = await Wishlist.findOne({ _id: user_id });
     if(userWishlist) {
-      const isProduct = await Wishlist.findOne({ proid: req.body.proId})
+      const isProduct = await Wishlist.findOne({ _id: user_id ,'products.proId':proId})
         if(isProduct) {
+          res.json({message:"Product Already in Wishlist"})
+         
+        } else {
           await Wishlist.updateOne(
             {_id: user_id},
             {
               $push: { products: { proId, name, image, price, quantity } },
             }
           );
-          res.json({});
+          res.json({message: "Product added to Wishlist"});
         }
     } else {
       const wishlist = new Wishlist({
@@ -696,7 +719,7 @@ const addToWishlist = async (req, res, next) => {
         ],
       });
       const wishlist_data = await wishlist.save();
-      res.json({});
+      res.json({message: "Product added to Wishlist"});
     }
   } catch (error) {
     console.log(error);
@@ -719,13 +742,16 @@ const removeFromWishlist = async(req,res,next) => {
 
 module.exports = {
   getHomepage,
+
   getRegister,
   getotp,
   otpvalidation,
   verifyOtp,
   resendOtp,
+
   getLogin,
   doLogin,
+
   getProfile,
   updateUser,
   doLogout,
@@ -742,10 +768,11 @@ module.exports = {
 
   getOrders,
   placeOrder,
-  cancelOrder,
   getcodSuccess,
   getonlineSuccess,
   verifyRazorpay,
+  cancelOrder,
+  returnOrder,
 
   addToWishlist,
   getWishlist,
