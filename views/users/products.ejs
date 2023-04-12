@@ -16,8 +16,15 @@
           </div><a class="card-img-top d-block overflow-hidden" href="/singleproduct/<%= product._id %>"><img src="/uploads/<%=product.image[0].img%>" alt="Product"></a>
           <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#"><%=product.category.category%></a>
             <h3 class="product-title fs-sm"><a href="/singleproduct/<%= product._id %>"><%=product.product%></a></h3>
-            <div class="d-flex justify-content-between">
-              <div class="product-price"><span class="text-accent"><%= product.price%><small>.00</small></span></div>
+            <div class="">
+                <% if(product.offer == 0) {%>
+                  <span class="text-success"style="font-size:x-large;">₹<%= product.price%></span>
+                <%} else {%>
+                  <span class="text-muted">₹<del><%= product.price%></del></span>
+                  <span class="text-success" style="font-size:x-large;">₹<%= product.price - (product.price * product.offer / 100 )%></span> 
+                  <span class="text-success" style="font-family: ui-serif;font-size: x-small;"><%= product.offer%>% offfer!!!</span>
+                <%}%>
+               
               <div class="star-rating">
                 <!-- <i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i> -->
               </div>

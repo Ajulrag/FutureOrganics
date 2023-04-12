@@ -56,6 +56,7 @@ const addProducts = async(req,res,next) => {
             description: req.body.description,
             image: productpictures,
             price:req.body.price,
+            offer:req.body.offer,
             stock: req.body.stock,
             status: req.body.status,
             isFeatured: req.body.isFeatured,

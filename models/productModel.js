@@ -28,6 +28,10 @@ const productSchema = new Schema({
         required: true,
         default: 0
     },
+    offer: { 
+        type: Number,
+        default: 0 
+    },
     stock: {
         type: Number,
         required: true

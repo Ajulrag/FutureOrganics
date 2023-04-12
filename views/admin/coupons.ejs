@@ -1,0 +1,46 @@
+<%- include('../admin/layouts/adminHeader') %>
+<div class="col-lg">
+  <div class="card">
+    <div class="card-body" style="height: 650px;overflow: auto;">
+      <div style="display: flex; justify-content: space-between">
+        <h5 class="card-title">Coupons</h5>
+        <div>
+          <form action="/admin/coupons/addcoupon" method="get">
+            <button class="btn btn-success me-md-2" type="submit">
+              Add coupon
+            </button>
+          </form>
+        </div>
+      </div>
+      <br/>
+      <div class="table-responsive">
+
+
+        <table class="table table-striped">
+            <thead>
+              <tr>
+              
+                <th scope="col">CODE</th>
+                <th scope="col">Discount</th>
+                <th scope="col">Expiry date</th>
+                <th scope="col">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <% couponList.forEach(coupon => {%>
+                
+                <td><%= coupon.code%></td>
+                <td><%= coupon.discount%></td>
+                <td><%= coupon.expiry.toLocaleDateString()%></td>
+                <td><a class="btn btn-warning me-md-2" href="/admin/coupons/editcoupon/<%= coupon._id%>">Edit</a></td>
+              </tr>
+              <%}) %>
+            </tbody>
+          </table>
+
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<%- include('../admin/layouts/adminHeader') %>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<div class="col-lg" style="padding: 30px;">
+  <div class="card"  style="height: 100vh;">
+    <div class="card-body" >
+      <form action="/admin/coupons/editcoupon/<%=couponData._id%>" method="post">
+        <div class="form-group">
+          <label>Coupon Code</label>
+          <input
+            type="text"
+            value="<%=couponData.code%>"
+            class="form-control"
+            name="code"
+            required
+          />
+        </div>
+        <div class="form-group" style="padding-top: 15px;">
+          <label>Discount</label>
+          <input
+            type="number"
+            value="<%= couponData.discount%>"
+            class="form-control"
+            name="discount"
+            required
+          />
+        </div>
+        <div class="form-group" style="padding-top: 15px;">
+            <label>Expiry Date</label>
+            <input
+              type="text"
+              id="datepicker"
+              value="<%= couponData.expiry.toISOString().substring(0,10)%>"
+              class="form-control"
+              name="expiry"
+              required
+            />
+          </div>
+       
+        <div style="padding-top: 60px;">
+          <button type="submit" class="btn btn-primary" >Update</button>
+        </div>
+      </form>
+     
+    </div>
+  </div>
+</div>
+
+<script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+  </script>

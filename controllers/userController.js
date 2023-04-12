@@ -530,6 +530,7 @@ const getOrders = async (req, res, next) => {
     const user = req.session.user._id;
     const userData = req.session.user;
     const orders = await Order.find({ customer: user }).populate({path: "products",populate:{path:"product",populate:{path:"category"}}});
+    console.log(orders);
     res.render("users/orders", { user, userData, orders });
   } catch (error) {
     console.log(error);
