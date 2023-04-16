@@ -13,7 +13,7 @@ const path = require('path');
 const getProductmanagment = async(req,res,next) => {
     try {
         if(req.session.admin_id) {
-            const productlist = await Product.find({isDelete: false}).populate({path:'category', model:'categories'});
+            const productlist = await Product.find({isDelete: false}).populate({path:'category', model:'categories'}).sort({createdAt: -1});
             const product = req.session.product;
             delete req.session.product;
             res.render("admin/products",{ productlist, product });

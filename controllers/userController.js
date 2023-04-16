@@ -286,7 +286,7 @@ const getSingleProduct = async (req, res, next) => {
 //GET ALL PRODUCTS
 const getAllProducts = async (req, res, next) => {
   try {
-    const PAGE_SIZE = 9;
+    const PAGE_SIZE = 5;
     const page = parseInt(req.query.page) || 1;
     const skip = (page - 1) * PAGE_SIZE;
 
@@ -529,7 +529,7 @@ const getOrders = async (req, res, next) => {
   try {
     const user = req.session.user._id;
     const userData = req.session.user;
-    const orders = await Order.find({ customer: user }).populate({path: "products",populate:{path:"product",populate:{path:"category"}}});
+    const orders = await Order.find({ customer: user }).populate({path: "products",populate:{path:"product",populate:{path:"category"}}}).sort({createdAt:-1});
     console.log(orders);
     res.render("users/orders", { user, userData, orders });
   } catch (error) {

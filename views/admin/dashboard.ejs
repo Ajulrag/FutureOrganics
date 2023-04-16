@@ -77,31 +77,32 @@
   <canvas id="myChart2"></canvas>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
 
 <script>
-  const ctx = document.getElementById('myChart2');
-
-  new Chart(ctx, {
-    type: 'bar',
+  
+  
+  new Chart("myChart", {
+    type: "line",
     data: {
-      labels: ['Ordered', 'InTransist', 'Returned', 'ReturnProcessing', 'Delivered', 'orderCancelled'],
+      labels: dates,
       datasets: [{
-        label: 'Sales',
-        data: [Ordered, InTransist, Returned, ReturnProcessing, Delivered, orderCancelled],
-        borderWidth: 1
+        fill: false,
+        lineTension: 0,
+        backgroundColor: "rgba(0,0,255,1.0)",
+        borderColor: "rgba(0,0,255,0.1)",
+        data: counts
       }]
     },
     options: {
+      legend: {display: false},
       scales: {
-        y: {
-          beginAtZero: true
-        }
+        yAxes: [{ticks: {min: 6, max:16}}],
       }
     }
   });
-</script>
-
-
+  </script>
   </div>    
 </div>

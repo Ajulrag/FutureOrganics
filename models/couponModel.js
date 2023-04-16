@@ -9,7 +9,7 @@ const couponSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: 'active'
+        default: 'Active'
     },
     expiry:{
         type: Date,
@@ -17,6 +17,10 @@ const couponSchema = new mongoose.Schema({
     },
     discount:{
         type: Number,
+        required: true
+    },
+    minimum_purchase: {
+        type : Number,
         required: true
     },
 }, {timestamps: true});

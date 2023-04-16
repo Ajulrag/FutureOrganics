@@ -6,7 +6,7 @@ const Order = require("../models/orderModel");
 const getOrders = async (req,res,next) => {
     try {
         if(req.session.admin_id) {
-            const orderList = await Order.find().populate('customer').populate('products.product');
+            const orderList = await Order.find().populate('customer').populate('products.product').sort({createdAt: -1});
         res.render('admin/orders',{orderList});
     }else{
         res.redirect("/adminLogin");

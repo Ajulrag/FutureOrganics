@@ -16,6 +16,7 @@ adminRoute.get("/coupons/addcoupon",adminAuth.isLogin,adminController.getAddCoup
 adminRoute.post('/coupons/addcoupon',adminAuth.isLogin,adminController.addCoupon);
 adminRoute.get("/coupons/editcoupon/:id",adminAuth.isLogin,adminController.getEditCoupon);
 adminRoute.post("/coupons/editcoupon/:id",adminAuth.isLogin,adminController.editCoupon);
+adminRoute.get("/coupons/deletecoupon/:id",adminAuth.isLogin,adminController.deleteCoupon);
 
 
 

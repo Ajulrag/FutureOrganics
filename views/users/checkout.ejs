@@ -87,7 +87,7 @@
                 <%total1 += (product.price)*(product.quantity) %>
                 <% }) %>
                 <ul class="list-unstyled fs-sm pt-3 pb-2 border-bottom">
-                  <li class="d-flex justify-content-between align-items-center"><span class="me-2">Total:</span><span class="text-end">rs.<%= total1%><small>.00</small></span></li>
+                  <li class="d-flex justify-content-between align-items-center"><span class="me-2">Total:</span><span class="text-end">RS.<%= total1%><small>.00</small></span></li>
                   
                 </ul>
               </div>
@@ -112,13 +112,13 @@
                 <div class="d-flex align-items-center pb-2 border-bottom"><a class="d-block flex-shrink-0 me-2" href="/singleproduct/<%= product.proId._id %>"><img class="rounded-1" src="<%= product.image %>" width="64" alt="Product"></a>
                   <div class="ps-1">
                     <h6 class="widget-product-title"><a href="/singleproduct/<%= product.proId._id %>"><%= product.name%></a></h6>
-                    <div class="widget-product-meta"><span class="text-accent border-end pe-2 me-2">RS:<%= (product.price)*(product.quantity)%>.<small>.00</small></span>Quantity:<%=product.quantity %></div>
+                    <div class="widget-product-meta"><span class="text-accent border-end pe-2 me-2">RS:<%= (product.price)*(product.quantity)%><small>.00</small></span>Quantity:<%=product.quantity %></div>
                   </div>
                 </div>
                 <%total2 += (product.price)*(product.quantity) %>
                 <% }) %>
                 <ul class="list-unstyled fs-sm pt-3 pb-2 border-bottom">
-                  <li class="d-flex justify-content-between align-items-center"><span class="me-2" >Total:</span><span class="text-end">rs.<%= total2%><small>.00</small></span></li>
+                  <li class="d-flex justify-content-between align-items-center"><span class="me-2" >Total:</span><span class="text-end">RS.<%= total2%><small>.00</small></span></li>
                 </ul>
               </div>
               

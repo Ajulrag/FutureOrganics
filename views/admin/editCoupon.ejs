@@ -28,6 +28,16 @@
           />
         </div>
         <div class="form-group" style="padding-top: 15px;">
+          <label>Minimum Purchase Amount</label>
+          <input
+            type="number"
+            value="<%= couponData.minimum_purchase%>"
+            class="form-control"
+            name="minimum_purchase"
+            required
+          />
+        </div>
+        <div class="form-group" style="padding-top: 15px;">
             <label>Expiry Date</label>
             <input
               type="text"
@@ -38,12 +48,18 @@
               required
             />
           </div>
+          <div >
+            <input type="radio" id="html" name="status" value="Active" required >
+            <label for="html">Active</label><br>
+            <input type="radio" id="css" name="status" value="Deactive" required>
+            <label for="css">Deactive</label><br>
+          </div>
        
         <div style="padding-top: 60px;">
           <button type="submit" class="btn btn-primary" >Update</button>
         </div>
       </form>
-     
+      <p style="color: rgb(255, 17, 17)"><%= message %></p>
     </div>
   </div>
 </div>

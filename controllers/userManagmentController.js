@@ -5,7 +5,7 @@ const User = require('../models/userModel');
 //GET USERMANAGMENT PAGE
 const getUserManagment = async (req,res,next) => {
     try {
-        const userlist = await User.find();
+        const userlist = await User.find().sort({createdAt: -1});
         res.render('admin/users',{userlist});
     } catch (error) {
         next(error);

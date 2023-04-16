@@ -12,16 +12,19 @@
           <label>Coupon Code</label>
           <input type="text" class="form-control" name="code" required />
         </div>
-        <div >
-          
-            <input type="radio" id="html" name="status" value="active" required checked>
-            <label for="html">Active</label><br>
-            <input type="radio" id="css" name="status" value="deactive" required>
-            <label for="css">Deactive</label><br>
+        <div class="mt-2">
+          <input type="radio" id="html" name="status" value="Active" required checked>
+          <label for="html">Active</label><br>
+          <input type="radio" id="css" name="status" value="Deactive" required>
+          <label for="css">Deactive</label><br>
         </div>
-        <div class="form-group">
+        <div class="form-group mt-3">
           <label>Discount</label>
           <input type="number" class="form-control" name="discount" required />
+        </div>
+        <div class="form-group">
+          <label>Minimum Purchase Amount</label>
+          <input type="number" class="form-control" name="minimum_purchase" required />
         </div>
         <div class="form-group">
             <label>Expiry Date</label>
@@ -29,7 +32,7 @@
           </div>
         <button type="submit" class="btn btn-primary mt-5 ">Submit</button>
       </form>
-  
+      <p style="color: rgb(255, 17, 17);"><%= message %></p>
     </div>
   </div>
 </div>

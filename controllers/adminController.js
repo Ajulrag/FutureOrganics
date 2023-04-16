@@ -70,8 +70,22 @@ const getDashboard = async(req,res,next) => {
     const orderList = await Order.find().populate('customer').populate('products.product');
 
 
+
+    const dailyOrders = await Order.aggregate([
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$orderDate" } },
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ]);
+    const dates = dailyOrders.map((order) => order._id);
+    const counts = dailyOrders.map((order) => order.count);
+    console.log(dates);
+    console.log(counts);
     res.render("admin/dashboard",{adminSession,orderList,totalDelivery,totalOrder,totalUsers,category,products,
-                                  sale,Ordered,Shipped,InTransist,Delivered,Cancelled,ReturnProcessing,Returned}); 
+                                  sale,Ordered,Shipped,InTransist,Delivered,Cancelled,ReturnProcessing,Returned,dailyOrders,dates,counts}); 
 
     } else {
       res.redirect("/admin")
@@ -100,9 +114,9 @@ const getCoupons = async (req,res,next) => {
 const getAddCoupon =async (req,res,next) => {
   try {
     if (req.session.admin_id) {
-    res.render('admin/addCoupon');
+    res.render('admin/addCoupon',{ message: req.flash("error2") });
   } else {
-    res.redirect("/adminLogin");
+    res.redirect("/admin/coupons");
 }
   } catch (error) {
     next();
@@ -115,17 +129,20 @@ const addCoupon = async(req,res,next) => {
   try {
     const date = req.body.expiry.split('/');
     const newDate = `${date[2]}-${date[0]}-${date[1]}`
-    const coupon = new Coupon({
-      code: req.body.code,
+    await Coupon.create({
+      code: req.body.code.toUpperCase(),
       status: req.body.status,
       expiry: newDate,
-      discount: req.body.discount
+      discount: req.body.discount,
+      minimum_purchase: req.body.minimum_purchase,
     });
-    const coupon_data = await coupon.save();
+   
     res.redirect('/admin/coupons')
   } catch (error) {
+    req.flash("error2","This Coupon is already exist");
+    res.redirect("/admin/coupons/addcoupon");
     console.log(error)
-    next();
+   
   }
 }
 
@@ -135,7 +152,7 @@ const getEditCoupon = async(req,res,next) => {
     const id = req.params.id;
     const couponData = await Coupon.findById(id);
     if(couponData) {
-      res.render("admin/editCoupon",{couponData});
+      res.render("admin/editCoupon",{couponData,message:req.flash("error2")});
     } else {
       res.redirect('/admin/coupons');
     }
@@ -147,19 +164,31 @@ const getEditCoupon = async(req,res,next) => {
 
 //EDIT COUPON
 const editCoupon = async(req,res,next) => {
+  const id=  req.params.id;
   try {
-    const id=  req.params.id;
-    console.log(id);
-    console.log(req.body);
+    
+   req.body.code = req.body.code.toUpperCase(); 
     const couponData = await Coupon.findByIdAndUpdate({_id:id},req.body);
-    console.log(couponData);
     if(couponData) {
       res.redirect('/admin/coupons');
     } else {
       res.redirect('/admin/editcoupon');
     }
   } catch (error) {
-    next();
+    req.flash('error2',"Coupon Code already exist!! Try another...");
+    res.redirect(`/admin/coupons/editcoupon/${id}`);
+  }
+}
+
+//DELETE COUPON
+const deleteCoupon = async(req,res,next) => {
+  try {
+    const coupon = await Coupon.deleteOne({ id: req.params.id })
+    if(coupon) {
+      res.redirect('/admin/coupons');
+    }
+  } catch (error) {
+    next(error);
   }
 }
 
@@ -167,9 +196,9 @@ const editCoupon = async(req,res,next) => {
 //GETTING SALES REPORTS
 const getSalesReports = async(req,res,next) => {
   try {
-    res.render('admin/sales')
+    res.render('admin/sales');
   } catch (error) {
-    next();
+    next(error);
   }
 }
 
@@ -196,5 +225,6 @@ module.exports = {
   addCoupon,
   getEditCoupon,
   editCoupon,
+  deleteCoupon,
   doLogout,
 };
