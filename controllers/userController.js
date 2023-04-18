@@ -261,7 +261,7 @@ const updateUser = async (req, res, next) => {
 const doLogout = async (req, res, next) => {
   try {
     req.session.destroy();
-    res.redirect("/login");
+    res.redirect("/");
   } catch (error) {
     next(error);
   }
@@ -286,7 +286,7 @@ const getSingleProduct = async (req, res, next) => {
 //GET ALL PRODUCTS
 const getAllProducts = async (req, res, next) => {
   try {
-    const PAGE_SIZE = 5;
+    const PAGE_SIZE = 6;
     const page = parseInt(req.query.page) || 1;
     const skip = (page - 1) * PAGE_SIZE;
 
@@ -312,6 +312,7 @@ const getCart = async (req, res, next) => {
     const products = await Cart.findOne({ _id: user_id }).populate(
       "products.proId"
     );
+    console.log(products);
     res.render("users/cart", { products, user });
   } catch (error) {
     next(error);
@@ -444,6 +445,7 @@ const getCheckout = async (req, res, next) => {
     const userAddresses = await Address.findOne({ _id: user }).populate(
       "addresses._id"
     );
+    console.log(userCart);
     if (userCart) {
       res.render("users/checkout", { userCart, user, userAddresses });
     }

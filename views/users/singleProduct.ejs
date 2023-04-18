@@ -32,27 +32,27 @@
               <div class="col-lg-7 pe-lg-0">
                 <div class="product-gallery">
                   <div class="product-gallery-preview order-sm-2">
-                    <div class="product-gallery-preview-item active" id="first"><img class="image-zoom" src="/uploads/<%=product.image[0]?.img%>" data-zoom="/uploads/<%=product.image[0]?.img%>" alt="Product image">
+                    <div class="product-gallery-preview-item active" id="first"><img class="image-zoom" src="/uploads/<%=product.image0%>" data-zoom="/uploads/<%=product.image0%>" alt="Product image">
                       <div class="image-zoom-pane"></div>
                     </div>
-                    <div class="product-gallery-preview-item" id="second"><img class="image-zoom" src="/uploads/<%=product.image[1]?.img%>" data-zoom="/uploads/<%=product.image[1]?.img%>" alt="Product image">
+                    <div class="product-gallery-preview-item" id="second"><img class="image-zoom" src="/uploads/<%=product.image1%>" data-zoom="/uploads/<%=product.image1%>" alt="Product image">
                       <div class="image-zoom-pane"></div>
                     </div>
-                    <div class="product-gallery-preview-item" id="third"><img class="image-zoom" src="/uploads/<%=product.image[2]?.img%>" data-zoom="/uploads/<%=product.image[2]?.img%>" alt="Product image">
+                    <div class="product-gallery-preview-item" id="third"><img class="image-zoom" src="/uploads/<%=product.image2%>" data-zoom="/uploads/<%=product.image2%>" alt="Product image">
                       <div class="image-zoom-pane"></div>
                     </div>
-                    <div class="product-gallery-preview-item" id="fourth"><img class="image-zoom" src="/uploads/<%=product.image[3]?.img%>" data-zoom="/uploads/<%=product.image[3]?.img%>" alt="Product image">
+                    <div class="product-gallery-preview-item" id="fourth"><img class="image-zoom" src="/uploads/<%=product.image3%>" data-zoom="/uploads/<%=product.image3%>" alt="Product image">
                       <div class="image-zoom-pane"></div>
                     </div>
                   </div>
                   <div class="product-gallery-thumblist order-sm-1">
-                    <a class="product-gallery-thumblist-item active" href="#first"><img src="/uploads/<%=product.image[0]?.img%>" alt="Product thumb"></a>
-                    <% if(product.image[1]) { %>
-                    <a class="product-gallery-thumblist-item" href="#second"><img src="/uploads/<%=product.image[1]?.img%>" alt="Product thumb"></a>
-                    <% if(product.image[2]) { %>
-                    <a class="product-gallery-thumblist-item" href="#third"><img src="/uploads/<%=product.image[2]?.img%>" alt="Product thumb"></a>
-                    <% if(product.image[3]) { %>
-                    <a class="product-gallery-thumblist-item" href="#fourth"><img src="/uploads/<%=product.image[3]?.img%>" alt="Product thumb"></a>
+                    <a class="product-gallery-thumblist-item active" href="#first"><img src="/uploads/<%=product.image0%>" alt="Product thumb"></a>
+                    <% if(product.image1) { %>
+                    <a class="product-gallery-thumblist-item" href="#second"><img src="/uploads/<%=product.image1%>" alt="Product thumb"></a>
+                    <% if(product.image2) { %>
+                    <a class="product-gallery-thumblist-item" href="#third"><img src="/uploads/<%=product.image2%>" alt="Product thumb"></a>
+                    <% if(product.image3) { %>
+                    <a class="product-gallery-thumblist-item" href="#fourth"><img src="/uploads/<%=product.image3%>" alt="Product thumb"></a>
                       <%}%>
                       <%}%>
                       <%}%>
@@ -86,14 +86,14 @@
                       <% if(isInCart) {%>
                         <button class="btn btn-success btn-shadow d-block w-100" type="submit"><a style="color: rgb(255, 255, 255);" href="/cart"><i class="ci-compare fs-lg me-2"></i>Go To Cart</a></button>
                         <%} else{ %>
-                        <button class="btn btn-success btn-shadow d-block w-100" onclick="addToCart('<%= product._id%>','<%= product.product%>', '<%= product.price %>','/uploads/<%=product.image[0]?.img%>')"><i class="ci-cart fs-lg me-2"></i>Add to Cart</a></button>
+                        <button class="btn btn-success btn-shadow d-block w-100" onclick="addToCart('<%= product._id%>','<%= product.product%>', '<%= product.price %>','/uploads/<%=product.image0%>')"><i class="ci-cart fs-lg me-2"></i>Add to Cart</a></button>
                     <% } %>
                     </div>
                     </div>
                   <!-- </div> -->
                   <div class="d-flex mb-4">
                     <div class="w-100 me-3">
-                        <button class="btn btn-secondary d-block w-100"  onclick="addtowishlist('<%= product._id%>', '<%= product.product%>', '<%= product.price%>', '/uploads/<%=product.image[0].img%>')"><i class="ci-heart fs-lg me-2"></i>Add to Wishlist</button>
+                        <button class="btn btn-secondary d-block w-100"  onclick="addtowishlist('<%= product._id%>', '<%= product.product%>', '<%= product.price%>', '/uploads/<%=product.image0%>')"><i class="ci-heart fs-lg me-2"></i>Add to Wishlist</button>
                     </div>
                     <!-- <div class="w-100"> -->
                       <!-- <button class="btn btn-secondary d-block w-100" type="button"><i class="ci-compare fs-lg me-2"></i>Compare</button> -->

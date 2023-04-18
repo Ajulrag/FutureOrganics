@@ -28,16 +28,14 @@ const resizeImages = async (req, res, next) => {
 
   req.body.images = [];
   await Promise.all(
-    req.files.map(async file => {
+   req.files.map(async file => {
       const newFilename = file.filename;
         const buffer = fs.readFileSync(file.path)
-      await sharp(buffer)
+     return await sharp(buffer)
         .resize(500, 500)
         .toFormat("jpeg")
         .jpeg({ quality: 90 })
-        .toFile(file.path);
-
-      req.body.images.push(newFilename);
+        .toFile(file.path)
     })
   );
 

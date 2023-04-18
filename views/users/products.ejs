@@ -12,12 +12,12 @@
       <div class="col-lg-3 col-md-4 col-sm-6 px-2 mb-4">
         <div  class="card product-card ">
           <div class="product-card-actions d-flex align-items-center">
-            <button onclick="addtowishlist('<%= product._id%>', '<%= product.product%>', '<%= product.price%>', '/uploads/<%=product.image[0].img%>')" class="btn-wishlist btn-sm "  data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button>
-          </div><a class="card-img-top d-block overflow-hidden" href="/singleproduct/<%= product._id %>"><img src="/uploads/<%=product.image[0].img%>" alt="Product"></a>
+            <button onclick="addtowishlist('<%= product._id%>', '<%= product.product%>', '<%= product.price%>', '/uploads/<%=product.image0%>')" class="btn-wishlist btn-sm "  data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button>
+          </div><a class="card-img-top d-block overflow-hidden" href="/singleproduct/<%= product._id %>"><img src="/uploads/<%=product.image0%>" alt="Product"></a>
           <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#"><%=product.category.category%></a>
             <h3 class="product-title fs-sm"><a href="/singleproduct/<%= product._id %>"><%=product.product%></a></h3>
             <div class="">
-                <% if(product.offer == 0) {%>
+                <% if(product.offer == 0 || product.offer == null) {%>
                   <span class="text-success"style="font-size:x-large;">₹<%= product.price%></span>
                 <%} else {%>
                   <span class="text-muted">₹<del><%= product.price%></del></span>

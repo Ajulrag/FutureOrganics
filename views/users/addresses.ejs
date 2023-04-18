@@ -55,22 +55,24 @@
         
      
         <!-- <button style="height: 50px;border: 1px solid rgb(123, 123, 123); align-items: center; justify-content: center;text-align: center; background-color: rgb(255, 255, 255);"><i class="fa-solid fa-plus"></i><a style="color: rgb(6, 187, 242);align-items: center;text-align: center;justify-content: center;"  href="/profile/addaddress"><img src="https://www.creativefabrica.com/wp-content/uploads/2021/04/11/Medical-CrossPlus-Icon-Graphics-10662713-1.jpg" style="height: 50px;width: 50px;" alt=""> Add New Address</a></button> -->
-        <button style="color: rgb(26, 194, 0);background-color: aliceblue;border: 1px solid white;height: 48px;width: -webkit-fill-available;"><img src="https://o.remove.bg/downloads/78b4a745-74f8-4137-984d-2c92b5a6658a/500_F_251955466_7zEFs6dhjLvROKdfm2l1ZV3pO0tX90m7-removebg-preview.png" style="height:27px;padding-bottom: 2px;" alt=""> ADD A NEW ADDRESS</button>
+        <button style="color: rgb(26, 194, 0);background-color: aliceblue;border: 1px solid white;height: 48px;width: 809px;margin-top: 10px;"><img src="https://cdn2.iconfinder.com/data/icons/thin-line-color-1/21/06-1024.png" style="height:24px;width:23px;padding-bottom: 2px;" alt=""><a style="color: #48cb4c;" href="/profile/addaddress">Add New Address</a></button>
               <div style="background-color: rgb(255, 255, 255);">
                 
               <% userAddresses?.addresses.forEach(address => {%>
-                    <div style="border: 1px solid; margin-top: 10px;height: 90px;justify-content: center;align-items: center;text-align:left;padding:10px;">
+                    <div style="border: 1px solid; margin-top: 10px;height: auto;justify-content: center;align-items: center;text-align:left;padding:10px;">
                     <div class="d-flex justify-content-between">
                       <%= address.name%></p>
-                      <button>...</button>
+                      <button style="border: none;background-color: white;"><img src="https://cdn-icons-png.flaticon.com/512/6324/6324826.png" alt="" style="height: 25px;width: 25px;"></button>
+                      <button style="border: none;background-color: white;"><img src="https://www.pngall.com/wp-content/uploads/6/Delete-Button-PNG-HD-Image.png" alt="" style="height: 25px;width: 25px;"></button>
                     </div>
-                    <p><%= address.mobile%>,
+                    <p>
                       <%= address.street%>,
                       <%= address.locality%>,
                       <%= address.city%>,<br>
                       <%= address.country%>,
                       <%= address.state%>-
-                      <%= address.pincode%></p>
+                      <%= address.pincode%> <br>
+                      <%= address.mobile%>, </p>
                       
                     
       

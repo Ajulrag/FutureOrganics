@@ -19,10 +19,22 @@ const productSchema = new Schema({
         ref:"categories",
         required: true
     },
-    image: [{
-        img:{type: String,
-        required: true}
-    }],
+    image0: {
+        type: String,
+        required: true
+    },
+    image1: {
+        type: String,
+        
+    },
+    image2: {
+        type: String,
+        
+    },
+    image3: {
+        type: String,
+        
+    },
     price: {
         type: Number,
         required: true,

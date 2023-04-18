@@ -1,6 +1,6 @@
 <%- include('../users/layouts/head') %>
 <%- include('../users/layouts/header') %>
-<div class="page-title bg-success pt-4" s">
+<div class="page-title bg-success pt-4" >
     <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
       <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
         <nav aria-label="breadcrumb">
@@ -34,7 +34,7 @@
               <div class="accordion mt-n1" id="shop-categories">
                 <!-- Shoes-->
                 <div class="accordion-item">
-                  <h3 class="accordion-header"><a class="accordion-button collapsed" href="#shoes" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="shoes">Categories</a></h3>
+                  <h3 class="accordion-header"><a class="accordion-button collapsed" href="" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="shoes">Categories</a></h3>
                   <div class="accordion-collapse collapse" id="shoes" data-bs-parent="#shop-categories">
                     <div class="accordion-body">
                       <div class="widget widget-links widget-filter">
@@ -114,12 +114,13 @@
             <% productList.forEach( product => {%>
           <div class="col-md-4 col-sm-6 px-2 mb-4">
             <div class="card product-card">
-              <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="/singleproduct/<%= product._id %>"><img src="/uploads/<%=product.image[0].img%>" alt="Product"></a>
+              <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="/singleproduct/<%= product._id %>"><img src="/uploads/<%=product.image0%>" alt="Product"></a>
               <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="<%=product.category.category%>"><%=product.category.category%></a>
                 <h3 class="product-title fs-sm"><a href="/singleproduct/<%= product._id %>"><%=product.product%></a></h3>
                 <div class="d-flex justify-content-between">
                   <div class="product-price"><span class="text-accent"><%= product.price%><small>.00</small></span></div>
-                  <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star"></i>
+                  <div class="star-rating">
+                    <!-- <i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star"></i> -->
                   </div>
                 </div>
               </div>

@@ -67,8 +67,9 @@ const getDashboard = async(req,res,next) => {
       const ReturnProcessing = await Order.find({status:"Return Processing"}).count();
       const Returned = await Order.find({status: "Returned"});
 
-    const orderList = await Order.find().populate('customer').populate('products.product');
+      const orderList = await Order.find().populate('customer').populate('products.product');
 
+      const OrderData = await Order.find();
 
 
     const dailyOrders = await Order.aggregate([
@@ -85,7 +86,7 @@ const getDashboard = async(req,res,next) => {
     console.log(dates);
     console.log(counts);
     res.render("admin/dashboard",{adminSession,orderList,totalDelivery,totalOrder,totalUsers,category,products,
-                                  sale,Ordered,Shipped,InTransist,Delivered,Cancelled,ReturnProcessing,Returned,dailyOrders,dates,counts}); 
+                                  sale,Ordered,Shipped,InTransist,Delivered,Cancelled,ReturnProcessing,Returned,dailyOrders,OrderData,dates,counts}); 
 
     } else {
       res.redirect("/admin")
@@ -196,7 +197,9 @@ const deleteCoupon = async(req,res,next) => {
 //GETTING SALES REPORTS
 const getSalesReports = async(req,res,next) => {
   try {
-    res.render('admin/sales');
+    const orderList = await Order.find().populate('customer').populate('products.product').sort({createdAt: -1});
+    console.log(orderList);
+    res.render('admin/sales',{orderList});
   } catch (error) {
     next(error);
   }

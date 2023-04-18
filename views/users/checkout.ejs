@@ -124,11 +124,11 @@
               
               <!-- PROMOCODE -->
               <div class="accordion-item">
-                <h3 class="accordion-header"><a class="accordion-button" href="#promo-code" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="promo-code">Apply promo code</a></h3>
+                <h3 class="accordion-header"><a class="accordion-button" href="#" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="promo-code">Apply promo code</a></h3>
                 <div class="accordion-collapse collapse show" id="promo-code" data-bs-parent="#order-options">
-                  <form class="accordion-body needs-validation" method="post" novalidate>
+                  <form id="couponForm" class="accordion-body needs-validation" method="post" novalidate>
                     <div class="mb-3">
-                      <input class="form-control" type="text" placeholder="Promo code" required>
+                      <input class="form-control" type="text" name="code" placeholder="Promo code" required>
                       <div class="invalid-feedback">Please provide promo code.</div>
                     </div>
                     <button class="btn btn-outline-primary d-block w-100" type="submit">Apply promo code</button>
@@ -216,6 +216,72 @@ function verifyPayment(response,order) {
 }
 </script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+// applying coupon
+      coupon_form.addEventListener("submit", event => {
+        event.preventDefault();
+        let formData = new FormData(coupon_form);
+        let data = Object.fromEntries(formData);
+        applyCoupon(data);
+      })
+      function applyCoupon(data) {
+        let couponName = data.couponName;
+        fetch(`https://www.furnitureworld.site/users/apply-coupon/${couponName}`, {
+          method: "POST"
+        })
+          .then((res) => {
+            return res.json()
+          })
+          .then((res) => {
+            if (res.status == false) {
+              errMsg.innerText = res.msg;
+            } else {
+              applied_coupon.innerHTML = `${res.couponName}`;
+              coupon_amount.innerHTML = `₹  ${res.couponDiscount}`;
+              sub_total.innerHTML = `₹ ${res.subTotal}`;
+              sub_total_amount = res.subTotal;
+              coupon_discount.classList.remove('d-none');
+              apply_coupon.classList.add('d-none');
+              clear_coupon.classList.remove('d-none');
+              errMsg.innerHTML = `Coupon Applied! Successfully`;
+              errMsg.classList.remove('text-danger');
+              errMsg.classList.add('text-success')
+            }
+          })
+          .catch((err) => {
+            window.location.href = "https://www.furnitureworld.site/users/cart";
+          })
+      }
+      // clear coupon
+      function clearCoupon() {
+        fetch(`https://www.furnitureworld.site/users/clear-coupon/${coupon_input.value}`, {
+          method: "POST"
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            if (res.status == false) {
+              return window.location.href = "https://www.furnitureworld.site/users/signin";
+            }
+            sub_total.innerHTML = "₹" + `${res.subTotal}`;
+            sub_total_amount = res.subTotal;
+            coupon_input.value = ""
+            coupon_discount.classList.add('d-none');
+            apply_coupon.classList.remove('d-none');
+            applied_coupon.innerHTML = "No Coupon Applied"
+            clear_coupon.classList.add('d-none');
+            coupon_amount.innerHTML = `₹ ${res.couponDis}`
+            errMsg.innerText = "";
+            errMsg.classList.add('text-danger');
+            errMsg.classList.remove('text-success')
+          })
+          .catch((err) => {
+            window.location.href = "https://www.furnitureworld.site/users/signin";
+          })
+      }
+    </script>
   <%- include('../users/layouts/foot')%>
 
 

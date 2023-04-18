@@ -20,13 +20,70 @@
         </div>
         <div></div>
         <div class="form-group" id="image-group" style="padding-top: 15px;">
-          <% product.image.forEach(image=>{%>
-            <img src="/uploads/<%=image.img%>" alt=""  style="height: auto;width: 100px;" class="imgView">
-          <%})%>
-        </div>
+          
+          <style>
+            .imgView {
+                display: inline-block;
+                position: relative;
+                margin-right: 10px; /* Add some margin to separate the images */
+            }
+            .imgView button {
+                position: absolute;
+                border: none;
+                background-color: transparent;
+                top: 0;
+                right: 0;
+            }
+        </style>
         <div>
-            <label>Image</label>
-            <input type="file" value="<%=product.image%>" accept="image/*" class="form-control" name="image" multiple  onchange="viewImage(event)" />
+          <% if (product.image0) { %>
+            <div class="imgView">
+              <img src="/uploads/<%= product.image0 %>" alt="" style="height: auto;width: 100px;">
+              <button class="delete-btn" data-image="<%= product.image0 %>">x</button>
+            </div>
+          <% } %>
+          <% if (product.image1) { %>
+            <div class="imgView">
+              <img src="/uploads/<%= product.image1 %>" alt="" style="height: auto;width: 100px;">
+              <button class="delete-btn" data-image="<%= product.image1 %>">x</button>
+            </div>
+          <% } %>
+          <% if (product.image2) { %>
+            <div class="imgView">
+              <img src="/uploads/<%= product.image2 %>" alt="" style="height: auto;width: 100px;">
+              <button class="delete-btn" data-image="<%= product.image2 %>">x</button>
+            </div>
+          <% } %>
+          <% if (product.image3) { %>
+            <div class="imgView">
+              <img src="/uploads/<%= product.image3 %>" alt="" style="height: auto;width: 100px;">
+              <button class="delete-btn" data-image="<%= product.image3 %>">x</button>
+            </div>
+          <% } %>
+        </div>
+          
+        </div>
+        <div class="form-group">
+      
+          <div class="custom-file-upload">
+            <input id="primary" style="width: 110px;" type="file" accept="image/*" class="form-control" name="image0" >
+            <span>Primary Image</span>
+          </div>
+          
+          <div class="custom-file-upload">
+            <input style="width: 110px;" type="file" accept="image/*" class="form-control" name="image1" >
+            <span>Second Image</span>
+          </div>
+    
+          <div class="custom-file-upload">
+            <input style="width: 110px;" type="file" accept="image/*" class="form-control" name="image2" >
+            <span>Third Image</span>
+          </div>
+    
+          <div class="custom-file-upload">
+            <input style="width: 110px;" type="file" accept="image/*" class="form-control" name="image3"  >
+            <span>Fourth Image</span>
+          </div>
         </div>
         <div class="form-group" style="padding-top: 15px;">
           <label>Stock</label>
@@ -80,3 +137,66 @@
        swal("Good job!", "You edited the Product!", "success");
   </script>
   <% } %> 
+
+
+  
+<style>
+  .custom-label {
+    font-size: 16px;
+    color: #b76161;
+    font-weight: bold;
+  }
+  
+  .custom-file-upload {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    margin: 10px;
+  }
+  
+  .custom-file-upload input[type="file"] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+  }
+  
+  .custom-file-upload span {
+    display: inline-block;
+    padding: 5px;
+    background-color: #45bbd6;
+    color: #fff;
+    border-radius: 30px;
+    cursor: pointer;
+    height: 35px;
+  }
+  
+  .custom-file-upload:hover span {
+    background-color: #e80d0d;
+  }
+  
+  </style>
+  
+<script>
+  const deleteButtons = document.querySelectorAll('.delete-btn');
+  deleteButtons.forEach(button => {
+    button.addEventListener('click', async () => {
+      const productId = button.dataset.productId;
+      const imageIndex = button.dataset.imageIndex;
+      const response = await fetch(`products/editproduct/${productId}/image/${imageIndex}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        // remove the deleted image element from the DOM
+        button.parentElement.remove();
+      } else {
+        // handle error
+      }
+    });
+  });
+</script>
