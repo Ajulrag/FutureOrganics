@@ -14929,7 +14929,7 @@ a.nav-link:hover .media-tab-media {
   font-weight: 400;
 }
 .navbar-nav .nav-link {
-  padding: 0.667rem 1.125rem;
+  padding: 0rem 1.125rem;
   font-weight: 500;
 }
 .navbar-nav .dropdown-menu {
@@ -15382,7 +15382,7 @@ a.nav-link:hover .media-tab-media {
     font-weight: normal;
   }
   .navbar-expand-lg .navbar-nav .nav-link {
-    padding-top: 1.125rem;
+
     padding-bottom: 0.875rem;
     font-weight: normal;
   }

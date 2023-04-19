@@ -1,5 +1,6 @@
 <%- include('../users/layouts/head')%>
 <%- include('../users/layouts/header') %> 
+
 <main class="page-wrapper">
       <!-- Navbar 3 Level (Light)-->
       
@@ -83,7 +84,9 @@
                 </div>
               </div>
               <div class="pt-2 ps-sm-3 mx-auto mx-sm-0 text-center">
-                <a class="btn btn-outline-danger btn-sm" href="/profile/wishlist/remove/<%= product.proId._id %>" id="dlt-btn"><i class="ci-trash me-2">Remove</i></a>
+                <a class="btn btn-outline-success btn-sm d-flex align-items-center" href="/profile/wishlist/remove/<%= product.proId._id %>" ><span class="material-symbols-outlined">shopping_cart</span>Add to Cart</a>
+                <div style="margin-top: 10px;"><a class="btn btn-outline-danger btn-sm" style="width: 120px;" href="/profile/wishlist/remove/<%= product.proId._id %>" id="dlt-btn"><i class="ci-trash me-2">Remove</i></a></div>
+                
               </div>
             </div>
 

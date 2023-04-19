@@ -17,22 +17,22 @@
       </div>
     </div>
   </div>
-  <div class="container pb-5 mb-2 mb-md-4">
-    <div class="row">
+  <div class="container pb-5 mb- mb-md-6">
+    <div >
       <!-- Sidebar-->
-      <aside class="col-lg-4">
-        <!-- Sidebar-->
+      <!-- <aside class="col-lg-4">
+        
         <div class="offcanvas offcanvas-collapse bg-white w-100 rounded-3 shadow-lg py-1" id="shop-sidebar" style="max-width: 22rem;">
           <div class="offcanvas-header align-items-center shadow-sm">
             <h2 class="h5 mb-0">Filters</h2>
             <button class="btn-close ms-auto" type="button" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
           <div class="offcanvas-body py-grid-gutter px-lg-grid-gutter">
-            <!-- Categories-->
+            
             <div class="widget widget-categories mb-4 pb-4 border-bottom">
              
               <div class="accordion mt-n1" id="shop-categories">
-                <!-- Shoes-->
+             
                 <div class="accordion-item">
                   <h3 class="accordion-header"><a class="accordion-button collapsed" href="" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="shoes">Categories</a></h3>
                   <div class="accordion-collapse collapse" id="shoes" data-bs-parent="#shop-categories">
@@ -56,7 +56,7 @@
 
 
             
-            <!-- Price range
+            Price range
             <div class="widget mb-4 pb-4 border-bottom">
               <h3 class="widget-title">Price</h3>
               <div class="range-slider" data-start-min="250" data-start-max="680" data-min="0" data-max="1000" data-step="1">
@@ -74,21 +74,24 @@
                   </div>
                 </div>
               </div>
-            </div> -->
+            </div>
             
             
             
             
           </div>
         </div>
-      </aside>
+      </aside> -->
 
 
 
       <!-- Content  -->
-      <section class="col-lg-8">
+      <section >
+        <%if(productList.length == 0 || productList.length == null) { %>
+          <h1>Soeeeysgduhfg</h1>
+        <%}else{%>
         <!-- Toolbar-->
-        <div class="d-flex justify-content-center justify-content-sm-between align-items-center pt-2 pb-4 pb-sm-5">
+        <div class="d-flex justify-content-center justify-content-sm-between align-items-center pt-2 pb-4 pb-sm-6">
           <div class="d-flex flex-wrap">
             <div class="d-flex align-items-center flex-nowrap me-3 me-sm-4 pb-3">
               <label class="text-light opacity-75 text-nowrap fs-sm me-2 d-none d-sm-block" for="sorting"></label>
@@ -112,7 +115,7 @@
          
             <!-- Product-->
             <% productList.forEach( product => {%>
-          <div class="col-md-4 col-sm-6 px-2 mb-4">
+          <div class="col-md-2 col-sm-6 px-2 mb-4">
             <div class="card product-card">
               <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="/singleproduct/<%= product._id %>"><img src="/uploads/<%=product.image0%>" alt="Product"></a>
               <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="<%=product.category.category%>"><%=product.category.category%></a>
@@ -183,10 +186,15 @@
             <li class="page-item d-none d-sm-block"><a class="page-link" href="#">5</a></li>
           </ul> -->
           
-       
+          <% } %>
       </section>
     </div>
   </div>
+  <!-- Toolbar for handheld devices (Default)-->
+<div class="handheld-toolbar">
+  <div class="d-table table-layout-fixed w-100"><a class="d-table-cell handheld-toolbar-item" href="/profile/wishlist"><span class="handheld-toolbar-icon"><i class="ci-heart mt-3"></i></span></a><a class="d-table-cell handheld-toolbar-item" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" onclick="window.scrollTo(0, 0)"><span class="handheld-toolbar-icon"><i class="ci-menu"></i></span><span class="handheld-toolbar-label">Menu</span></a><a class="d-table-cell handheld-toolbar-item" href="/cart"><span class="handheld-toolbar-icon"><i class="ci-cart mt-3"></i></span><span class="handheld-toolbar-label"></span></a></div>
+</div>
+<!-- Back To Top Button--><a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon ci-arrow-up">   </i></a>
 
   <script>
     function addToCart(id, product, price, image, quantity) {

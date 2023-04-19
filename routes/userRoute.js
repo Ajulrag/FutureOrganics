@@ -45,6 +45,7 @@ user_route.get('/profile/wishlist',userAuth.isLogin,userController.getWishlist);
 user_route.post('/addtowishlist/:id',userAuth.isLogin,userController.addToWishlist);
 user_route.get('/profile/wishlist/remove/:id',userAuth.isLogin,userController.removeFromWishlist);
 
+user_route.get('/search-products',userController.searchProduct);
 
 
 

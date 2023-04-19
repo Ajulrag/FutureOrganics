@@ -286,7 +286,7 @@ const getSingleProduct = async (req, res, next) => {
 //GET ALL PRODUCTS
 const getAllProducts = async (req, res, next) => {
   try {
-    const PAGE_SIZE = 6;
+    const PAGE_SIZE = 12;
     const page = parseInt(req.query.page) || 1;
     const skip = (page - 1) * PAGE_SIZE;
 
@@ -743,6 +743,70 @@ const removeFromWishlist = async(req,res,next) => {
   }
 }
 
+
+//SEARCHING PRODUCTs
+const searchProduct = async(req,res,next) => {
+  let searchq = req.query.q ? req.query.q : '';
+    let page = req.query.page ? parseInt(req.query.page) : 1;
+    let limit = req.query.limit < 12 ? parseInt(req.query.limit) : 12;
+    let category = req.query.category || '';
+    let max = req.query.max || 5000;
+    let min = req.query.min || 0;
+
+    let price = { $gt: min, $lt: max };
+    let search = { $regex: searchq, $options: 'i' };
+    let result = [];
+    let pages = 0;
+    let PAGE_SIZE = 12;
+    let skip = (page - 1) * PAGE_SIZE;
+    
+  try {
+    //IF CTEFORY NOT SPECIFIED
+    if (category == '') {
+      result = await Product.find({
+        $or: [{ description: search }, { product: search }],
+        price: price,
+      })
+        .skip((page - 1) * 12)
+        .limit(limit);
+       //GET TOTAL LEGTH OF PRODUCT
+        pages = await Product.find({
+          $or: [{ description: search }, { product: search }],
+          price: price,
+        }).count();
+        pages = pages/12
+        
+    }
+  //IF CATEGORY SPECIFIED
+  if (category != '') {
+    result = await Product.find({
+      $or: [{ description: search }, { product: search }],
+      price: price,
+      category: category,
+    })
+      .skip((page - 1) * 12)
+      .limit(limit);
+     //GET TOTAL LEGTH OF PRODUCT
+      pages = await Product.find({
+        $or: [{ description: search }, { product: search }],
+        price: price, category: category,
+      }).count();
+      pages = pages/12
+  }
+  const user = req.session.user;
+  let usersession = req.session.user;
+  const categoryList = await Category.find();
+ 
+  result.pages = pages <1 ? 1 : pages;
+  
+  req.pageUrl = `/search?q=${searchq}&min=${min}&max=${max}&limit=${limit}%category=${category}`
+
+  res.render('users/allProducts',{productList:result, usersession, user,categoryList,currentPage:page,totalPages:pages})
+  } catch (error) {
+    res.redirect('/');
+  }
+}
+
 module.exports = {
   getHomepage,
 
@@ -779,5 +843,7 @@ module.exports = {
 
   addToWishlist,
   getWishlist,
-  removeFromWishlist
+  removeFromWishlist,
+
+  searchProduct,
 };

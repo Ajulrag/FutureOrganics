@@ -13,19 +13,12 @@
         <div style="max-height: 115px;background-color: #f6f9fc;" class="navbar navbar-expand-lg navbar-light pt-4">
           <div  class="container" style="height: 50px;"><a class="navbar-brand d-none d-sm-block me-3 flex-shrink-0" href="/"><img src="/img/FutureOrganics_logo.png" width="70px" alt="Future Organics"></a><a class="navbar-brand d-sm-none me-2" href="home.ejs"><img src="/img/FutureOrganics_logo.png" width="74" alt="Futureorganics"></a>
             <!-- Search-->
-            <div class="input-group d-none d-lg-flex flex-nowrap mx-4"><i class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-              <input class="form-control rounded-start w-100" type="text" placeholder="Search for products">
-
-
-
-              <!-- <select class="form-select flex-shrink-0" style="width: 10.5rem;">
-                <option>All categories</option>
-                <option>Vegitables</option>
-                <option>Fruits</option>
-                <option>Honey</option>
-                <option>Tea</option>
-                <option>Bread</option>
-              </select> -->
+            <div class="input-group d-none d-lg-flex flex-nowrap mx-4">
+              
+              <form class=" w-100" action="/search-products" method="get">
+                <i class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+              <input class="form-control rounded-start w-100" name="q" type="text" placeholder="Search for products">
+            </form>
             </div>
             <!-- Toolbar-->
             <div class="navbar-toolbar d-flex flex-shrink-0 align-items-center">
@@ -34,7 +27,6 @@
                   
                   <a href="/profile" style="color: #42ad51;">My Account</a>
               </div>
-                <!-- <a href="/logout" title="My Wishlists" class="btn btn-danger"><i class="fa fa-sign-out"></i>Logout</a> -->
                 <% }else{ %>
                   <div style="height: 40px;width: 80px;color: rgb(255, 255, 255); background-color: #42d697 ;border: 3px solid rgb(255, 255, 255);border-radius: 5px;display: flex;align-items: center;justify-content: center; ">
                  
@@ -48,8 +40,8 @@
           </div>
         </div>
         <div class="navbar navbar-expand-lg  navbar-stuck-menu mt-n2 pt-0 pb-2" style="background: #f6f9fc;">
-          <div class="container" style="height: 10px;">
-            <div class="collapse navbar-collapse  justify-content-center mb-2" id="navbarCollapse">
+          <div class="container">
+            <div class="collapse navbar-collapse  justify-content-center mb-2 relative w-100" id="navbarCollapse"  >
               <!-- Search-->
               <div class="input-group d-lg-none my-3"><i class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
                 <input class="form-control rounded-start" type="text" placeholder="Search for products">
@@ -57,9 +49,9 @@
              
               <!-- Primary menu-->
               <ul class="navbar-nav pt-1">
-                <li  class="nav-item dropdown active"><a style="font-family: 'cartzilla-icons';color: #484646;" class="nav-link dropdown-toggle" href="/" >Home</a></li>
-                <li class="nav-item dropdown active"><a style="font-family: 'cartzilla-icons';color: #484646;" class="nav-link dropdown-toggle" href="/getallproducts" >Shop</a></li>
-                <li class="nav-item dropdown"><a style="font-family: 'cartzilla-icons';color: #484646;" class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside">Contact Us</a></li>
+                <li  class="nav-item dropdown active"><a style="font-family: 'cartzilla-icons';color: #484646;" class="nav-link " href="/" >Home</a></li>
+                <li class="nav-item dropdown active"><a style="font-family: 'cartzilla-icons';color: #484646;" class="nav-link" href="/getallproducts" >Shop</a></li>
+                <li class="nav-item dropdown"><a style="font-family: 'cartzilla-icons';color: #484646;" class="nav-link " href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside">Contact Us</a></li>
               </ul>
                 
             </div>
