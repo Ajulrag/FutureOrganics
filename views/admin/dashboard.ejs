@@ -29,12 +29,13 @@
 </div>
 
 <div style="align-items: center;justify-content: center;text-align: center;">
-
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <div id="myChart" style="width:100%; max-width:600px; height:500px;"></div>
 
 
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
 <script>
     const Ordered = parseInt('<%=Ordered%>');
     const Shipped = parseInt('<%=Shipped%>')
@@ -54,6 +55,7 @@
     const data = google.visualization.arrayToDataTable([
       ['Contry', 'Mhl'],
       ['Ordered',Ordered],
+      ['Shipped',Shipped],
       ['In Transist',InTransist],
       ['Returned',Returned],
       ['ReturnProcessing',ReturnProcessing],
@@ -71,41 +73,6 @@
     }
     </script>
 
-<!-- 
-<div>
-  <canvas id="myChart2"></canvas>
-</div>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-
-<script>
-  
-  
-  new Chart("myChart", {
-    type: "line",
-    data: {
-      labels: dates,
-      datasets: [{
-        fill: false,
-        lineTension: 0,
-        backgroundColor: "rgba(0,0,255,1.0)",
-        borderColor: "rgba(0,0,255,0.1)",
-        data: counts
-      }]
-    },
-    options: {
-      legend: {display: false},
-      scales: {
-        yAxes: [{ticks: {min: 6, max:16}}],
-      }
-    }
-  });
-  </script>
-
-  
- -->
 
  <div style="display: flex;">
 

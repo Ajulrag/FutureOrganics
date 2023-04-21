@@ -107,34 +107,45 @@
             <div class="p-4 h-100 ms-auto border-start">
               <div class="widget px-lg-2 py-2 mb-3">
                 <h2 class="widget-title text-center">Order summary</h2>
-                <% let total2=0 %>
+               
                 <% userCart.products.forEach(product=> {%>
                 <div class="d-flex align-items-center pb-2 border-bottom"><a class="d-block flex-shrink-0 me-2" href="/singleproduct/<%= product.proId._id %>"><img class="rounded-1" src="<%= product.image %>" width="64" alt="Product"></a>
                   <div class="ps-1">
                     <h6 class="widget-product-title"><a href="/singleproduct/<%= product.proId._id %>"><%= product.name%></a></h6>
-                    <div class="widget-product-meta"><span class="text-accent border-end pe-2 me-2">RS:<%= (product.price)*(product.quantity)%><small>.00</small></span>Quantity:<%=product.quantity %></div>
+                    <div class="widget-product-meta"><span class="text-accent border-end pe-2 me-2">RS:<%= (product.price)*(product.quantity) %><small>.00</small></span>Quantity:<%=product.quantity %></div>
                   </div>
                 </div>
-                <%total2 += (product.price)*(product.quantity) %>
                 <% }) %>
                 <ul class="list-unstyled fs-sm pt-3 pb-2 border-bottom">
-                  <li class="d-flex justify-content-between align-items-center"><span class="me-2" >Total:</span><span class="text-end">RS.<%= total2%><small>.00</small></span></li>
+                  <li class="d-flex justify-content-between align-items-center" id="total2"><span class="me-2" >Total:</span><span class="text-end">RS.<%= userCart.subTotal%><small>.00</small></span></li>
                 </ul>
               </div>
               
               <!-- PROMOCODE -->
               <div class="accordion-item">
-                <h3 class="accordion-header"><a class="accordion-button" href="#" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="promo-code">Apply promo code</a></h3>
-                <div class="accordion-collapse collapse show" id="promo-code" data-bs-parent="#order-options">
+                <h3 class="accordion-header"><a class="accordion-button collapsed" href="#coupon-code" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="coupon-code">Apply Coupon code</a></h3>
+                <div class="accordion-collapse collapse " id="coupon-code" data-bs-parent="#order-options">
                   <form id="couponForm" class="accordion-body needs-validation" method="post" novalidate>
-                    <div class="mb-3">
-                      <input class="form-control" type="text" name="code" placeholder="Promo code" required>
-                      <div class="invalid-feedback">Please provide promo code.</div>
+                    <div id="success" class="alert alert-success" role="alert" style="display: none">
+                      Coupon applied!
                     </div>
+                    <div id="notsuccess" class="alert alert-danger" role="alert" style="display: none">
+                      Minimum amount required!
+                    </div>
+                    <div id="expired"  class="alert alert-danger" role="alert" style="display: none;">
+                      Coupon Expired!
+                    </div>
+                    <div id="error"  class="alert alert-danger" role="alert" style="display: none;">
+                      Invalid coupon!
+                    </div>
+
+                    <input type="number" id="total" name="total" class="d-none" required value="<%= userCart.subTotal%>">
+                      <input class="form-control" type="text" id="code"  placeholder="Coupon Code" name="code" required>
                     <button class="btn btn-outline-primary d-block w-100" type="submit">Apply promo code</button>
                   </form>
                 </div>
               </div>
+            </div>
 
 
           </aside>
@@ -177,9 +188,7 @@ function razorPayment(order) {
     "description": "Test Transaction",
     "image": "https://example.com/your_logo",
     "order_id": order._id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-    "handler": function (response){
-        verifyPayment(response,order)
-    },
+    "callback_url": 'http://localhost:3000/onlinesuccess',
     "prefill": {
         "name": "Gaurav Kumar",
         "email": "gaurav.kumar@example.com",
@@ -199,89 +208,60 @@ function razorPayment(order) {
 }
 
 
-function verifyPayment(response,order) {
-  $.ajax({
-    url:'/verify-razorpay',
-    data:JSON.stringify({response, order}),
-    method:'post',
-    success:(response) => {
-      console.log(response,"data is coming to the verify payment");
-      if(response.success==true) {
-        location.href='/onlinesuccess';
-      } else {
-        alert('payment faild');
-      }
-    }
-  })
-}
+
 </script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script>
-// applying coupon
-      coupon_form.addEventListener("submit", event => {
-        event.preventDefault();
-        let formData = new FormData(coupon_form);
-        let data = Object.fromEntries(formData);
-        applyCoupon(data);
-      })
-      function applyCoupon(data) {
-        let couponName = data.couponName;
-        fetch(`https://www.furnitureworld.site/users/apply-coupon/${couponName}`, {
-          method: "POST"
-        })
-          .then((res) => {
-            return res.json()
+
+//TO APPLY COUPON
+$('#couponForm').submit((e) => {
+  e.preventDefault()
+
+  const code = document.getElementById('code').value;
+  const total = document.getElementById('total').innerHTML;
+
+  if(code == ""){
+      document.getElementById('error').style.display='inline'
+      setTimeout(()=> document.getElementById('error').style.display='none',2000)
+     }else{
+         $.ajax({
+            url:'/cart/checkout/applycoupon',
+            method:'post',
+            // dataType: "json",
+            encode: true,
+            data:
+        
+                $('#couponForm').serialize()+ `&total=${total}`
+            ,
+            success:((response)=>{
+              if(response.errormessage===false){
+                document.getElementById('error').style.display='inline'
+                setTimeout(()=> document.getElementById('error').style.display='none',2000)
+              }else if (response.status){
+                    document.getElementById('success').style.display='inline'
+                    document.getElementById('totalPrice').innerHTML=response.total
+                    setTimeout(()=> document.getElementById('success').style.display='none',2000)
+                    clicked=true
+              }else if  (response.status == false){
+                    document.getElementById('notsuccess').style.display='inline'
+                    setTimeout(()=> document.getElementById('notsuccess').style.display='none',2000)
+              }else {
+                    
+                    document.getElementById('expired').style.display='inline'
+                    setTimeout(()=> document.getElementById('expired').style.display='none',2000);
+                   
+              }
+              
+                
+            })
           })
-          .then((res) => {
-            if (res.status == false) {
-              errMsg.innerText = res.msg;
-            } else {
-              applied_coupon.innerHTML = `${res.couponName}`;
-              coupon_amount.innerHTML = `₹  ${res.couponDiscount}`;
-              sub_total.innerHTML = `₹ ${res.subTotal}`;
-              sub_total_amount = res.subTotal;
-              coupon_discount.classList.remove('d-none');
-              apply_coupon.classList.add('d-none');
-              clear_coupon.classList.remove('d-none');
-              errMsg.innerHTML = `Coupon Applied! Successfully`;
-              errMsg.classList.remove('text-danger');
-              errMsg.classList.add('text-success')
-            }
-          })
-          .catch((err) => {
-            window.location.href = "https://www.furnitureworld.site/users/cart";
-          })
-      }
-      // clear coupon
-      function clearCoupon() {
-        fetch(`https://www.furnitureworld.site/users/clear-coupon/${coupon_input.value}`, {
-          method: "POST"
-        })
-          .then((res) => {
-            return res.json();
-          })
-          .then((res) => {
-            if (res.status == false) {
-              return window.location.href = "https://www.furnitureworld.site/users/signin";
-            }
-            sub_total.innerHTML = "₹" + `${res.subTotal}`;
-            sub_total_amount = res.subTotal;
-            coupon_input.value = ""
-            coupon_discount.classList.add('d-none');
-            apply_coupon.classList.remove('d-none');
-            applied_coupon.innerHTML = "No Coupon Applied"
-            clear_coupon.classList.add('d-none');
-            coupon_amount.innerHTML = `₹ ${res.couponDis}`
-            errMsg.innerText = "";
-            errMsg.classList.add('text-danger');
-            errMsg.classList.remove('text-success')
-          })
-          .catch((err) => {
-            window.location.href = "https://www.furnitureworld.site/users/signin";
-          })
-      }
-    </script>
+     }
+});
+
+</script>
+
   <%- include('../users/layouts/foot')%>
 
 

@@ -28,7 +28,7 @@ user_route.get('/cart/checkout',userAuth.isLogin,userController.getCheckout);
 user_route.post('/cart/checkout',userAuth.isLogin,userController.placeOrder);
 
 user_route.get('/codsuccess',userAuth.isLogin,userController.getcodSuccess);
-user_route.get('/onlinesuccess',userAuth.isLogin,userController.getonlineSuccess);
+user_route.post('/onlinesuccess',userAuth.isLogin,userController.getonlineSuccess);
 
 user_route.post('/verify-razorpay',userAuth.isLogin,userController.verifyRazorpay)
 
@@ -46,6 +46,8 @@ user_route.post('/addtowishlist/:id',userAuth.isLogin,userController.addToWishli
 user_route.get('/profile/wishlist/remove/:id',userAuth.isLogin,userController.removeFromWishlist);
 
 user_route.get('/search-products',userController.searchProduct);
+
+user_route.post('/cart/checkout/applycoupon',userAuth.isLogin,userController.applyCoupon);
 
 
 

@@ -197,7 +197,19 @@ const deleteCoupon = async(req,res,next) => {
 //GETTING SALES REPORTS
 const getSalesReports = async(req,res,next) => {
   try {
-    const orderList = await Order.find().populate('customer').populate('products.product').sort({createdAt: -1});
+    const orderList = await Order.find({status:"Delivered"}).populate('customer').populate('products.product').sort({createdAt: -1});
+    res.render('admin/sales',{orderList});
+  } catch (error) {
+    next(error);
+  }
+}
+
+//GETTIN DATEWISE SALES
+const getDateWiseSales = async(req,res,next) => {
+  try {
+    const start = req.body.start;
+    const end = req.body.end;
+    const orderList = await Order.find({status:"Delivered", date: {$gt:start , $lte: end}}).populate('customer').populate('products.product').sort({createdAt: -1});
     console.log(orderList);
     res.render('admin/sales',{orderList});
   } catch (error) {
@@ -205,6 +217,14 @@ const getSalesReports = async(req,res,next) => {
   }
 }
 
+//EXPORT DATEWISE SALES REPORT
+const salesExport = async(req,res,next) => {
+  try {
+    
+  } catch (error) {
+    next(error);
+  }
+}
 
 
 //LOGGING OUT
@@ -223,6 +243,7 @@ module.exports = {
   doLogin,
   getDashboard,
   getSalesReports,
+  getDateWiseSales,
   getCoupons,
   getAddCoupon,
   addCoupon,

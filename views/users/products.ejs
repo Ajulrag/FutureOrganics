@@ -72,6 +72,9 @@
         data.message,
         'success'
       )
+      // Add the "red" class to the love button
+    const loveButton = document.querySelector('.btn-wishlist');
+    loveButton.classList.add('red');
     })
     .catch(error => {
       console.error(error);

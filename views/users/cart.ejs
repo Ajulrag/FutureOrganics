@@ -85,7 +85,7 @@
           <div class="py-2 px-xl-2">
             <div class="text-center mb-4 pb-3 border-bottom">
               <h2 class="h6 mb-3 pb-1">Subtotal</h2>
-              <p class="fw-normal">RS: <%= total%><small>.00</small></p>
+              <p class="fw-normal" id="cartTotalPrice">RS: <%= total%><small>.00</small></p>
             </div>
             
             <div class="accordion" id="order-options">
@@ -146,7 +146,12 @@
                 })
             }).then(res => res.json())
             .then(data =>{
+              console.log(data);
               if (data.success) {
+                let totalprice = document.getElementById('cartTotalPrice');
+                if(totalprice !== null ) { 
+                  totalprice.innerText = ` RS: ${ data.subTotal}.00`;
+                } 
                 let input = e.parentElement.children[1]
               input.value = reqaction == -1 ? Number(input.value) -1 : Number(input.value) +1
               } else {
