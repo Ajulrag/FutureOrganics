@@ -92,7 +92,6 @@ const otpvalidation = async (req, res, next) => {
 
       transporter.sendMail(mailFormat, (error, data) => {
         if (error) {
-          return console.log(error);
         } else {
           res.render("users/otp");
         }
@@ -129,7 +128,6 @@ const verifyOtp = async (req, res, next) => {
       }
     } else {
       res.render("users/otp", { message: "Invalid OTP" });
-      console.log(error.message);
     }
   } catch (error) {
     next(error);
@@ -156,7 +154,6 @@ const resendOtp = async (req, res, next) => {
     };
     transporter.sendMail(mailFormat, (error, data) => {
       if (error) {
-        return console.log(error);
       } else {
         res.render("users/otp");
       }
@@ -244,7 +241,6 @@ const updateUser = async (req, res, next) => {
       { _id: id },
       { $set: { name: req.body.name, mobile: req.body.mobile } }
     );
-    console.log(user);
     if (user) {
       req.flash("Success", "USer updated");
       req.session.user.name = req.body.name;
@@ -252,7 +248,6 @@ const updateUser = async (req, res, next) => {
       res.redirect("/profile");
     }
   } catch (error) {
-    console.log(error);
     next();
   }
 };
@@ -272,7 +267,6 @@ const getSingleProduct = async (req, res, next) => {
   try {
     let usersession = req.session.user;
     const id = req.params.id;
-    console.log(id);
     const product = await Product.findById(id);
     const cart = await Cart.findOne({ _id: id });
     const isInCart = cart?.products.some((item) => item.proId.equals(id));
@@ -319,7 +313,6 @@ const getCart = async (req, res, next) => {
     const products = await Cart.findOne({ _id: user_id }).populate(
       "products.proId"
     );
-    console.log(products);
     res.render("users/cart", { products, user });
   } catch (error) {
     next(error);
@@ -332,7 +325,6 @@ const addToCart = async (req, res, next) => {
     const { proId, name, price, image, quantity } = req.body;
     const user_id = req.session.user._id;
     const userCart = await Cart.findOne({ _id: user_id });
-    console.log(userCart, "old cart");
     let cartTotal = 0;
     let subTotal = 0;
     if (userCart) {
@@ -348,7 +340,6 @@ const addToCart = async (req, res, next) => {
           },
           { returnOriginal: false }
         );
-        console.log(newCart, "new cart");
         // calculate cartTotal and subTotal
         newCart.products.forEach((product) => {
           cartTotal += product.quantity * product.price;
@@ -408,7 +399,6 @@ const addToCart = async (req, res, next) => {
       res.json({ message: "Product added to cart" });
     }
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
@@ -442,7 +432,6 @@ const updateCart = async (req, res) => {
       { new: true }
     );
 
-    console.log(newCart);
     if (!newCart) return res.status(403).json({ message: "not found" });
 
     //IF QUALTITY IS ZERO DELETE PRODUCT
@@ -479,7 +468,6 @@ const updateCart = async (req, res) => {
     }
     res.json({ success: true, message: "updated", subTotal: newCart.subTotal });
   } catch (error) {
-    console.log(error);
     res.json({ message: error.message });
   }
 };
@@ -488,10 +476,8 @@ const updateCart = async (req, res) => {
 async function deleteCart(user) {
   await Cart.findOneAndDelete({ _id: user })
     .then((e) => {
-      console.log(e);
     })
     .catch((err) => {
-      console.log(err);
       return;
     });
 }
@@ -510,7 +496,6 @@ const removeFromCart = async (req, res, next) => {
     if (product.products.length == 0) {
       deleteCart(req.session.user._id);
     }
-    console.log(product);
     if (req.get("Origin")) {
       return;
     }
@@ -528,7 +513,6 @@ const getCheckout = async (req, res, next) => {
     const userCart = await Cart.findOne({ _id: user_id }).populate(
       "products.proId"
     );
-    console.log(userCart);
     const userAddresses = await Address.findOne({ _id: user }).populate(
       "addresses._id"
     );
@@ -569,7 +553,6 @@ const doAddAddress = async (req, res, next) => {
     const id = req.session.user._id;
     let user = req.session.user;
     const userAddress = await Address.findById({ _id: id });
-    console.log(userAddress);
     if (userAddress) {
       await Address.updateOne(
         { _id: id },
@@ -623,10 +606,8 @@ const getOrders = async (req, res, next) => {
         populate: { path: "product", populate: { path: "category" } },
       })
       .sort({ createdAt: -1 });
-    console.log(orders);
     res.render("users/orders", { user, userData, orders });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
@@ -678,13 +659,12 @@ const placeOrder = async (req, res, next) => {
     } else {
       instance.orders.create(
         {
-          amount: orderAmount * 100,
+          amount: (orderAmount-userCart.discount) * 100,
           currency: "INR",
           receipt: "" + order_data._id,
         },
         (err, order) => {
           if (err) {
-            console.log(err);
           } else {
             res.json(order);
             
@@ -693,7 +673,6 @@ const placeOrder = async (req, res, next) => {
       );
     }
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
@@ -704,7 +683,6 @@ const placeOrder = async (req, res, next) => {
 const cancelOrder = async (req, res, next) => {
   try {
     const id = req.params.id;
-    console.log(id);
     const canceld_order = await Order.updateOne(
       { _id: id },
       { $set: { status: "Cancelled" } }
@@ -713,7 +691,6 @@ const cancelOrder = async (req, res, next) => {
       res.redirect("/profile/orders");
     }
   } catch (error) {
-    console.log(error);
     next();
   }
 };
@@ -730,7 +707,6 @@ const returnOrder = async (req, res, next) => {
       res.redirect("/profile/orders");
     }
   } catch (error) {
-    console.log(error);
     next();
   }
 };
@@ -739,6 +715,7 @@ const returnOrder = async (req, res, next) => {
 const getcodSuccess = async (req, res, next) => {
   try {
     if (req.session.user) {
+      const cartItems = await Cart.deleteOne(req.session.user._id);
       res.render("users/orderSuccess");
     } else {
       res.redirect("/login");
@@ -766,10 +743,8 @@ const getonlineSuccess = async (req, res, next) => {
 //VERIFYING ONLINE PAYMENT
 const verifyRazorpay = async (req, res, next) => {
   try {
-    console.log("in server")
     res.json({ success: true });
   } catch (error) {
-    console.log(error);
     next();
   }
 };
@@ -782,7 +757,6 @@ const getWishlist = async (req, res, next) => {
       const products = await Wishlist.findOne({ _id: user._id }).populate(
         "products.proId"
       );
-      console.log(products);
       res.render("users/wishlist", { user, products });
     } else {
       res.redirect("/login");
@@ -832,7 +806,6 @@ const addToWishlist = async (req, res, next) => {
       res.json({ message: "Product added to Wishlist" });
     }
   } catch (error) {
-    console.log(error);
     next();
   }
 };
@@ -926,20 +899,16 @@ const applyCoupon = async (req, res, next) => {
     const total = parseInt(req.body.total);
     const couponcode = req.body.code.toUpperCase();
     const id = req.session.user._id;
-    console.log(total);
-    console.log(couponcode);
     const coupon = await Coupon.findOne({ code: couponcode });
 
     if (coupon) {
       const couponexp = coupon.expiry;
-      console.log(couponexp, "expiry date");
       const nowdate = new Date();
-      console.log(nowdate, "today");
       if (couponexp >= nowdate) {
         if (coupon && coupon.minimum_purchase <= total) {
           const amount = coupon.discount;
           const cartTotal = total - amount;
-          await Cart.updateOne({_id:id},{$set:{discount:amount}},{$set:{cartTotal:cartTotal-discount}})
+          await Cart.updateOne({_id:id},{$set:{discount:amount,subTotal:cartTotal}})
           res.json({ status: true, total: cartTotal, amount ,message:"coupon applied"})
         } else {
           res.json({status:false,message:"Coupon Not Available for this Total Amount"})
@@ -953,7 +922,6 @@ const applyCoupon = async (req, res, next) => {
     }
   } catch (error) {
     next(error);
-    console.log(error);
   }
 };
 

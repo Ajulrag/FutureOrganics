@@ -1,58 +1,60 @@
 <%- include('../admin/layouts/adminHeader')%>
-<div class="col-lg-8" style="width: 76.666669%;padding-left: 0px;padding-right: 0px;">
-    <div class="card body"style="height: 100%;overflow: auto;padding:0;padding-left:0;">
-        <div style="display: flex;margin-bottom: 80px;margin: 10px;">
-        <div>
-            <label for="">From: </label>
-            <input type="date">
+<section class="col-lg-9 pt-lg-4 pb-4 mb-3">
+    <div class="pt-2 px-4 ps-lg-0 pe-xl-5">
+        <div class="container-fluid" style="display: flex; justify-content: space-between;">
+        <p class="h3 pt-2 pb-4 mb-1 " style="font-family:Arial, Helvetica, sans-serif">Sales Management</p>
         </div>
-        <div style="margin-left: 20px;">
-            <label for="">To:</label>
-            <input type="date">
-        </div>
-        <button type="submit" style="margin-left: 50px;background-color: aqua;border: none;box-shadow: 0px 2px 5px 1px rgb(17, 141, 162);border-radius: 2px;">Submit</button>
-        </div>
-        <table id="example" class="display nowrap" style="width:100%;margin-top: 30px;">
+        <form action="/admin/export" method="post">
+            <div style="display: flex;margin-bottom: 80px;margin: 10px;">
+                <div>
+                    <label for="">From: &nbsp;</label>
+                    <input type="date" name="start" id="startingDate">
+                </div>
+                <div style="margin-left: 20px;">
+                    <label for="">To:</label>
+                    <input type="date" name="end" id="endingDate">
+                </div>
+                <button  class="btn btn-success btn-shadow btn-sm mb-4 ms-3" onclick="salesReport()">Submit</button>
+                </div>
+                <div class="table-responsive" >
+                    <table>
+                      <thead id="salesReport" hidden></thead>
+                      <tbody id="salesBody" hidden></tbody>
+                      <div id="submit"></div>
+                    </table>
+                  </div>
+        </form>
+        <div class="table-responsive" >
+        <table id="example" class="table display nowrap" style="width:100%;">
             <thead>
                 <tr>
-                    <th><small>Order ID</small> </th>
-                    <th><small>Order Date</small></th>
-                    <th><small>Products</small></th>
-                    <!-- <th>Quantity</th> -->
-                    <th><small>Order Amount</small></th>
-                    <th><small>MOP</small></th>
-                    
-                    <th><small>customer</small></th>
-                    <th><small>Contact</small></th>
+                    <th scope="col" style="font-size:small;">SI.no:</th>
+                    <th scope="col" style="font-size:small;">Date</th>
+                    <th scope="col" style="font-size:small;">Order ID</th>
+                    <th scope="col" style="font-size:small;">Customer</th>
+                    <th scope="col" style="font-size:small;">Delivery Address</th>
+                    <th scope="col" style="font-size:small;">Amount</th>
+                    <th scope="col" style="font-size:small;">Paymentmethod</th>
                 </tr>
             </thead>
             <tbody>
-                <% orderList.forEach(order => {%>
+                <% orderList.forEach((order,i) => {%>
                     <tr>
-                        <td><small><%= order._id %></small></td>
+                        <td><small><%=i+1 %></small></td>
                         <td><small><%= order.createdAt.toISOString().substring(0,10) %></small></td>
-                        <td>
-                            <% order.products.forEach(product => {%>
-                            <table>
-                                <tr>
-                                    <td><small></small><%= product.product.product %></td>
-                                    <!-- <td><%= product.quantity %></td> -->
-                                </tr>
-                            </table>
-                            <%})%>
-                        </td>
+                        <td><small><%= order._id %></small></td>
+                        <td><small><%= order.shippingAddress.name %></small></td>
+                        <td><small><%= order.shippingAddress.street%>,<%= order.shippingAddress.locality%></small></td>
                         <td><small><%= order.orderAmount %></small></td>
                         <td><small><%= order.payment %></small></td>
-                        
-                        <td><small><%= order.shippingAddress.name%><br><%= order.shippingAddress.street%>,<%= order.shippingAddress.locality%></small></td>
-                        <td><small><%= order.shippingAddress.mobile %></small></td>
-                    </tr>
                     <%})%>
             </tbody>
         </table>
 
+    </div>
 </div>
-</div>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
 <script>
     $(document).ready(function() {
     $('#example').DataTable( {
@@ -64,7 +66,60 @@
 } );
 </script>
 <script>
-
+function salesReport() {
+        event.preventDefault()
+        const start = document.getElementById('startingDate').value
+        const end = document.getElementById('endingDate').value
+        $.ajax({
+            url: '/admin/salesFilter',
+            data: {
+                start: start,
+                end: end
+            },
+            method: 'POST',
+            success: (response) => {
+                if (response.orderList) {
+                    let html = '';
+                    document.getElementById('salesReport').innerHTML = `<thead>
+                      <tr>
+                        <th scope="col" style="font-size:small;">Date</th>
+                        <th scope="col" style="font-size:small;">Order ID</th>
+                        <th scope="col" style="font-size:small;">Customer</th>
+                        <th scope="col" style="font-size:small;">Amount</th>
+                        <th scope="col" style="font-size:small;">Payment method</th>
+                    
+                      </tr>
+                            </thead>`
+                    for (let i = 0; i < response.orderList.length; i++) {
+                        html += `
+                                    <tr>
+                                        <td name="date">
+                                            ${response.orderList[i].date}
+                                        </td>
+                                        <td name="id">
+                                            ${response.orderList[i]._id}
+                                        </td>
+                                        <td>
+                                            ${response.orderList[i].shippingAddress.name}
+                                        </td>
+                                        <td>
+                                            ${response.orderList[i].orderAmount}
+                                        </td>
+                                        <td>
+                                            ${response.orderList[i].payment}
+                                        </td>
+                                    </tr>
+                                    
+                            `
+                    }
+                    document.getElementById('salesBody').innerHTML = html
+                    document.getElementById('submit').innerHTML = `<td><button type="submit" id="button" class="btn btn-warning btn-shadow btn-sm mb-4 ms-3">
+                                                                  <i class="ci-file-spreadsheet fs-xs me-2"></i>Download Excel Report</button>
+</td>`
+                }
+            }
+        })
+    }
 </script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -74,3 +129,4 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+</section>

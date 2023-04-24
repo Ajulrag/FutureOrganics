@@ -93,7 +93,7 @@
               </div>
              
                 
-                <h3 class="fw-normal text-end  my">Total:      <%= total1%><small>.00</small></h3>
+                <h3 class="fw-normal text-end  my">Total:      RS.<%= userCart.subTotal%><small>.00</small></h3>
             
                 <a > <button class="btn btn-success d-block w-100"  type="submit"> Place order</button></a>
               
@@ -121,10 +121,17 @@
                 </ul>
               </div>
               
+              <style>
+                .accordion {
+                  color: black;
+                  font-size: medium;
+                  font-family: revert;
+                }
+              </style>
               <!-- PROMOCODE -->
               <div class="accordion-item">
-                <h3 class="accordion-header"><a class="accordion-button collapsed" href="#coupon-code" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="coupon-code">Apply Coupon code</a></h3>
-                <div class="accordion-collapse collapse " id="coupon-code" data-bs-parent="#order-options">
+                <h3 class="accordion-header"><a class="accordion " href="#coupon-code" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="coupon-code">Apply Coupon code</a></h3>
+                <div class="accordion-collapse collapse show p-2" id="coupon-code" data-bs-parent="#order-options">
                   <form id="couponForm" class="accordion-body needs-validation" method="post" novalidate>
                     <div id="success" class="alert alert-success" role="alert" style="display: none">
                       Coupon applied!
@@ -141,7 +148,7 @@
 
                     <input type="number" id="total" name="total" class="d-none" required value="<%= userCart.subTotal%>">
                       <input class="form-control" type="text" id="code"  placeholder="Coupon Code" name="code" required>
-                    <button class="btn btn-outline-primary d-block w-100" type="submit">Apply promo code</button>
+                    <button class="btn btn-outline-primary d-block w-100 mt-2" type="submit">Apply promo code</button>
                   </form>
                 </div>
               </div>
@@ -179,7 +186,7 @@
 
 function razorPayment(order) {
   console.log('--------razorpay----------');
-
+console.log(order);
   var options = {
     "key":'rzp_test_8emA6zzli6nGP1',
     "amount":order.amount,

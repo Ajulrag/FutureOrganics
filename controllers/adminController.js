@@ -83,8 +83,7 @@ const getDashboard = async(req,res,next) => {
     ]);
     const dates = dailyOrders.map((order) => order._id);
     const counts = dailyOrders.map((order) => order.count);
-    console.log(dates);
-    console.log(counts);
+
     res.render("admin/dashboard",{adminSession,orderList,totalDelivery,totalOrder,totalUsers,category,products,
                                   sale,Ordered,Shipped,InTransist,Delivered,Cancelled,ReturnProcessing,Returned,dailyOrders,OrderData,dates,counts}); 
 
@@ -142,8 +141,6 @@ const addCoupon = async(req,res,next) => {
   } catch (error) {
     req.flash("error2","This Coupon is already exist");
     res.redirect("/admin/coupons/addcoupon");
-    console.log(error)
-   
   }
 }
 
@@ -207,20 +204,56 @@ const getSalesReports = async(req,res,next) => {
 //GETTIN DATEWISE SALES
 const getDateWiseSales = async(req,res,next) => {
   try {
+    const excelJS = require('exceljs')
+        const workbook = new excelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Sales Report')
+
+        worksheet.columns = [
+
+            { header: "Date", key: "date" },
+            { header: "Order ID", key: "id" },
+            { header: "Customer", key: "name" },
+            { header: "Amount", key: "orderAmount" },
+            { header: "Payment Method", key: "paymentMethod" },
+
+        ];
+
     const start = req.body.start;
     const end = req.body.end;
     const orderList = await Order.find({status:"Delivered", date: {$gt:start , $lte: end}}).populate('customer').populate('products.product').sort({createdAt: -1});
-    console.log(orderList);
-    res.render('admin/sales',{orderList});
+    
+    for (let i = 0; i < orderList.length; i++) {
+      worksheet.addRow({
+          date: orderList[i].createdAt.toLocaleDateString(),
+          id: orderList[i]._id,
+          name: orderList[i].shippingAddress.name,
+          orderAmount: orderList[i].orderAmount,
+          paymentMethod: orderList[i].payment,
+      });
+  }
+    res.setHeader(
+      "content-Type",
+      "application/vnd.openxmlformates-officedocument.spreadsheatml.sheet"
+)   
+  
+    res.setHeader('Content-Disposition', 'attachment; filename=sales.xlsx')
+  
+    return workbook.xlsx.write(res).then(() => {
+
+})
   } catch (error) {
     next(error);
   }
 }
 
 //EXPORT DATEWISE SALES REPORT
-const salesExport = async(req,res,next) => {
+const salesFilter  = async(req,res,next) => {
   try {
-    
+    const start = req.body.start
+    const end = req.body.end
+
+    const orderList = await Order.find({status:"Delivered", date: {$gt:start , $lte: end}}).populate('customer').populate('products.product').sort({createdAt: -1});
+    res.json({ orderList })
   } catch (error) {
     next(error);
   }
@@ -232,7 +265,6 @@ const doLogout = async(req,res,next) => {
   try {
     req.session.admin_id="";
   res.redirect("/admin");
-  console.log("session destroyed");
   } catch (error) {
     next(error);
   }
@@ -244,6 +276,7 @@ module.exports = {
   getDashboard,
   getSalesReports,
   getDateWiseSales,
+  salesFilter ,
   getCoupons,
   getAddCoupon,
   addCoupon,

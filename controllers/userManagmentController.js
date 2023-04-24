@@ -9,7 +9,6 @@ const getUserManagment = async (req,res,next) => {
         res.render('admin/users',{userlist});
     } catch (error) {
         next(error);
-        console.log(error.message);
     }
 }
 
@@ -19,8 +18,6 @@ const getAddUser = async (req,res,next) => {
     try {
         res.render('admin/adduser');
     } catch (error) {
-        next(error);
-        console.log(error.message);
     }
 }
 
@@ -38,7 +35,6 @@ const addUser = async (req,res,next) => {
         res.redirect('/admin/usermanagment');
     } catch (error) {
         next(error);
-        console.log(error);
     }
 }
 
@@ -54,7 +50,6 @@ const getEditUSer = async (req,res,next) => {
         }  
     } catch (error) {
         next(error);
-        console.log(error.message);
     }
 }
 
@@ -72,7 +67,6 @@ const editUser = async (req,res,next) => {
         }
     } catch (error) {
         next(error);
-        console.log(error.message);
     }
 }
 

@@ -45,7 +45,6 @@ const getAddproducts = async (req,res,next) => {
 //ADDING NEW PRODUCTS
 const addProducts = async(req,res,next) => {
     try {
-        console.log(req.files)
         const product = new Product({
             product: req.body.product,
             category: req.body.category,
@@ -65,7 +64,6 @@ const addProducts = async(req,res,next) => {
             res.redirect('/admin/products');
         
     } catch (error) {
-        console.log(error);
         next(error);
     }
 }
@@ -102,7 +100,6 @@ const editProduct = async (req,res,next) => {
             res.redirect("/admin/editproduct");
         }
     } catch (error) {
-        // console.log(error);
         next(error);
     }
 }
