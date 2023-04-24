@@ -22,15 +22,40 @@
       <div class="col-sm-12">
         <div class="preview-images"></div>
       </div>
+      
     <div class="form-group">
-      <label>Image</label>
-      <input type="file" accept="image/*" class="form-control" name="image" multiple required>
+      
+      <div class="custom-file-upload">
+        <input id="primary" style="width: 110px;" type="file" accept="image/*" class="form-control" name="image0" required>
+        <span>Primary Image</span>
+      </div>
+      
+      <div class="custom-file-upload">
+        <input style="width: 110px;" type="file" accept="image/*" class="form-control" name="image1" >
+        <span>Second Image</span>
+      </div>
+
+      <div class="custom-file-upload">
+        <input style="width: 110px;" type="file" accept="image/*" class="form-control" name="image2" >
+        <span>Third Image</span>
+      </div>
+
+      <div class="custom-file-upload">
+        <input style="width: 110px;" type="file" accept="image/*" class="form-control" name="image3"  >
+        <span>Fourth Image</span>
+      </div>
     </div>
-    <div class="form-group">
+
+    </div>
+    <div class="form-group d-flex">
       <label>Price</label>
       <input type="number" class="form-control" name="price" required>
-    </div>
-    <div class="form-group">
+   
+    
+      <label >Offer</label>
+      <input type="number" class="form-control" name="offer"  />
+   
+   
       <label>Stock</label>
       <input type="number" class="form-control" name="stock" required>
     </div>
@@ -39,6 +64,48 @@
     </div>
   </form>
 </div>
+
+
+
+<style>
+  .custom-label {
+    font-size: 16px;
+    color: #b76161;
+    font-weight: bold;
+  }
+  
+  .custom-file-upload {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    margin: 10px;
+  }
+  
+  .custom-file-upload input[type="file"] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+  }
+  
+  .custom-file-upload span {
+    display: inline-block;
+    padding: 10px 10px;
+    background-color: #45bbd6;
+    color: #fff;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+  
+  .custom-file-upload:hover span {
+    background-color: #e80d0d;
+  }
+  </style>
 
 
 

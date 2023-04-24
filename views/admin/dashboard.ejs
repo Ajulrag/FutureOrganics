@@ -1,0 +1,236 @@
+<%- include('../admin/layouts/adminHeader') %>
+<div class="col-lg-8" style="width: 76.666669%;padding-left: 0px;padding-right: 0px;">
+  <div class="card body justify-content-center"style="overflow: auto;padding:0;padding-left:0;">
+
+<div class="d-flex " style="justify-content: space-between;">
+  
+  <div style="background-color: rgb(198, 248, 248);margin: 10px;border-radius: 5px;align-items: center;justify-content: center;text-align: center;">
+    <h5 style="padding: 5px;">Total Number of Orders</h5>
+    <h1><%= totalOrder%></h1>
+  </div>
+
+  <div style="background-color: rgb(198, 248, 248);margin: 10px;border-radius: 5px;align-items: center;justify-content: center;text-align: center;">
+    <h5 style="padding: 5px;">Total Number of Users</h5>
+    <h1><%= totalUsers%></h1>
+  </div>
+
+  <div style="background-color: rgb(198, 248, 248);margin: 10px;border-radius: 5px;align-items: center;justify-content: center;text-align: center;">
+    <h6 style="padding: 5px;">Products & Categories</h6>
+    <h4><span style="font-size: medium;">Total Products:</span>  <%= products%></h4>
+    <h4><span style="font-size: medium;">Total Categories:</span>  <%= category%></h4>
+  </div>
+
+  <div style="background-color: rgb(198, 248, 248);margin: 10px;border-radius: 5px;align-items: center;justify-content: center;text-align: center;">
+    <h6 style="padding: 5px;">Payment Methods</h6>
+    <h4>2</h4>
+    <h6>1.COD <br>2.Razorpay</h6>
+    
+  </div>
+
+</div>
+
+<div style="align-items: center;justify-content: center;text-align: center;">
+
+
+<!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div id="myChart" style="width:100%; max-width:600px; height:500px;"></div>
+<script>
+    const Ordered = parseInt('<%=Ordered%>');
+    const Shipped = parseInt('<%=Shipped%>')
+    const InTransist = parseInt('<%=InTransist%>');
+    const orderCancelled = parseInt('<%=Cancelled%>');
+    const Delivered = parseInt('<%=Delivered%>');
+    const ReturnProcessing = parseInt('<%=ReturnProcessing%>');
+    const Returned = parseInt('<%=Returned%>');
+    
+    
+    
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    
+    function drawChart() {
+    const data = google.visualization.arrayToDataTable([
+      ['Contry', 'Mhl'],
+      ['Ordered',Ordered],
+      ['Shipped',Shipped],
+      ['In Transist',InTransist],
+      ['Returned',Returned],
+      ['ReturnProcessing',ReturnProcessing],
+      ['Delivered',Delivered],
+      ['Cancelled',orderCancelled]
+    ]);
+    
+    const options = {
+     title: 'Daily Sales Details',
+      is3D:true
+    };
+    
+    const chart = new google.visualization.PieChart(document.getElementById('myChart'));
+      chart.draw(data, options);
+    }
+    </script> -->
+
+
+ <div style="display: flex;">
+
+<!-- weekly sales -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<canvas id="myChartt"style="max-width:450px; height:500px;"></canvas>
+
+
+
+<% let a = 0,b = 0,c = 0,d = 0,e = 0,f = 0,g = 0%>
+<% for (let i = 0; i < OrderData.length; i++) {
+  const date = new Date(OrderData[i].orderDate);
+  const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'long' });
+  if (  dayOfWeek.toUpperCase() == 'SUNDAY') {
+      a++;
+  }
+  if (  dayOfWeek.toUpperCase() == 'MONDAY') {
+      b++;
+  }
+  if (  dayOfWeek.toUpperCase() == 'TUESDAY') {
+      c++;
+  }
+  if (  dayOfWeek.toUpperCase() == 'WEDNESDAY') {
+      d++;
+  }
+  if (  dayOfWeek.toUpperCase() == 'THURSDAY') {
+      e++;
+  }
+  if (  dayOfWeek.toUpperCase() == 'FRIDAY') {
+      f++;
+  }
+  if (  dayOfWeek.toUpperCase() == 'SATURDAY') {
+      g++;
+  }
+
+%>
+
+<% } %>
+
+
+<script>
+   const a= parseInt('<%=a%>');
+   const b= parseInt('<%=b%>');
+   const c= parseInt('<%=c%>');
+   const d= parseInt('<%=d%>');
+   const e= parseInt('<%=e%>');
+   const f= parseInt('<%=f%>');
+   const g= parseInt('<%=g%>');
+console.log(a,b,c,d,e,f,g,"days");
+var xValues =  ["SUN", "MON", "TUES", "WED", "THURS", "FRI", "SAT"];
+var yValues = [ a, b, c, d,e,f,g];
+var barColors = ["green", "violet","indigo","blue","yellow","orange","skyblue"];
+
+new Chart("myChartt", {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "Weekly sales graphical representation"
+    }
+  }
+});
+</script>
+
+
+<!-- monthly sales -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<canvas id="myChartt3"style="max-width:450px; height:500px;"></canvas>
+
+<% let jan = 0,feb = 0,mar = 0,apr = 0,may = 0,jun = 0,jul = 0,aug = 0,sep = 0,oct = 0,nov = 0,dec = 0 %>
+<% for (let i = 0; i < OrderData.length; i++) {
+  const date = new Date(OrderData[i].orderDate);
+  const month = date.toLocaleDateString('en-US', { month: 'short' });
+  if (  month.toUpperCase() == 'JAN') {
+      jan++;
+  }
+  if (  month.toUpperCase() == 'FEB') {
+      feb++;
+  }
+  if (  month.toUpperCase() == 'MAR') {
+      mar++;
+  }
+  if (  month.toUpperCase() == 'APR') {
+      apr++;
+  }
+  if (  month.toUpperCase() == 'MAY') {
+      may++;
+  }
+  if (  month.toUpperCase() == 'JUN') {
+      jun++;
+  }
+  if (  month.toUpperCase() == 'JUL') {
+      jul++;
+  }
+  if (  month.toUpperCase() == 'AUG') {
+      aug++;
+  }
+  if (  month.toUpperCase() == 'SEP') {
+      sep++;
+  }
+  if (  month.toUpperCase() == 'OCT') {
+      oct++;
+  }
+  if (  month.toUpperCase() == 'NOV') {
+      nov++;
+  }
+  if (  month.toUpperCase() == 'DEC') {
+      dec++;
+  }
+%>
+
+<% } %>
+
+<script>
+   const jan= parseInt('<%=jan%>');
+   const feb= parseInt('<%=feb%>');
+   const mar= parseInt('<%=mar%>');
+   const apr= parseInt('<%=apr%>');
+   const may= parseInt('<%=may%>');
+   const jun= parseInt('<%=jun%>');
+   const jul= parseInt('<%=jul%>');
+   const aug= parseInt('<%=aug%>');
+   const sep= parseInt('<%=sep%>');
+   const oct= parseInt('<%=oct%>');
+   const nov= parseInt('<%=nov%>');
+   const dec= parseInt('<%=dec%>');
+console.log(jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec,"months");
+var xValues =  ["Jan", "Feb", "Mar", "Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var yValues = [ jan, feb, mar, apr,may,jun,jul,aug,sep,oct,nov,dec];
+var barColors = ["green", "violet","indigo","blue","yellow","orange","skyblue","red","pink","brown","gray","purple"];
+
+new Chart("myChartt3", {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "Monthly sales graphical representation"
+    }
+  }
+});
+</script>
+</div>
+
+
+</div>    
+</div>
+</div>

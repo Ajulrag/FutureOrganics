@@ -6,7 +6,7 @@ const Category = require("../models/categoryModel");
 const getCategory = async (req, res,next) => {
   try {
     if (req.session.admin_id) {
-      const categoryList = await Category.find();
+      const categoryList = await Category.find().sort({createdAt: -1});
       res.render("admin/categories", { categoryList });
     } else {
       res.redirect("/admin");
@@ -74,7 +74,7 @@ const editCategory = async (req,res,next) => {
     }
   } catch (error) {
     req.flash("error", "Category Already exist!");
-    res.redirect(`/admin/editcategory/${id}`);
+    res.redirect(`/admin/categories/editcategory/${id}`);
   }
 } 
 

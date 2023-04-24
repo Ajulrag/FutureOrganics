@@ -10,7 +10,8 @@ body {
 }
 
 .container-fluid {
-    margin-top: 80px !important;
+    margin-top: 20px !important;
+  
    
 }
 
@@ -143,7 +144,7 @@ p {
 
 .card {
     background-color: #fff ;
-  
+    box-shadow: #3f5583 -4px 1px 5px -2px;
     z-index: 0;
 }
 
@@ -172,9 +173,10 @@ small{
 
 
 
-<div class="page-title-overlap bg-dark pt-4">
-    <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+<div class="page-title bg-success " style="height: 50px;">
+    <div class="container d-lg-flex justify-content-between py-2 py-lg-3"><div><h4>Your Ordes</h4></div>
       <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+        
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
             <li class="breadcrumb-item"><a class="text-nowrap" href="/"><i class="ci-home"></i>Home</a></li>
@@ -192,7 +194,7 @@ small{
   <div class="containerq pb-5 mb-2 mb-md-4">
     <div class="row">
       <!-- Sidebar-->
-      <aside class="col-lg-4 pt-4 pt-lg-0 pe-xl-5">
+      <aside class="col-lg-4 pt-4 pt-lg-0 pe-xl-5" >
         <div class="bg-white rounded-3 shadow-lg pt-1 mb-5 mb-lg-0">
           <div class="d-md-flex justify-content-between align-items-center text-center text-md-start p-4">
             <div class="d-md-flex align-items-center">
@@ -214,60 +216,61 @@ small{
               <h3 class="fs-sm mb-0 text-muted">Account settings</h3>
             </div>
             <ul class="list-unstyled mb-0">
-              <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3 active" href="/profile"><i class="ci-user opacity-60 me-2"></i>Profile info</a></li>
+              <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3 " href="/profile"><i class="ci-user opacity-60 me-2"></i>Profile info</a></li>
               <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="/profile/address"><i class="ci-location opacity-60 me-2"></i>Addresses</a></li>
-              <li class="d-lg-none border-top mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="/logout"><i class="ci-sign-out opacity-60 me-2"></i>Sign out</a></li>
+              <li class="border-top mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="/logout"><i class="ci-sign-out opacity-60 me-2"></i>Sign out</a></li>
             </ul>
           </div>
         </div>
       </aside>
       <!-- Content  -->
-      <section class="col-lg-8">
+      <section class="col-lg-8 " >
         <!-- Toolbar-->
-        <div class="d-none d-lg-flex justify-content-between align-items-center ">
-          <h6 class="fs-base text-light mb-0"></h6><a class="btn btn-primary btn-sm" href="/logout"><i class="ci-sign-out me-2"></i>Sign out</a>
-        </div>
+        
         <!-- Profile form-->
-
-
-        <%orders.forEach(order => {%>
-        <div class="container-fluid">
-          <div class="card  " style="width: -webkit-fill-available;">
-              
-              
-              <div class="card-body d-flex justify-content-between" style="padding: 0px;">
-                
-                  <div class="media flex-column flex-sm-row d-flex">
-                    <% order.products.forEach(product => {%>
-
-                    </div><img class="align-self-center img-fluid" src="/uploads/<%= product.product.image[0].img %>" width="100 " height="100">
-                    <%})%>
-                      <div class="media-body" style="margin-left: 80px;">
-                          <h5 class="bold"><%= order.products[0].product.product%></h5>
-                          <p class="text-muted"> Qt: <%= order.products[0].quantity%></p>
-                          <h4 class="mt-3 mb-4 bold"> <span class="mt-5">&#x20B9;</span> <%= order.products[0].price * order.products[0].quantity%> <span class="small text-muted"> via (<%= order.payment%>) </span></h4>
-                  </div>
-                  <div class="col " style="margin-left: 80px;">
-                    <p class="text-muted "> Order ID  : <span class="font-weight-bold text-dark"> <%= order._id%></span></p> 
-                    <p class="text-muted"> Place On : <span class="font-weight-bold text-dark"> <%= order.createdAt.toISOString().substring(0,10)%></span> </p>
-                    <p class="text-muted">Status: <span class="font-weight-bold text-dark"> <%= order.status%></span></p>
-                  </div>
-
-              </div>
-              
-               <div class="card-footer  ">
-                  <div class="row text-center  ">
-                     <% if(order.status == "Cancelled" ) {%>
-                      
-                      <%} else {%>
-                      <div class="col  my-auto  border-line "><a href="/profile/orders/cancelorder/<%= order._id%>">Cancel</a></div>
-                        <%}%>
-                      
-                  </div>
-              </div>
+        <% if (orders.length === 0) { %>
+          <div style="align-items: center; text-align: center;">
+            <img src="https://rsrc.easyeat.ai/mweb/no-orders2.webp" alt="" width="350px">
+            <h3>You haven't ordered anything yet</h3>
+            <p class=""><a class="btn btn-success btn-shadow" href="/getallproducts">Shop Now<i class="ci-arrow-right ms-2 me-n1"></i></a></p>
           </div>
-      </div>
-      <%})%>
+        <% } else { %>
+          <% orders.forEach(order => { %>
+            <% order.products.forEach(product => { %>
+              <div class="container-fluid mt-1">
+                <div class="card" style="width: -webkit-fill-available; border-radius: inherit;">
+                  <div class="card-body d-flex justify-content-between" style="padding: 0px;">
+                    <div class="media flex-column flex-sm-row d-flex">
+                      <img class="align-self-center img-fluid" src="/uploads/<%= product.product.image0 %>" width="100 " height="100">
+                      <div class="media-body" style="margin-left: 20px;">
+                        <h5 class="bold"><%= product.product.product %></h5>
+                        <p class="text-muted">Qty: <%= product.quantity %></p>
+                        <h4 class="mt-3 mb-4 bold"><span class="mt-5">&#x20B9;</span> <%= product.price * product.quantity %> <span class="small text-muted">via (<%= order.payment %>)</span></h4>
+                      </div>
+                    </div>
+                    <div class="col" style="margin-left: 80px;">
+                      <p class="text-muted">Order ID: <span class="font-weight-bold text-dark"><%= order._id %></span></p>
+                      <p class="text-muted">Placed On: <span class="font-weight-bold text-dark"><%= order.createdAt.toISOString().substring(0,10) %></span></p>
+                      <p class="text-muted">Expected delivery date: <br> <span class="font-weight-bold text-dark"><%= order.deliveryDate.toISOString().substring(0,10) %></span></p>
+                      <p class="text-muted">Status: <span class="font-weight-bold text-dark"><%= order.status %></span></p>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <div class="row text-center">
+                      <% if (order.status === "Ordered" || order.status === "Shipped" || order.status === "In Transit") { %>
+                        <div class="col my-auto border-line"><a href="/profile/orders/cancelorder/<%= order._id %>">Cancel</a></div>
+                      <% } else if (order.status === "Delivered") { %>
+                        <div class="col my-auto border-line"><a style="color: #42A5F5;" href="/profile/orders/returnorder/<%= order._id %>">Return</a></div>
+                      <% } else { %>
+                      <% } %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% }); %>
+          <% }); %>
+        <% } %>
+        
 
 
       

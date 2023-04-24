@@ -2,6 +2,7 @@ const multer = require("multer");
 const Product = require("../models/productModel");
 const Category = require('../models/categoryModel');
 const path = require('path');
+const { log } = require("console");
 
 
 
@@ -13,7 +14,7 @@ const path = require('path');
 const getProductmanagment = async(req,res,next) => {
     try {
         if(req.session.admin_id) {
-            const productlist = await Product.find({isDelete: false}).populate({path:'category', model:'categories'});
+            const productlist = await Product.find({isDelete: false}).populate({path:'category', model:'categories'}).sort({createdAt: -1});
             const product = req.session.product;
             delete req.session.product;
             res.render("admin/products",{ productlist, product });
@@ -44,18 +45,16 @@ const getAddproducts = async (req,res,next) => {
 //ADDING NEW PRODUCTS
 const addProducts = async(req,res,next) => {
     try {
-        let productpictures = [];
-        if(req.files.length > 0) {
-            productpictures = req.files.map((file) => {
-                return { img:file.filename}
-            });
-        }
         const product = new Product({
             product: req.body.product,
             category: req.body.category,
             description: req.body.description,
-            image: productpictures,
+            image0: req.files[0]?.filename ?? '',
+            image1: req.files[1]?.filename ?? '',
+            image2: req.files[2]?.filename ?? '',
+            image3: req.files[3]?.filename ?? '',
             price:req.body.price,
+            offer:req.body.offer,
             stock: req.body.stock,
             status: req.body.status,
             isFeatured: req.body.isFeatured,
@@ -92,13 +91,6 @@ const getEditProduct = async (req,res,next) => {
 const editProduct = async (req,res,next) => {
     const id = req.params.id;
     try {
-        let productpictures = [];
-        if(req.files.length > 0) {
-            productpictures = req.files.map((file) => {
-                return { img:file.filename}
-            });
-            req.body.image = productpictures;
-        }
         const productData = await Product.updateOne({_id:id},req.body);
         if(productData){
             req.session.editproduct = true;
@@ -112,7 +104,30 @@ const editProduct = async (req,res,next) => {
     }
 }
 
+//DELETE IMAGES
+const deleteImage = async(req,res,next) => {
+    try {
+        const productId = req.params.productId;
+        const imageIndex = req.params.imageIndex;
+        // retrieve the product from the database
+    const product = await Product.findById(productId);
 
+    // check if the product exists
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    // delete the corresponding image from the product
+    product.images.splice(imageIndex, 1);
+
+    // save the updated product to the database
+    await product.save();
+
+    return res.status(200).json({ message: 'Image deleted successfully' });
+    } catch (error) {
+        next(error);
+    }
+}
 
 
 
@@ -133,5 +148,6 @@ module.exports = {
     addProducts,
     getEditProduct,
     editProduct,
+    deleteImage,
     deleteProduct,
 }

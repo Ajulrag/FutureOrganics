@@ -1,10 +1,12 @@
 <%- include('../users/layouts/head')%>
 <%- include('../users/layouts/header') %> 
+
 <main class="page-wrapper">
       <!-- Navbar 3 Level (Light)-->
       
       <!-- Page Title-->
-      <div class="page-title-overlap bg-dark pt-4">
+      <div class="page-titl bg-success "style="height: 50px;">
+        <div class="container d-lg-flex justify-content-between py-2 py-lg-"><div><h4>Wishlist</h4></div>
         <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
           <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
             <nav aria-label="breadcrumb">
@@ -38,17 +40,17 @@
                   <h3 class="fs-sm mb-0 text-muted">Dashboard</h3>
                 </div>
                 <ul class="list-unstyled mb-0">
-                  <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="/profile/orders"><i class="ci-bag opacity-60 me-2"></i>Orders<span class="fs-sm text-muted ms-auto">1</span></a></li>
-                  <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="/profile/wishlist"><i class="ci-heart opacity-60 me-2"></i>Wishlist<span class="fs-sm text-muted ms-auto">3</span></a></li>
-                  <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="/cart"><i class="ci-heart opacity-60 me-2"></i>Cart<span class="fs-sm text-muted ms-auto">3</span></a></li>
+                  <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="/profile/orders"><i class="ci-bag opacity-60 me-2"></i>Orders<span class="fs-sm text-muted ms-auto"></span></a></li>
+                  <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="/profile/wishlist"><i class="ci-heart opacity-60 me-2"></i>Wishlist<span class="fs-sm text-muted ms-auto"></span></a></li>
+                  <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="/cart"><i class="ci-heart opacity-60 me-2"></i>Cart<span class="fs-sm text-muted ms-auto"></span></a></li>
                 </ul>
                 <div class="bg-secondary px-4 py-3">
                   <h3 class="fs-sm mb-0 text-muted">Account settings</h3>
                 </div>
                 <ul class="list-unstyled mb-0">
-                  <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3 active" href="/profile"><i class="ci-user opacity-60 me-2"></i>Profile info</a></li>
+                  <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3 " href="/profile"><i class="ci-user opacity-60 me-2"></i>Profile info</a></li>
                   <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="/profile/address"><i class="ci-location opacity-60 me-2"></i>Addresses</a></li>
-                  <li class="d-lg-none border-top mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="/logout"><i class="ci-sign-out opacity-60 me-2"></i>Sign out</a></li>
+                  <li class=" border-top mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="/logout"><i class="ci-sign-out opacity-60 me-2"></i>Sign out</a></li>
                 </ul>
               </div>
             </div>
@@ -56,9 +58,7 @@
           <!-- Content  -->
           <section class="col-lg-8">
             <!-- Toolbar-->
-            <div class="d-none d-lg-flex justify-content-between align-items-center pt-lg-3 pb-4 pb-lg-5 mb-lg-3">
-              <h6 class="fs-base text-light mb-0">List of items you added to wishlist:</h6><a class="btn btn-primary btn-sm" href="account-signin.html"><i class="ci-sign-out me-2"></i>Sign out</a>
-            </div>
+            
             <!-- Wishlist-->
             <% if(!products || products?.products.length < 1){ %>
               <div style="align-items: center;text-align: center;justify-content: center;">
@@ -84,7 +84,9 @@
                 </div>
               </div>
               <div class="pt-2 ps-sm-3 mx-auto mx-sm-0 text-center">
-                <a class="btn btn-outline-danger btn-sm" href="/profile/wishlist/remove/<%= product.proId._id %>" id="dlt-btn"><i class="ci-trash me-2">Remove</i></a>
+                <a class="btn btn-outline-success btn-sm d-flex align-items-center" href="/profile/wishlist/remove/<%= product.proId._id %>" ><span class="material-symbols-outlined">shopping_cart</span>Add to Cart</a>
+                <div style="margin-top: 10px;"><a class="btn btn-outline-danger btn-sm" style="width: 120px;" href="/profile/wishlist/remove/<%= product.proId._id %>" id="dlt-btn"><i class="ci-trash me-2">Remove</i></a></div>
+                
               </div>
             </div>
 

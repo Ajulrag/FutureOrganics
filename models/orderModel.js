@@ -61,8 +61,13 @@ const orderSchema = new Schema({
       type: Number,
       required: true
     },
-    expectedDeliveryDate: {
-      type:Date
+    orderDate: {
+      type: Date,
+      default: Date.now,
+    },
+    deliveryDate: {
+      type: Date,
+      default: Date.now() + (240 * 60 * 60 * 1000) // set default delivery date to 24 hours from now
     },
     payment: {
       type: String,
@@ -73,7 +78,7 @@ const orderSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['Pending', 'Processing','Placed','Ordered', 'Shipped', 'Delivered', 'Cancelled'],
+        enum: ['Pending', 'Processing','Ordered', 'Shipped', 'In Transist',  'Cancelled','Delivered', 'Return Processing', 'Returned'],
         default: 'Pending'
       },
 }, {timestamps: true});

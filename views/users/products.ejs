@@ -10,15 +10,23 @@
       <!-- Product-->
       <% productlist.forEach( product => {%>
       <div class="col-lg-3 col-md-4 col-sm-6 px-2 mb-4">
-        <div  class="card product-card">
-          <div class="product-card-actions d-flex align-items-center"><a class="btn-action nav-link-style me-2" href="#"></a>
-            <button onclick="addtowishlist('<%= product._id%>', '<%= product.product%>', '<%= product.price%>', '/uploads/<%=product.image[0].img%>')" class="btn-wishlist btn-sm"  data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button>
-          </div><a class="card-img-top d-block overflow-hidden" href="/singleproduct/<%= product._id %>"><img src="/uploads/<%=product.image[0].img%>" alt="Product"></a>
+        <div  class="card product-card ">
+          <div class="product-card-actions d-flex align-items-center">
+            <button onclick="addtowishlist('<%= product._id%>', '<%= product.product%>', '<%= product.price%>', '/uploads/<%=product.image0%>')" class="btn-wishlist btn-sm "  data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button>
+          </div><a class="card-img-top d-block overflow-hidden" href="/singleproduct/<%= product._id %>"><img src="/uploads/<%=product.image0%>" alt="Product"></a>
           <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#"><%=product.category.category%></a>
             <h3 class="product-title fs-sm"><a href="/singleproduct/<%= product._id %>"><%=product.product%></a></h3>
-            <div class="d-flex justify-content-between">
-              <div class="product-price"><span class="text-accent"><%= product.price%><small>.00</small></span></div>
-              <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
+            <div class="">
+                <% if(product.offer == 0 || product.offer == null) {%>
+                  <span class="text-success"style="font-size:x-large;">₹<%= product.price%></span>
+                <%} else {%>
+                  <span class="text-muted">₹<del><%= product.price%></del></span>
+                  <span class="text-success" style="font-size:x-large;">₹<%= product.price - (product.price * product.offer / 100 )%></span> 
+                  <span class="text-success" style="font-family: ui-serif;font-size: x-small;"><%= product.offer%>% offfer!!!</span>
+                <%}%>
+               
+              <div class="star-rating">
+                <!-- <i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i> -->
               </div>
             </div>
           </div>
@@ -38,7 +46,7 @@
 
 <!-- Toolbar for handheld devices (Default)-->
 <div class="handheld-toolbar">
-  <div class="d-table table-layout-fixed w-100"><a class="d-table-cell handheld-toolbar-item" href="account-wishlist.html"><span class="handheld-toolbar-icon"><i class="ci-heart"></i></span><span class="handheld-toolbar-label">Wishlist</span></a><a class="d-table-cell handheld-toolbar-item" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" onclick="window.scrollTo(0, 0)"><span class="handheld-toolbar-icon"><i class="ci-menu"></i></span><span class="handheld-toolbar-label">Menu</span></a><a class="d-table-cell handheld-toolbar-item" href="shop-cart.html"><span class="handheld-toolbar-icon"><i class="ci-cart"></i><span class="badge bg-primary rounded-pill ms-1">4</span></span><span class="handheld-toolbar-label">$265.00</span></a></div>
+  <div class="d-table table-layout-fixed w-100"><a class="d-table-cell handheld-toolbar-item" href="/profile/wishlist"><span class="handheld-toolbar-icon"><i class="ci-heart mt-3"></i></span></a><a class="d-table-cell handheld-toolbar-item" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" onclick="window.scrollTo(0, 0)"><span class="handheld-toolbar-icon"><i class="ci-menu"></i></span><span class="handheld-toolbar-label">Menu</span></a><a class="d-table-cell handheld-toolbar-item" href="/cart"><span class="handheld-toolbar-icon"><i class="ci-cart mt-3"></i></span><span class="handheld-toolbar-label"></span></a></div>
 </div>
 <!-- Back To Top Button--><a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon ci-arrow-up">   </i></a>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -61,9 +69,12 @@
     .then(data => {
       Swal.fire(
         'Sucess!',
-        'Product added to wishlist',
+        data.message,
         'success'
       )
+      // Add the "red" class to the love button
+    const loveButton = document.querySelector('.btn-wishlist');
+    loveButton.classList.add('red');
     })
     .catch(error => {
       console.error(error);
