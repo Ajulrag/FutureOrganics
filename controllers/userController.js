@@ -313,13 +313,17 @@ const getCart = async (req, res, next) => {
     const products = await Cart.findOne({ _id: user_id }).populate(
       "products.proId"
     );
+    console.log(products);
     res.render("users/cart", { products, user });
   } catch (error) {
+    console.log("fdssdfs");
+    error.message="sddddsafd"
     next(error);
   }
 };
 
 const addToCart = async (req, res, next) => {
+  console.log(req.body)
   try {
     console.log("dfsf");
    
@@ -923,6 +927,7 @@ const applyCoupon = async (req, res, next) => {
       res.json({ errormessage: false, message: 'Invalid coupon' })
     }
   } catch (error) {
+    
     next(error);
   }
 };

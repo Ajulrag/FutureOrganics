@@ -49,9 +49,9 @@
         <!-- Item-->
         <div class="d-sm-flex justify-content-between align-items-center my-2 pb-3 border-bottom">
           
-          <div class="d-block d-sm-flex align-items-center text-center text-sm-start"><a class="d-inline-block flex-shrink-0 mx-auto me-sm-4" href="/singleproduct/<%= product.proId._id %>"><img src="<%= product.image %>" width="160" alt="Product"></a>
+          <div class="d-block d-sm-flex align-items-center text-center text-sm-start"><a class="d-inline-block flex-shrink-0 mx-auto me-sm-4" href="/singleproduct/<%= product.proId %>"><img src="<%= product.image %>" width="160" alt="Product"></a>
             <div class="pt-2">
-              <h3 class="product-title fs-base mb-2"><a href="/singleproduct/<%= product.proId._id %>"><%= product.name%></a></h3>
+              <h3 class="product-title fs-base mb-2"><a href="/singleproduct/<%= product.proId %>"><%= product.name%></a></h3>
              
               <div class="fs-lg text-accent pt-2"><%= product.price%><small>00</small></div>
      
@@ -60,16 +60,13 @@
           </div>
 
           <div class="qty-wrap" >
-
             <button class="qty-btn dec" style="width: 28px;height: 28px;background: linear-gradient(#fff,#f9f9f9);display: inline-block;border: 1px solid #c2c2c2; cursor: pointer;font-size: 16px;border-radius: 50%;padding-top: 1px;line-height: 1;" data-id="<%= product.proId._id %>" value="-" id="dec<%= product.proId._id%>" onclick="updateCart(-1, this)">-</button>
 
             <input  type="text" style="text-align: center;width: 28px;height: 28px;background: linear-gradient(#fff,#f9f9f9);display: inline-block;border: 1px solid #c2c2c2; cursor: pointer;font-size: 16px;border-radius: 50%;padding-top: 1px;line-height: 1;"  value="<%= product.quantity %>" disabled>
             <button style="width: 28px;height: 28px;background: linear-gradient(#fff,#f9f9f9);display: inline-block;border: 1px solid #c2c2c2; cursor: pointer;font-size: 16px;border-radius: 50%;padding-top: 1px;line-height: 1;" class="qty-btn inc" data-id="<%= product.proId._id %>" value="+" id="inc<%= product.proId._id%>" onclick="updateCart(1, this)">+</button>
 
             
-              <!-- <a href="/cart/remove/<%= product.proId._id %>" data-id = '<%=product.proId._id%>' id="dlt-btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-              </svg></a> -->
+              
 
         </div>
      
