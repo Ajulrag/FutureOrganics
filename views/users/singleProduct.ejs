@@ -83,11 +83,9 @@
                     <div class="d-flex mb-4">
                       
                       <div class="w-100 me-3">
-                      <% if(isInCart) {%>
-                        <button class="btn btn-success btn-shadow d-block w-100" type="submit"><a style="color: rgb(255, 255, 255);" href="/cart"><i class="ci-compare fs-lg me-2"></i>Go To Cart</a></button>
-                        <%} else{ %>
+                     <%if(user) {%>
                         <button class="btn btn-success btn-shadow d-block w-100" onclick="addToCart('<%= product._id%>','<%= product.product%>', '<%= product.price %>','/uploads/<%=product.image0%>','<%= product.quantity %>')"><i class="ci-cart fs-lg me-2"></i>Add to Cart</a></button>
-                    <% } %>
+                    
                     </div>
                     </div>
                   <!-- </div> -->
@@ -95,6 +93,7 @@
                     <div class="w-100 me-3">
                         <button class="btn btn-secondary d-block w-100"  onclick="addtowishlist('<%= product._id%>', '<%= product.product%>', '<%= product.price%>', '/uploads/<%=product.image0%>')"><i class="ci-heart fs-lg me-2"></i>Add to Wishlist</button>
                     </div>
+                    <%}%>
                     <!-- <div class="w-100"> -->
                       <!-- <button class="btn btn-secondary d-block w-100" type="button"><i class="ci-compare fs-lg me-2"></i>Compare</button> -->
                     <!-- </div> -->
