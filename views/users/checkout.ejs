@@ -93,7 +93,7 @@
               </div>
              
                 
-                <h3 class="fw-normal text-end  my">Total:      RS.<%= userCart.subTotal%><small>.00</small></h3>
+                
             
                 <a > <button class="btn btn-success d-block w-100"  type="submit"> Place order</button></a>
               
@@ -243,6 +243,11 @@ $('#couponForm').submit((e) => {
                 $('#couponForm').serialize()+ `&total=${total}`
             ,
             success:((response)=>{
+              console.log(response);
+              let totalprice = document.getElementById('total2');
+                if(totalprice !== null ) { 
+                  totalprice.innerHTML = `<span>Total:</span><span class="text-end">RS: ${ response.total}.00</span>`;
+                } 
               if(response.errormessage===false){
                 document.getElementById('error').style.display='inline'
                 setTimeout(()=> document.getElementById('error').style.display='none',2000)

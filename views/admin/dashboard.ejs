@@ -32,46 +32,6 @@
 <div style="align-items: center;justify-content: center;text-align: center;">
 
 
-<!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<div id="myChart" style="width:100%; max-width:600px; height:500px;"></div>
-<script>
-    const Ordered = parseInt('<%=Ordered%>');
-    const Shipped = parseInt('<%=Shipped%>')
-    const InTransist = parseInt('<%=InTransist%>');
-    const orderCancelled = parseInt('<%=Cancelled%>');
-    const Delivered = parseInt('<%=Delivered%>');
-    const ReturnProcessing = parseInt('<%=ReturnProcessing%>');
-    const Returned = parseInt('<%=Returned%>');
-    
-    
-    
-
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-    
-    function drawChart() {
-    const data = google.visualization.arrayToDataTable([
-      ['Contry', 'Mhl'],
-      ['Ordered',Ordered],
-      ['Shipped',Shipped],
-      ['In Transist',InTransist],
-      ['Returned',Returned],
-      ['ReturnProcessing',ReturnProcessing],
-      ['Delivered',Delivered],
-      ['Cancelled',orderCancelled]
-    ]);
-    
-    const options = {
-     title: 'Daily Sales Details',
-      is3D:true
-    };
-    
-    const chart = new google.visualization.PieChart(document.getElementById('myChart'));
-      chart.draw(data, options);
-    }
-    </script> -->
-
-
  <div style="display: flex;">
 
 <!-- weekly sales -->
