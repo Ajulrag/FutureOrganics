@@ -323,10 +323,7 @@ const getCart = async (req, res, next) => {
 };
 
 const addToCart = async (req, res, next) => {
-  console.log(req.body)
   try {
-    console.log("dfsf");
-   
     const id = req.params.id;
     const { proId, name, price, image, quantity } = req.body;
     const user_id = req.session.user._id;
