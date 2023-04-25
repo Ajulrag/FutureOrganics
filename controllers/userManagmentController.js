@@ -44,7 +44,7 @@ const getEditUSer = async (req,res,next) => {
         const id = req.params.id;
         const userData = await User.findById(id);
         if(userData){
-            res.render('admin/editUSer',{userData})
+            res.render('admin/editUser',{userData})
         }else{
             res.redirect('/admin/users')
         }  
