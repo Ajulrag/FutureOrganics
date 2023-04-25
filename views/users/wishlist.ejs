@@ -84,7 +84,7 @@
                 </div>
               </div>
               <div class="pt-2 ps-sm-3 mx-auto mx-sm-0 text-center">
-                <a class="btn btn-outline-success btn-sm d-flex align-items-center" href="/profile/wishlist/remove/<%= product.proId._id %>" ><span class="material-symbols-outlined">shopping_cart</span>Add to Cart</a>
+                <a class="btn btn-outline-success btn-sm d-flex align-items-center" onclick="addToCart('<%= product._id%>','<%= product.name%>', '<%= product.price %>','/uploads/<%=product.image0%>','<%= product.quantity %>')"  ><span class="material-symbols-outlined">shopping_cart</span>Add to Cart</a>
                 <div style="margin-top: 10px;"><a class="btn btn-outline-danger btn-sm" style="width: 120px;" href="/profile/wishlist/remove/<%= product.proId._id %>" id="dlt-btn"><i class="ci-trash me-2">Remove</i></a></div>
                 
               </div>
@@ -98,8 +98,44 @@
       </div>
     </main>
     <% } %>
-<script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="sweetalert2.min.js"></script>
+  <link rel="stylesheet" href="sweetalert2.min.css">
+ <script>
+  
+    function addToCart(id, product, price, image, quantity) {
+      fetch(`/addtocart/${id}`, {
+        method: 'POST',
+        body: JSON.stringify({
+          proId:id,
+          name: product,
+          price: price,
+          image: image,
+          quantity: 1,
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+      .then(response => response.json())
+      
+      .then(data => {
+        console.log(data)
+        Swal.fire({
+             position: 'top-end',
+              icon: 'success',
+              title: data.message,
+              showConfirmButton: false,
+              timer: 1500
+        })
+       
+                
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    }
 
 
 </script>
