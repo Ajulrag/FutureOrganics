@@ -117,7 +117,11 @@
             <% productList.forEach( product => {%>
           <div class="col-md-2 col-sm-6 px-2 mb-4">
             <div class="card product-card">
-              <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="/singleproduct/<%= product._id %>"><img src="/uploads/<%=product.image0%>" alt="Product"></a>
+              <%if(user) {%>
+              <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button>
+              <%}%>
+              <a class="card-img-top d-block overflow-hidden" href="/singleproduct/<%= product._id %>"><img src="/uploads/<%=product.image0%>" alt="Product"></a>
+              
               <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="<%=product.category.category%>"><%=product.category.category%></a>
                 <h3 class="product-title fs-sm"><a href="/singleproduct/<%= product._id %>"><%=product.product%></a></h3>
                 <div class="d-flex justify-content-between">
