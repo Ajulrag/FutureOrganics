@@ -4,6 +4,7 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+ 
 @import "https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&amp;display=swap";
 :root {
   --cz-blue: #0d6efd;
@@ -112,6 +113,8 @@
   background-size: cover; */
  
 }
+
+
 .registerwrap{
   background-color: #f8f8f6;
   background-repeat: no-repeat;
