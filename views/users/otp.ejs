@@ -23,7 +23,7 @@
 
            		   </div>
            		</div>
-               
+               <div id="errorMessage">
                <%
                  if(typeof message !== 'undefined') {
                      %>
@@ -31,6 +31,7 @@
                      <%
                  }
                  %>
+                </div>
              <button type="submit" class="btn" value="Submit">Submit</button>
              
            </form>
@@ -50,7 +51,15 @@
    <script type="text/javascript" src="js/main.js"></script>
 </body>
 </html>
-
+<script>
+	// Hide the error message after 5 seconds
+	setTimeout(() => {
+	  const errorMessage = document.getElementById('errorMessage');
+	  if (errorMessage) {
+		errorMessage.style.display = 'none';
+	  }
+	}, 3000);
+  </script>
 <style>
  *{
  padding: 0;
