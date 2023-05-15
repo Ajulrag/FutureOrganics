@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Animated Login Form</title>
+	<title>FutureOrganics</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
@@ -38,6 +38,7 @@
               
             	<a href="/registration">Don't have account? <link>Signup</link></a>
             	<input type="submit" class="btn" value="Login">
+				<div id="errorMessage">
               <%
                   if(typeof message !== 'undefined') {
                       %>
@@ -45,6 +46,7 @@
                       <%
                   }
                   %>
+				</div>
             </form>
            
         </div>
@@ -54,7 +56,15 @@
     <script type="text/javascript" src="js/main.js"></script>
 </body>
 </html>
-
+<script>
+	// Hide the error message after 5 seconds
+	setTimeout(() => {
+	  const errorMessage = document.getElementById('errorMessage');
+	  if (errorMessage) {
+		errorMessage.style.display = 'none';
+	  }
+	}, 3000);
+  </script>
 <style>
   *{
 	padding: 0;
