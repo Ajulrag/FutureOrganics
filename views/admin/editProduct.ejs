@@ -20,7 +20,6 @@
         </div>
         <div></div>
         <div class="form-group" id="image-group" style="padding-top: 15px;">
-          
           <style>
             .imgView {
                 display: inline-block;
@@ -34,54 +33,49 @@
                 top: 0;
                 right: 0;
             }
-        </style>
-        <div>
-          <% if (product.image0) { %>
-            <div class="imgView">
-              <img src="/uploads/<%= product.image0 %>" alt="" style="height: auto;width: 100px;">
-              <button class="delete-btn" data-image="<%= product.image0 %>">x</button>
-            </div>
-          <% } %>
-          <% if (product.image1) { %>
-            <div class="imgView">
-              <img src="/uploads/<%= product.image1 %>" alt="" style="height: auto;width: 100px;">
-              <button class="delete-btn" data-image="<%= product.image1 %>">x</button>
-            </div>
-          <% } %>
-          <% if (product.image2) { %>
-            <div class="imgView">
-              <img src="/uploads/<%= product.image2 %>" alt="" style="height: auto;width: 100px;">
-              <button class="delete-btn" data-image="<%= product.image2 %>">x</button>
-            </div>
-          <% } %>
-          <% if (product.image3) { %>
-            <div class="imgView">
-              <img src="/uploads/<%= product.image3 %>" alt="" style="height: auto;width: 100px;">
-              <button class="delete-btn" data-image="<%= product.image3 %>">x</button>
-            </div>
-          <% } %>
-        </div>
-          
+          </style>
+          <div>
+            <% if (product.image0) { %>
+              <div class="imgView">
+                <img src="/uploads/<%= product.image0 %>" alt="" style="height: auto;width: 100px;">
+                <button class="delete-btn" data-product-id="<%= product._id %>" data-image-index="0">x</button>
+              </div>
+            <% } %>
+            <% if (product.image1) { %>
+              <div class="imgView">
+                <img src="/uploads/<%= product.image1 %>" alt="" style="height: auto;width: 100px;">
+                <button class="delete-btn" data-product-id="<%= product._id %>" data-image-index="1">x</button>
+              </div>
+            <% } %>
+            <% if (product.image2) { %>
+              <div class="imgView">
+                <img src="/uploads/<%= product.image2 %>" alt="" style="height: auto;width: 100px;">
+                <button class="delete-btn" data-product-id="<%= product._id %>" data-image-index="2">x</button>
+              </div>
+            <% } %>
+            <% if (product.image3) { %>
+              <div class="imgView">
+                <img src="/uploads/<%= product.image3 %>" alt="" style="height: auto;width: 100px;">
+                <button class="delete-btn" data-product-id="<%= product._id %>" data-image-index="3">x</button>
+              </div>
+            <% } %>
+          </div>
         </div>
         <div class="form-group">
-      
           <div class="custom-file-upload">
-            <input id="primary" style="width: 110px;" type="file" accept="image/*" class="form-control" name="image0" >
+            <input id="primary" style="width: 110px;" type="file" accept="image/*" class="form-control" name="image0">
             <span>Primary Image</span>
           </div>
-          
           <div class="custom-file-upload">
-            <input style="width: 110px;" type="file" accept="image/*" class="form-control" name="image1" >
+            <input style="width: 110px;" type="file" accept="image/*" class="form-control" name="image1">
             <span>Second Image</span>
           </div>
-    
           <div class="custom-file-upload">
-            <input style="width: 110px;" type="file" accept="image/*" class="form-control" name="image2" >
+            <input style="width: 110px;" type="file" accept="image/*" class="form-control" name="image2">
             <span>Third Image</span>
           </div>
-    
           <div class="custom-file-upload">
-            <input style="width: 110px;" type="file" accept="image/*" class="form-control" name="image3"  >
+            <input style="width: 110px;" type="file" accept="image/*" class="form-control" name="image3">
             <span>Fourth Image</span>
           </div>
         </div>
@@ -94,52 +88,68 @@
           <input type="number" value="<%=product.price%>" class="form-control" name="price" required />
         </div>
         <div class="form-group">
-          <label >Offer</label>
-          <input type="number" value="<%=product.offer%>" class="form-control" name="offer"  />
+          <label>Offer</label>
+          <input type="number" value="<%=product.offer%>" class="form-control" name="offer" />
         </div>
         <div style="padding-top: 15px;">
-          <select name="status" >
+          <select name="status">
             <option value="list">List</option>
             <option value="unlist">Unlist</option>
           </select>
         </div>
         <div style="padding-top: 60px;">
-          <button type="submit" class="btn btn-primary" >Update</button>
-        </div>     
+          <button type="submit" class="btn btn-primary">Update</button>
+        </div>
       </form>
     </div>
   </div>
 </div>
 <script>
-  const images =  document.getElementsByClassName('imgView');
+  const deleteButtons = document.querySelectorAll('.delete-btn');
+  deleteButtons.forEach(button => {
+    button.addEventListener('click', async () => {
+      const productId = button.dataset.productId;
+      const imageIndex = button.dataset.imageIndex;
+      const response = await fetch(`/admin/products/editproduct/${productId}/image/${imageIndex}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        // remove the deleted image element from the DOM
+        button.parentElement.remove();
+      } else {
+        // handle error
+      }
+    });
+  });
+</script>
+<script>
+  const images = document.getElementsByClassName('imgView');
   const group = document.getElementById('image-group');
-  function viewImage(event){
-    console.log(images.length)
-    const files = Array.from(event.target.files)
-    files.forEach((file, index)=> {
-        if (index < images.length) {
-            images[index].src=URL.createObjectURL(file)
-        }
-    })  
+  function viewImage(event) {
+    console.log(images.length);
+    const files = Array.from(event.target.files);
+    files.forEach((file, index) => {
+      if (index < images.length) {
+        images[index].src = URL.createObjectURL(file);
+      }
+    });
     if (files.length > images.length) {
       const times = files.length - images.length;
       for (let i = 0; i < times; i++) {
-            const file = files[images.length - 1 + i]
-            const src = URL.createObjectURL(file)
-            group.innerHTML += `<img src="${src}" alt="" style="height: auto;width: 100px;" class="imgView">`
-          } 
+        const file = files[images.length - 1 + i];
+        const src = URL.createObjectURL(file);
+        group.innerHTML += `<img src="${src}" alt="" style="height: auto;width: 100px;" class="imgView">`;
+      }
     }
   }
 </script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<% if (editproduct) {%>
+<% if (editproduct) { %>
   <script>
-       swal("Good job!", "You edited the Product!", "success");
+    swal("Good job!", "You edited the Product!", "success");
   </script>
-  <% } %> 
+<% } %> 
 
-
-  
 <style>
   .custom-label {
     font-size: 16px;
@@ -179,24 +189,4 @@
   .custom-file-upload:hover span {
     background-color: #e80d0d;
   }
-  
-  </style>
-  
-<script>
-  const deleteButtons = document.querySelectorAll('.delete-btn');
-  deleteButtons.forEach(button => {
-    button.addEventListener('click', async () => {
-      const productId = button.dataset.productId;
-      const imageIndex = button.dataset.imageIndex;
-      const response = await fetch(`products/editproduct/${productId}/image/${imageIndex}`, {
-        method: 'DELETE',
-      });
-      if (response.ok) {
-        // remove the deleted image element from the DOM
-        button.parentElement.remove();
-      } else {
-        // handle error
-      }
-    });
-  });
-</script>
+</style>
