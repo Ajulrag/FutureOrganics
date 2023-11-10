@@ -30,7 +30,7 @@ const doLogin = async (req, res, next) => {
     const password = req.body.password;
     const adminData = await Admin.findOne({ email: email });
     if (adminData) {
-      const passwordMatch = await bcrypt.compare(password, adminData.password);
+      const passwordMatch = adminData.password == password
       if (passwordMatch) {
         req.session.admin_id = adminData._id
         res.redirect("/admin/dashboard");
